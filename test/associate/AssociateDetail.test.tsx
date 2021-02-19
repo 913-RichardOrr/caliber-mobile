@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import 'react-native';
 import 'jest-enzyme';
@@ -24,10 +24,15 @@ testAssociate.associateId = testFeedback.associateId;
 testAssociate.firstName = 'testFN';
 testAssociate.lastName = 'testLN';
 
-test('That the associate\'s name displays', () => {
-    const wrapper = shallow(
+let wrapper: ShallowWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
+
+beforeEach(() => {
+    wrapper = shallow(
         <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
     );
+});
+
+test('That the associate\'s name displays', () => {
 
     const firstName = wrapper.findWhere((node) => {
         return node.prop('testID') === 'firstName';
@@ -41,9 +46,6 @@ test('That the associate\'s name displays', () => {
 });
 
 test('That the associate\'s technical status displays', () => {
-    const wrapper = shallow(
-        <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
-    );
 
     const techStatus = wrapper.find(TechnicalStatus);
     expect(techStatus).toHaveLength(1);
@@ -53,9 +55,6 @@ test('That the associate\'s technical status displays', () => {
 
 // The current plan is that clicking on the technical status cycles through possible values
 test('That pressing on the associate\'s technical status increases it', () => {
-    const wrapper = shallow(
-        <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
-    );
 
     let techStatus = wrapper.findWhere((node) => {
         return node.prop('testID') === 'technicalStatus';
@@ -72,7 +71,7 @@ test('That pressing on the associate\'s technical status increases it', () => {
         return node.prop('testID') === 'technicalStatus';
     }).first();
     expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(1);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, {'qcStatus': 3});
+    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcStatus': 3 });
     expect(techStatus.children('TechnicalStatus').prop('status')).toBe(3);
 
     //status goes 3 -> 4
@@ -82,7 +81,7 @@ test('That pressing on the associate\'s technical status increases it', () => {
         return node.prop('testID') === 'technicalStatus';
     }).first();
     expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(2);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, {'qcStatus': 4});
+    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcStatus': 4 });
     expect(techStatus.children('TechnicalStatus').prop('status')).toBe(4);
 
     //status goes 4 -> 0
@@ -92,7 +91,7 @@ test('That pressing on the associate\'s technical status increases it', () => {
         return node.prop('testID') === 'technicalStatus';
     }).first();
     expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(3);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, {'qcStatus': 0});
+    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcStatus': 0 });
     expect(techStatus.children('TechnicalStatus').prop('status')).toBe(0);
 
     //status goes 0 -> 1
@@ -102,7 +101,7 @@ test('That pressing on the associate\'s technical status increases it', () => {
         return node.prop('testID') === 'technicalStatus';
     }).first();
     expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(4);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, {'qcStatus': 1});
+    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcStatus': 1 });
     expect(techStatus.children('TechnicalStatus').prop('status')).toBe(1);
 
     //status goes 1 -> 2
@@ -112,15 +111,12 @@ test('That pressing on the associate\'s technical status increases it', () => {
         return node.prop('testID') === 'technicalStatus';
     }).first();
     expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(5);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, {'qcStatus': 2});
+    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcStatus': 2 });
     expect(techStatus.children('TechnicalStatus').prop('status')).toBe(2);
 });
 
 // Not 100% sure this is how our styling will end up, but this is the current concept
 test('That there\'s a button that displays this associate\'s note for this week', () => {
-    const wrapper = shallow(
-        <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
-    );
 
     const button = wrapper.findWhere((node) => node.prop('testID') === 'displayNote').first();
     expect(button).toExist();
@@ -141,55 +137,43 @@ test('That there\'s a button that displays this associate\'s note for this week'
     expect(note.first()).toExist();
 });
 
-test('That on text input, qcNote is changed', () => {
-    const wrapper = shallow(
-        <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
-    );
+describe('Tests for qcNote text input', () => {
 
-    const displayButton = wrapper.findWhere((node) => node.prop('testID') === 'displayNote').first();
-    displayButton.props().onPress();
-    wrapper.update();
-
-    let note = wrapper.findWhere((node) => {
-        return node.prop('testID') === 'qcNote';
-    });
-
+    let note: ShallowWrapper<any, any, React.Component<{}, {}, any>>;
     const testInput = 'Hello';
-    note.simulate('changeText', testInput);
-    wrapper.update();
 
-    note = wrapper.findWhere((node) => {
-        return node.prop('testID') === 'qcNote';
+    /** Previous test showed that the note appears when we click displayNote button
+     * Before each of these last 2 tests, simulate entering text
+     * Separately test that entering text updates note, and that there's a save button that calls the service
+     */
+    beforeEach(() => {
+        const displayButton = wrapper.findWhere((node) => node.prop('testID') === 'displayNote').first();
+        displayButton.props().onPress();
+        wrapper.update();
+
+        note = wrapper.findWhere((node) => {
+            return node.prop('testID') === 'qcNote';
+        });
+        note.simulate('changeText', testInput);
+        wrapper.update();
     });
-    expect(note.prop('defaultValue')).toBe(testInput);
-});
 
-test('That when the Save Note button is pressed, associate.service is called', () => {
-    const wrapper = shallow(
-        <AssociateDetail associate={testAssociate} qcFeedback={testFeedback} />
-    );
-
-    //make text input and save button appear
-    const displayButton = wrapper.findWhere((node) => node.prop('testID') === 'displayNote').first();
-    displayButton.props().onPress();
-    wrapper.update();
-
-    //input test string
-    let note = wrapper.findWhere((node) => {
-        return node.prop('testID') === 'qcNote';
+    test('That on text input, qcNote is changed', () => {
+        note = wrapper.findWhere((node) => {
+            return node.prop('testID') === 'qcNote';
+        });
+        expect(note.prop('defaultValue')).toBe(testInput);
     });
-    const testInput = 'Hello';
-    note.simulate('changeText', testInput);
-    wrapper.update();
 
-    const button = wrapper.findWhere((node) => node.prop('testID') === 'saveNote').first();
-    expect(button).toExist();
+    test('That when the Save Note button is pressed, associate.service is called', () => {
+        const button = wrapper.findWhere((node) => node.prop('testID') === 'saveNote').first();
+        expect(button).toExist();
 
-    AssociateService.default.updateAssociate = jest.fn();
+        AssociateService.default.updateAssociate = jest.fn();
 
-    button.props().onPress();
-    wrapper.update();
-    expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(1);
-    expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcNote': testInput });
-
+        button.props().onPress();
+        wrapper.update();
+        expect(AssociateService.default.updateAssociate).toHaveBeenCalledTimes(1);
+        expect(AssociateService.default.updateAssociate).toHaveBeenLastCalledWith(testFeedback, { 'qcNote': testInput });
+    });
 });

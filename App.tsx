@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import store from './store/store';
 import Router from './router/router';
-import { NavigationContainer } from '@react-navigation/native';
 
 import RouterComponent from './router/router.component';
 
