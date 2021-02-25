@@ -34,6 +34,7 @@ export default function QuarterComponent({route}: any) {
     // Displays a list of quarters to filter by
     return (
         <View>
+            <Text>{year}</Text>
             {year !== null && (
                 <FlatList
                     data={quarters}

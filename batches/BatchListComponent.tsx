@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
+import { style } from '../global_styles';
 import { RootState } from '../store/store';
 import { getBatches, changeBatch } from '../store/actions';
 import batchService from './BatchService';
@@ -132,9 +133,10 @@ export default function BatchListComponent({ route }: any) {
 	// Displays a list of batches based on filters
 	return (
 		<View>
-            <View style={{width: 200, alignItems: 'center'}}>
+            <Text>{year + ' > ' + route.params.quarter}</Text>
+            <View style={style.container}>
                 <TextInput
-                    style={{backgroundColor: 'white'}}
+                    style={{width: 300, borderWidth: 1, borderRadius: 10}}
                     value={query}
                     onChangeText={(text) => {
                         handleSearch(text);

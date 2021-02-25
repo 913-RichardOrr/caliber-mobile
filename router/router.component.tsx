@@ -29,7 +29,7 @@ const Stack = createStackNavigator();
 
 export default function RouterComponent(props: any) {
     return (
-        <Stack.Navigator initialRouteName='Caliber'>
+        <Stack.Navigator initialRouteName='Year'>
             <Stack.Screen
                 name='Login'
                 component={LoginComponent}
