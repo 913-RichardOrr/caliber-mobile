@@ -13,7 +13,7 @@ interface VisibleBatch {
 	index: number;
 	info: string;
 }
-export default function BatchListComponent({ route }) {
+export default function BatchListComponent({ route }: any) {
 	const nav = useNavigation();
 	const dispatch = useDispatch();
 	const batches = useSelector((state: RootState) => state.batchReducer.batches);
@@ -72,8 +72,8 @@ export default function BatchListComponent({ route }) {
 				index,
 				info:
 					trainer.role === 'ROLE_TRAINER'
-						? `${batch.name} ${batch.skill} ${batch.startDate}`
-						: `${batch.name} ${batch.skill} ${batch.startDate} - ${batch.trainer}`,
+						? `${batch.skill}\n${batch.startDate}`
+						: `${batch.trainer}\n${batch.skill}\n${batch.startDate}`,
 			};
 		});
 		setVisible(visible);

@@ -11,12 +11,26 @@ export default function BatchDetailComponent() {
 
     return (
         <View>
-            <Text>{batch.name}</Text>
-            <Text>{batch.skill}</Text>
-            <Text>{batch.type}</Text>
-            <Text>{batch.location}</Text>
-            <Text>{batch.startDate}</Text>
-            <Text>{batch.endDate}</Text>
+            <Text>Batch Name:</Text>
+            <Text>    {batch.name}</Text>
+            <Text>{'\n'}</Text>
+            <Text>Trainer:</Text>
+            <Text>    {batch.trainer}</Text>
+            <Text>{'\n'}</Text>
+            <Text>Skill:</Text>
+            <Text>    {batch.skill}</Text>
+            <Text>{'\n'}</Text>
+            <Text>Type:</Text>
+            <Text>    {batch.type}</Text>
+            <Text>{'\n'}</Text>
+            <Text>Location:</Text>
+            <Text>    {batch.location}</Text>
+            <Text>{'\n'}</Text>
+            <Text>Start Date:</Text>
+            <Text>    {batch.startDate}</Text>
+            <Text>{'\n'}</Text>
+            <Text>End Date:</Text>
+            <Text>    {batch.endDate}</Text>
         </View>
     );
 }

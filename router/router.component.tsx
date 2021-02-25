@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native-elements';
+import { Image } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StackHeaderOptions } from '@react-navigation/stack/lib/typescript/src/types';
 
@@ -7,8 +7,13 @@ import YearComponent from '../batches/YearComponent';
 import QuarterComponent from '../batches/QuarterComponent';
 import BatchListComponent from '../batches/BatchListComponent';
 import BatchDetailComponent from '../batches/BatchDetailComponent';
+import LoginComponent from '../user/Login';
+import Test from '../user/Test';
+import LogoutComponent from '../user/Logout';
 
 export type StackParams = {
+    Login: undefined;
+    Test: undefined;
     Home: undefined;
     Batches: undefined;
     Quarter: [];
@@ -16,14 +21,25 @@ export type StackParams = {
 };
 
 const headerOptions: StackHeaderOptions = {
-    headerTitle: () => <Text>Caliber</Text>,
+    headerTitle: () => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
+    headerRight: () => <LogoutComponent/>,
 };
 
 const Stack = createStackNavigator();
 
 export default function RouterComponent(props: any) {
     return (
-        <Stack.Navigator initialRouteName='Year'>
+        <Stack.Navigator initialRouteName='Caliber'>
+            <Stack.Screen
+                name='Login'
+                component={LoginComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='Test'
+                component={Test}
+                options={headerOptions}
+            />
             <Stack.Screen
                 name='Year'
                 component={YearComponent}
@@ -32,7 +48,6 @@ export default function RouterComponent(props: any) {
             <Stack.Screen
                 name='Quarter'
                 component={QuarterComponent}
-                options={headerOptions}
             />
             <Stack.Screen
                 name='Batches'
@@ -42,6 +57,11 @@ export default function RouterComponent(props: any) {
             <Stack.Screen
                 name='BatchDetail'
                 component={BatchDetailComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='Logout'
+                component={LogoutComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

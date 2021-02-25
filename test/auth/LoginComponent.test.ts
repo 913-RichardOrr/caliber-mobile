@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import Enzyme from 'enzyme';
 import LoginComponent from '../../user/Login';
 
 describe('Test case for testing login',() =>{
     
     test('check email', () => {
-        const wrapper: any = shallow(<LoginComponent />);
+        const wrapper = Enzyme.mount(<LoginComponent />);
         wrapper.find('input[type="text"]').simulate('change', {target: {name: 'email', value: 'testuser@revature.net'}});
         expect(wrapper.state('username')).toEqual('testuser@revature.net');
     });
@@ -15,14 +16,14 @@ describe('Test case for testing login',() =>{
         expect(wrapper.state('password')).toEqual('pass');
     });
     it('login check with right data',()=>{
-        wrapper = shallow(<LoginComponent />);
+        const wrapper: any = shallow(<LoginComponent />);
         wrapper.find('input[type="text"]').simulate('change', {target: {name: 'email', value: 'testuser@revature.net'}});
         wrapper.find('input[type="password"]').simulate('change', {target: {name: 'password', value: 'pass'}});
         wrapper.find('button').simulate('click');
         expect(wrapper.state('loggedin')).toBe(true);
     });
     it('login check with wrong data',()=>{
-        wrapper = shallow(<LoginComponent />);
+        const wrapper: any = shallow(<LoginComponent />);
         wrapper.find('input[type="text"]').simulate('change', {target: {name: 'username', value: 'testuser@revature.net'}});
         wrapper.find('input[type="password"]').simulate('change', {target: {name: 'password', value: 'wrongpass'}});
         wrapper.find('button').simulate('click');

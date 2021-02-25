@@ -18,6 +18,7 @@ class BatchService {
 			});
 	}
 	getAllBatches(year: number, quarter: number): Promise<Batch[]> {
+		console.log('Batch Sevice: getAllBatches');
 		return axios
 			.get(this.URI + '/batchesall', {
 				params: { year: year, quarter: quarter },
