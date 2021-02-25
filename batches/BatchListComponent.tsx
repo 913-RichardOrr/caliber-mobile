@@ -132,19 +132,22 @@ export default function BatchListComponent({ route }: any) {
 	// Displays a list of batches based on filters
 	return (
 		<View>
-			<TextInput
-				value={query}
-				onChangeText={(text) => {
-					handleSearch(text);
-				}}
-			/>
-			<Button
-				title="X"
-				onPress={() => {
-					setQuery('');
-					setReset(true);
-				}}
-			/>
+            <View style={{width: 200, alignItems: 'center'}}>
+                <TextInput
+                    style={{backgroundColor: 'white'}}
+                    value={query}
+                    onChangeText={(text) => {
+                        handleSearch(text);
+                    }}
+                />
+                <Button
+                    title="Clear"
+                    onPress={() => {
+                        setQuery('');
+                        setReset(true);
+                    }}
+                />
+            </View>
 			{year !== null && (
 				<FlatList
 					data={visibleBatches}
