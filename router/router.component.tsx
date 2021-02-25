@@ -10,60 +10,60 @@ import BatchDetailComponent from '../batches/BatchDetailComponent';
 import LoginComponent from '../user/Login';
 import Test from '../user/Test';
 import LogoutComponent from '../user/Logout';
+import BatchHome from '../batches/BatchHome';
 
 export type StackParams = {
-    Login: undefined;
-    Test: undefined;
-    Home: undefined;
-    Batches: undefined;
-    Quarter: [];
-    BatchDetail: undefined;
+	Login: undefined;
+	Test: undefined;
+	Home: undefined;
+	Batches: undefined;
+	Quarter: [];
+	BatchDetail: undefined;
 };
 
 const headerOptions: StackHeaderOptions = {
-    headerTitle: () => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-    headerRight: () => <LogoutComponent/>,
+	headerTitle: () => (
+		<Image
+			style={{ width: 165, height: 50, margin: 30 }}
+			source={require('./rev-logo.png')}
+		/>
+	),
+	headerRight: () => <LogoutComponent />,
 };
 
 const Stack = createStackNavigator();
 
 export default function RouterComponent(props: any) {
-    return (
-        <Stack.Navigator initialRouteName='Caliber'>
-            <Stack.Screen
-                name='Login'
-                component={LoginComponent}
-                options={headerOptions}
-            />
-            <Stack.Screen
-                name='Test'
-                component={Test}
-                options={headerOptions}
-            />
-            <Stack.Screen
-                name='Year'
-                component={YearComponent}
-                options={headerOptions}
-            />
-            <Stack.Screen
-                name='Quarter'
-                component={QuarterComponent}
-            />
-            <Stack.Screen
-                name='Batches'
-                component={BatchListComponent}
-                options={headerOptions}
-            />
-            <Stack.Screen
-                name='BatchDetail'
-                component={BatchDetailComponent}
-                options={headerOptions}
-            />
-            <Stack.Screen
-                name='Logout'
-                component={LogoutComponent}
-                options={headerOptions}
-            />
-        </Stack.Navigator>
-    )
+	return (
+		<Stack.Navigator initialRouteName="Login">
+			<Stack.Screen
+				name="Login"
+				component={LoginComponent}
+				options={headerOptions}
+			/>
+			<Stack.Screen name="Test" component={Test} options={headerOptions} />
+			<Stack.Screen name="Home" component={BatchHome} options={headerOptions} />
+			<Stack.Screen
+				name="Year"
+				component={YearComponent}
+				options={headerOptions}
+			/>
+			<Stack.Screen name="Quarter" component={QuarterComponent} />
+			<Stack.Screen
+				name="Batches"
+				component={BatchListComponent}
+				options={headerOptions}
+			/>
+			<Stack.Screen
+				name="BatchDetail"
+				component={BatchDetailComponent}
+				options={headerOptions}
+			/>
+			<Stack.Screen
+				name="Logout"
+				component={LogoutComponent}
+				options={headerOptions}
+			/>
+		</Stack.Navigator>
+	);
 }
