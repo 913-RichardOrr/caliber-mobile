@@ -12,10 +12,11 @@ function AddNoteComponent(){
     const week = useSelector((state: RootState) => state.weekReducer.selectedWeek);
     console.log(week);
 
-    function sendPatch(){
+    function sendPost(){
         try{
             console.log(week);
             batchWeekService.addNewQcNote(week);
+            console.log('update success');
         } catch {
             console.log('update failed');
         }
@@ -27,7 +28,7 @@ function AddNoteComponent(){
             onChangeText={(value) => 
                 dispatch(addOverallNote({...week, note: value}))
             }
-            onBlur={sendPatch}
+            onBlur={sendPost}
             value = {week.note}>
             </Input>
         </View>
