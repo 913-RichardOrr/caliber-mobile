@@ -1,4 +1,5 @@
 import axios from 'axios';
+import QcWeek from './QcWeek';
 // add new qc_week to database
 // get all qc_note for specific batch and specific week
 
@@ -33,8 +34,8 @@ class BatchWeekService {
 
 
      // POST function for  many qc_notes /batches/{batchId}/weeks/{weekid}
-     addNewQcNote(qn: QcWeek[]): Promise<null> {
-        let pathname = `batches/${qn[0].batchId}/weeks/${qn[0].week}`;
+     addNewQcNote(qn: QcWeek): Promise<null> {
+        let pathname = `batches/${qn.batchId}/weeks/${qn.weekNumber}`;
         return axios.post(this.URI + pathname, qn).then(result => null);
     }
 
@@ -45,13 +46,13 @@ class BatchWeekService {
 export default new BatchWeekService();
 
 
-export class QcWeek {
+/* export class QcWeek {
     public id: number =0;
     public categoryId: number =0;
     public batchId: string='';
     public week: number =1;
 
-}
+} */
 
 export class QcNote {
     public id: number =0;

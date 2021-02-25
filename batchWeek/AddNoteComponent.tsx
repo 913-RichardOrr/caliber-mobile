@@ -4,7 +4,8 @@ import { RootState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
 import { Input } from 'react-native-elements';
-import BatchWeekService from './batchWeekService';
+import batchWeekService from './batchWeekService';
+
 
 function AddNoteComponent(){
     const dispatch = useDispatch();
@@ -12,7 +13,12 @@ function AddNoteComponent(){
     console.log(week);
 
     function sendPatch(){
-        
+        try{
+            console.log(week);
+            batchWeekService.addNewQcNote(week);
+        } catch {
+            console.log('update failed');
+        }
     }
 
     return (
