@@ -1,3 +1,5 @@
+import axios from "axios";
+import { Category } from './Category';
 
 class categoryService {
     private URI: string;
@@ -14,7 +16,7 @@ class categoryService {
     }
 
     // POST function for /categories
-    addCategory(skill: string, active: boolean): Promise<Category> {
+    addCategory(skill: string): Promise<Category> {
         let promise: Promise<Category> = new Promise ((resolve) => {
             setTimeout(resolve, 10, new Category());
         })
@@ -22,18 +24,13 @@ class categoryService {
     }
 
     // PUT function for /categories/{categoryId}
-    updateCategory(id: number): Promise<Category>{ 
+    // should take in a category object? 
+    updateCategory(category: Category): Promise<Category>{ 
         let promise: Promise<Category> = new Promise ((resolve) => {
             setTimeout(resolve, 10, new Category());
         })
         return promise;
     }
-}
-
-class Category {
-    public id: number = 0;
-    public skill: string = '';
-    public active: boolean = true;
 }
 
 export default new categoryService();

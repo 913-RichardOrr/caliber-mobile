@@ -6,7 +6,7 @@ import React from 'react';
 import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
-import ManageCategories from '../manageCategories';
+import ManageCategories from '../../categoriesFeature/ManageCategories';
 
 const mockedNav = jest.fn();
 
@@ -84,7 +84,6 @@ describe('openModal function', () => {
 });
 
 describe('addCategory function', () => {
-
     test('calls categoryService.addCategory', () => {
         const serviceAddCategory = jest.fn().mockImplementation( (skill, isActive) => {});
         const skill = 'test';

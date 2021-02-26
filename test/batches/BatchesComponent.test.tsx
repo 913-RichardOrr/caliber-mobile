@@ -5,8 +5,8 @@ import "@testing-library/jest-dom";
 import axios from "axios";
 import Enzyme, { shallow } from "enzyme";
 
-import BatchesComponent from "../../batches/batches.component";
-import batchService from "../../batches/batch.service";
+import BatchesComponent from "../../batches/BatchesComponent";
+import batchService from "../../batches/BatchService";
 import store from "../../store/store";
 import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";

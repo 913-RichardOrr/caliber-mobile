@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BatchesComponent Test(s) the component did mount 1`] = `
+<View>
+  <Text>
+    BatchesComponent Placeholder
+  </Text>
+</View>
+`;

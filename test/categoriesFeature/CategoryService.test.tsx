@@ -1,5 +1,5 @@
 import axios from 'axios';
-import categoryService from '../categoryService';
+import categoryService from '../../categoriesFeature/CategoryService';
 
 describe('categoryService class', () => {
     test('getCategories returns proper data', async () => {
@@ -19,7 +19,7 @@ describe('categoryService class', () => {
         let active = true;
         let obj = {data: []};
         axios.post = jest.fn().mockResolvedValue(obj);
-        await categoryService.addCategory(skill, active).then((result)=>{
+        await categoryService.addCategory(skill).then((result)=>{
             returnValues = result;
         });
         expect(axios.post).toHaveBeenCalledTimes(1);

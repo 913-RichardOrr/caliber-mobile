@@ -1,10 +1,15 @@
 import { UserInfo, UserInput } from '../user/user';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
+import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
 import weekReducer from './WeekReducer';
+import { WeekCategoryState } from './store';
+import { weekCategory } from '../weekCategories/weekCategory'
+import { Category } from '../categoriesFeature/Category';
 
 export enum BatchActions {
 	GetBatches = 'GET_BATCHES',
+	ChangeBatch = 'CHANGE_BATCH'
 }
 export enum WeekActions {
 	GetWeeks = 'GET_WEEKS',
@@ -15,6 +20,18 @@ export enum WeekActions {
 export enum UserActions {
 	GetUser = 'GET_USER',
 	LoginChange = 'CHANGE_LOGIN',
+}
+export enum WeekCategoryActions {
+	DeleteWeekCategory = 'DELETE_WEEK_CATEGORY',
+	AddWeekCategory = 'ADD_WEEK_CATETGORY',
+	GetWeekCategories = 'GET_WEEK_CATEGORIES',
+	ChangeWeekCategories = 'CHANGE_WEEK_CATEGORIES'
+}
+
+
+export enum AssociateActions {
+	GetAssociates = 'GET_ASSOCIATES',
+
 }
 
 export enum BatchWeekActions {
@@ -34,12 +51,35 @@ export interface UserAction<P> extends AppAction {
 
 export interface BatchAction extends AppAction {
 	type: BatchActions;
-	payload: Batch[];
+	payload: Batch | Batch[];
 }
 
+export interface AssociateAction extends AppAction {
+	type: AssociateActions;
+	payload: AssociateWithFeedback[];
+}
+
+/**
+ * Set the associates in the state to whatever is currently displaying in the UI.
+ * @param associates 
+ */
+export function getAssociates(associates: AssociateWithFeedback[]): AssociateAction {
+	console.log("calling get associates");
+	
+	const action: AssociateAction = {
+		type: AssociateActions.GetAssociates,
+		payload: associates,
+	};
+	return action;
+}
 export interface WeekAction extends AppAction {
 	type: WeekActions;
 	payload: QcWeek | QcWeek[];
+}
+
+export interface WeekCategoryAction extends AppAction{
+	type:WeekCategoryActions;
+	payload:Category[] | weekCategory;
 }
 
 //info of the user that is logged in
@@ -96,6 +136,46 @@ export function addOverallNote(week: QcWeek): WeekAction {
 	const action: WeekAction = {
 		type: WeekActions.ChangeSelectedWeek,
 		payload: week
+	};
+	return action;
+}
+
+
+export function deleteWeekCategory(category: weekCategory): WeekCategoryAction {
+	const action: WeekCategoryAction = {
+		type: WeekCategoryActions.DeleteWeekCategory,
+		payload: category
+	};
+	return action;
+};
+
+export function addWeekCategory(category: weekCategory): WeekCategoryAction {
+	const action: WeekCategoryAction = {
+		type: WeekCategoryActions.AddWeekCategory,
+		payload: category
+	};
+	return action;
+};
+
+export function getWeekCategories(categories:Category[]): WeekCategoryAction {
+	const action: WeekCategoryAction ={
+		type: WeekCategoryActions.GetWeekCategories,
+		payload: categories
+	};
+	return action;
+};
+
+export function ChangeCategories(categories: Category[]): WeekCategoryAction {
+	const action: WeekCategoryAction ={
+		type: WeekCategoryActions.ChangeWeekCategories,
+		payload: categories
+	};
+	return action;
+};
+export function changeBatch(batch: Batch): BatchAction {
+	const action: BatchAction = {
+		type: BatchActions.ChangeBatch,
+		payload: batch,
 	};
 	return action;
 }
