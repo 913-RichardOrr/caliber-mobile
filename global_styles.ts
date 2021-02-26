@@ -33,6 +33,10 @@ export const style = StyleSheet.create({
         borderWidth: 2,
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    loading: {
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center'
     }
-
 })

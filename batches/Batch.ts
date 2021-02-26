@@ -6,5 +6,7 @@ export default class Batch {
 	skill: string = '';
 	location: string = '';
 	type: string = '';
-	trainer?: string;
+	trainerEmail: string = '';
+	trainerFirstName: string = '';
+	trainerLastName: string = '';
 }
