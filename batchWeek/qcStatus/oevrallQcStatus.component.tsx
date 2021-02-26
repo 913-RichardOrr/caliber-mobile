@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Button, Text } from 'react-native';
+import { STATUS} from '../batchWeekService'
 // import { QcNote } from '../batchWeekService';
 // import calQcStatus from '../calQcStatus';
 
 
+//from postgres type:  type STATUS as enum ('Undefined', 'Poor', 'Average', 'Good', 'Superstar');
  // convert props to array of status
- let arr = ['GOOD', 'GOOD', 'AVERAGE', 'AVERAGE', 'AVERAGE', 'POOR', 'undefined' ];
- let items =['GOOD', 'POOR', 'AVERAGE', 'SUPERSTAR', 'undefined']; 
- // pick icon for each status in items
+ let arr: STATUS[]  = ['Good', 'Good', 'Average', 'Average', 'Average', 'Poor', 'Undefined' ];
+ let items =['Good', 'POOR', 'AVERAGE', 'SUPERSTAR', 'undefined']; 
+ let emojis = [ "emoji-1" , "emoji-2" , "emoji-3","emoji-4", "emoji-5"]  // or icons
 
-let icons = ['GOOD', 'POOR', 'AVERAGE', 'SUPERSTAR', 'undefined'];
   //initialize hist and convert to histogram ;
   let hist: any ={
     GOOD: 0,
