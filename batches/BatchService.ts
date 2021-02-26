@@ -1,6 +1,11 @@
 import axios from 'axios';
 import Batch from './Batch';
 
+interface trainerBatchResp {
+	batches: Batch[];
+	validYears: [];
+}
+
 class BatchService {
 	private URI: string;
 	constructor() {
@@ -8,20 +13,29 @@ class BatchService {
 			/*process.env.CALIBER_URI*/ 'https://aosczl5fvf.execute-api.us-west-2.amazonaws.com/default';
 	}
 
-	getBatchesByTrainerEmail(trainerEmail: string): Promise<Batch[]> {
-		console.log('Batch Service: getBatchesByTrainerEmail');
+	getValidYears(): Promise<[]> {
+		console.log('Batch Service: getValidYears');
 		return axios
-			.get(this.URI + '/batches', { params: { trainerEmail: trainerEmail } })
+			.get(this.URI + '/batch2', { params: { query: 'validYears'}})
 			.then((result) => result.data)
 			.catch((error) => {
 				console.error(error);
 			});
 	}
-	getAllBatches(year: number, quarter: number): Promise<Batch[]> {
+	getBatchesByTrainerEmail(trainerEmail: string): Promise<trainerBatchResp> {
+		console.log('Batch Service: getBatchesByTrainerEmail');
+		return axios
+			.get(this.URI + '/batch2', { params: { trainerEmail: trainerEmail } })
+			.then((result) => result.data)
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+	getAllBatches(year: number): Promise<Batch[]> {
 		console.log('Batch Sevice: getAllBatches');
 		return axios
-			.get(this.URI + '/batchesall', {
-				params: { year: year, quarter: quarter },
+			.get(this.URI + '/batch2', {
+				params: { year: year },
 			})
 			.then((result) => result.data)
 			.catch((error) => {

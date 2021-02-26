@@ -1,17 +1,48 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from '../store/store';
+import { getBatches } from '../store/actions';
+import batchService from './BatchService';
+import { style } from '../global_styles';
 
 export default function BatchesComponent() {
     const nav = useNavigation();
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.userReducer.user);
+	const batches = useSelector((state: RootState) => state.batchReducer.batches);
     const keyExtractor = (item: object, index: number) => {
         return index.toString();
     };
 
-    // Placeholder valid year list
-    const validYears: any = [2020, 2021];
+    const [validYears, setValidYears] = useState<[]>([]);
+
+    useEffect(() => {
+        if (user.role.ROLE_QC == true || user.role.ROLE_VP) {
+            batchService
+                .getValidYears()
+                .then((yearResp) => {
+                    setValidYears(yearResp);
+                });
+        } else {
+            batchService
+                .getBatchesByTrainerEmail(/*user.email*/'mock1005.employee7c90a542-e70e-4db5-be8b-629e62f851c5@mock.com')
+                .then((batchesResp) => {
+                    dispatch(getBatches(batchesResp.batches));
+                    setValidYears(batchesResp.validYears);
+                });
+        }
+    }, []);
+
+    // Accepts a provided date and returns a number denoting the year it's in
+	function checkYear(date: string) {
+		const year: number = Number(date.slice(0, 4));
+		return year;
+	}
 
     // Sets the year and navigates to the quarter selector
     function handleYearSelect(year: number) {
@@ -32,13 +63,13 @@ export default function BatchesComponent() {
     // Displays a list of years to filter by
     return (
         <View>
-            {validYears.length > 0 && (
+            {validYears.length > 0 ? 
                 <FlatList
                     data={validYears}
                     renderItem={yearCard}
                     keyExtractor={keyExtractor}
                 />
-            )}
+             : <ActivityIndicator style={style.loading}/>}
         </View>
     );
 }
