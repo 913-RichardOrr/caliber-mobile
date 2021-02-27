@@ -9,6 +9,7 @@ import { RootState } from '../store/store'
 import { loginChange } from '../store/actions';
 
 import { useNavigation } from '@react-navigation/native';
+import { UserInput } from './user';
 
 
 function ForgotPassword(props: any) {
@@ -22,7 +23,6 @@ function ForgotPassword(props: any) {
         try{
         sendPasswordResetEmail(newUser.email);
         alert('Email Sent!');}catch(err){alert('Email Not Sent!');} 
-        
         nav.navigate('Login');
     }
 
