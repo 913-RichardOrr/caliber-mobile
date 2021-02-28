@@ -1,19 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableHighlight, TextInput } from 'react-native';
 import { Input } from "react-native-elements";
 import { style } from "../global_styles";
 
 import { sendPasswordResetEmail } from '../test/auth/functions';
-import { RootState } from '../store/store'
-import { loginChange } from '../store/actions';
+import { ReducerState } from '../store/store'
+import { getUser, loginChange } from '../store/actions';
 
 import { useNavigation } from '@react-navigation/native';
-import { UserInput } from './user';
+import { UserInfo } from './user';
+import { f } from './config';
 
 
 function ForgotPassword(props: any) {
-    const inputUser = (state: RootState) => state.userReducer.userLogin;
+    const inputUser = (state: ReducerState) => state.userReducer.userLogin;
     console.log(inputUser);
     const newUser = useSelector(inputUser);
     const dispatch = useDispatch();
@@ -23,22 +24,35 @@ function ForgotPassword(props: any) {
         try{
         sendPasswordResetEmail(newUser.email);
         alert('Email Sent!');}catch(err){alert('Email Not Sent!');} 
+        dispatch(getUser(new UserInfo));
         nav.navigate('Login');
     }
 
+
     return (
-            <View style={style.login}>
-                <View style={style.logininput}>
-                    <Text>Email: </Text>
-                    <Input
+            <View style={[style.login, style.container]}>
+                <Text style={style.caliber}>Reset Password</Text>
+
+                <View style={style.loginInput}>
+                    <TextInput
                         placeholder="Email address"
+                        style={style.input}
                         onChangeText={
                             (value) => dispatch(loginChange({...newUser, email:value}))}
                         value={newUser.email}
-                   />
-                <Button onPress={submitHandler} title="Send Email" />
+                    />
                 </View>
+
+                <View>
+                    <TouchableHighlight
+                        onPress={ () => submitHandler() }
+                        style={{backgroundColor: '#F26925', height:45, width:200, borderRadius:40, alignItems:'center', marginBottom: 40}}>
+                        <Text style={{alignItems:'center', padding:8, color:'#fff', fontSize:18, fontWeight:'bold'}}>SEND EMAIL</Text>
+                    </TouchableHighlight>
+                </View>
+                
             </View>
+        
     );
 }
 

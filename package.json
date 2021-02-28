@@ -16,6 +16,10 @@
   },
   "jest": {
     "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler)/)",
+      "node_modules/(?!(react-native|@react-native-[a-z]*|react-native-[a-z]*|react-native-[a-z]*-[a-z]*|@expo)/)"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -34,10 +38,7 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.js",
       "\\.(css|less)$": "<rootDir>/assetsTransformer.js"
     },
-    "__commentForTransformIgnorePatterns": "add your node module before the second closing parentheses from the end with a pipe before.",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler)/)"
-    ]
+    "__commentForTransformIgnorePatterns": "add your node module before the second closing parentheses from the end with a pipe before."
   },
   "repository": {
     "type": "git",
@@ -50,8 +51,11 @@
   },
   "homepage": "https://github.com/913-RichardOrr/caliber-mobile#readme",
   "dependencies": {
+    "@react-navigation/drawer": "^5.12.4",
+    "@material-ui/core": "^4.11.3",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-picker/picker": "^1.9.11",
+    "@react-navigation/material-top-tabs": "^5.3.13",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
@@ -69,13 +73,21 @@
     "react": "^16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-alphabet-sectionlist": "0.0.4",
+    "react-native-alphabetlistview": "^0.3.1",
+    "react-native-dynamic-search-bar": "^2.0.0",
     "react-native-elements": "^3.2.0",
-    "react-native-gesture-handler": "~1.8.0",
+    "react-native-gesture-handler": "^1.9.0",
     "react-native-i18n": "^2.0.15",
     "react-native-pixel-perfect": "^1.0.2",
+    "react-native-popup-menu": "^0.15.10",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.0",
+    "react-native-search-filter": "^0.1.5",
+    "react-native-section-alphabet-list": "^2.0.3",
+    "react-native-tab-view": "^2.15.2",
+    "react-native-toast-notification": "^1.1.2",
     "react-native-web": "^0.15.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
@@ -98,10 +110,12 @@
     "@types/react-native-i18n": "^2.0.0",
     "@types/react-redux": "^7.1.15",
     "@types/redux": "^3.6.0",
+    "@types/redux-mock-store": "^1.0.2",
     "@types/redux-thunk": "^2.1.0",
     "babel-jest": "^26.6.3",
+    "enzyme": "^3.11.0",
     "jest-enzyme": "^7.1.2",
-    "jsdom": "^16.4.0",
+    "redux-mock-store": "^1.5.4",
     "typescript": "~4.0.0"
   },
   "private": true
