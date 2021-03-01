@@ -16,7 +16,7 @@ export default function WeekSelectionComponent() {
     const weeks = useSelector((state: WeekState) => state.weeks);
 
     useEffect(() => {
-        // Check the databse for the week objects 
+        // Check the databse for the week objects
         batchWeekService.getWeeksByBatchId(selectedBatch.batchId).then((weeks) => {
             dispatch(getWeeks(weeks));
         });
