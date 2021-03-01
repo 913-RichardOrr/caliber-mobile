@@ -20,7 +20,7 @@ function BatchHome({ navigation }: Nav) {
 				Welcome to Caliber Mobile
 			</Text>
 			<TouchableHighlight
-				onPress={navigation.navigate('Year')}
+				onPress={() => navigation.navigate('Year')}
 				style={{
 					backgroundColor: '#F26925',
 					height: 45,

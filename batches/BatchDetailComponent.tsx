@@ -15,7 +15,7 @@ export default function BatchDetailComponent() {
             <Text>    {batch.name}</Text>
             <Text>{'\n'}</Text>
             <Text>Trainer:</Text>
-            <Text>    {batch.trainer}</Text>
+            <Text>    {batch.trainerFirstName + ' ' + batch.trainerLastName}</Text>
             <Text>{'\n'}</Text>
             <Text>Skill:</Text>
             <Text>    {batch.skill}</Text>
