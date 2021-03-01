@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, Button, TouchableHighlight, TextInput } from 'react-native';
-import { Input } from "react-native-elements";
+import { View, Text, TouchableHighlight, TextInput } from 'react-native';
 import { style } from "../global_styles";
 
 import { sendPasswordResetEmail } from '../test/auth/functions';
@@ -10,7 +9,6 @@ import { getUser, loginChange } from '../store/actions';
 
 import { useNavigation } from '@react-navigation/native';
 import { UserInfo } from './user';
-import { f } from './config';
 
 
 function ForgotPassword(props: any) {

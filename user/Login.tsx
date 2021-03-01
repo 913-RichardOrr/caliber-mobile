@@ -5,7 +5,6 @@ import { ReducerState } from '../store/store';
 import {auth} from './config';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginChange } from '../store/actions';
-import { Roles } from './user';
 
 interface LoginProp {
     navigation: any;

@@ -30,6 +30,23 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logoutText: {
+    alignItems:'center', 
+    padding:8, 
+    color:'#fff', 
+    fontSize:18, 
+    fontWeight:'bold'
+  },
+
+  logoutBackground: {
+    backgroundColor: '#F26925',
+    height: 40,
+    width: 133,
+    borderRadius: 40,
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+
   loginInput: {
     marginBottom: 40,
     borderBottomColor: '#fff',
