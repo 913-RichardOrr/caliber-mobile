@@ -32,7 +32,7 @@ interface MenuProp {
         <Stack.Screen name="Home" component={Home}
             options={{
             headerTitle:() => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-            headerRight:() => (
+            headerLeft:() => (
             <Icon.Button name ='ios-menu' size={25}
             color='#72A4C2' backgroundColor='#fff' onPress={()=> navigation.openDrawer()}></Icon.Button>)
             }}/>
@@ -40,7 +40,7 @@ interface MenuProp {
         <Stack.Screen name="'ForgotPassword'" component={ForgotPassword}
             options={{
             headerTitle:() => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-            headerRight:() => (
+            headerLeft:() => (
             <Icon.Button name ='ios-menu' size={25}
             color='#72A4C2' backgroundColor='#fff' onPress={()=> navigation.openDrawer()}></Icon.Button>)
             }}/>
@@ -55,7 +55,7 @@ interface MenuProp {
         <Stack.Screen name="Reports" component={UnderDevelopmentComponent}
             options={{
             headerTitle:() => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-            headerRight:() => (
+            headerLeft:() => (
             <Icon.Button name ='ios-menu' size={25}
             color='#72A4C2' backgroundColor='#fff' onPress={()=> navigation.openDrawer()}></Icon.Button>)
             }}/>
@@ -70,7 +70,7 @@ interface MenuProp {
             <Stack.Screen name="Management" component={ManageCategories}
                 options={{
                 headerTitle:() => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-                headerRight:() => (
+                headerLeft:() => (
                 <Icon.Button name ='ios-menu' size={25}
                 color='#72A4C2' backgroundColor='#fff' onPress={()=> navigation.openDrawer()}></Icon.Button>)
                 }}/>
@@ -85,7 +85,7 @@ interface MenuProp {
                 <Stack.Screen name="Logout" component={LogoutComponent}
                     options={{
                     headerTitle:() => <Image style={{width:165, height:50, margin:30}}source={require('./rev-logo.png')} />,
-                    headerRight:() => (
+                    headerLeft:() => (
                     <Icon.Button name ='ios-menu' size={25}
                     color='#72A4C2' backgroundColor='#fff' onPress={()=> navigation.openDrawer()}></Icon.Button>)
                     }}/>
