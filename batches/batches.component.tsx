@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { BatchState } from '../store/store';
 import { getBatches } from '../store/actions';
-import batchService from './batch.service';
-import Batch from './batch';
+import batchService from './BatchService';
+import Batch from './Batch';
 
 export default function BatchesComponent() {
     const navigation = useNavigation();
@@ -50,7 +50,7 @@ export default function BatchesComponent() {
 
     return (
         <View>
-            {(() => {
+            {/* {(() => {
                 if (batches[0]) {
                     return (
                         <View>
@@ -75,7 +75,7 @@ export default function BatchesComponent() {
                         <ActivityIndicator/>
                     )
                 }
-            })()}
+            })()} */}
         </View>
     )
 }

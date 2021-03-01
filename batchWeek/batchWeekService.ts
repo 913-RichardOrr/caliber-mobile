@@ -1,4 +1,5 @@
 import axios from 'axios';
+import QcWeek from './QcWeek';
 // add new qc_week to database
 // get all qc_note for specific batch and specific week
 
@@ -6,69 +7,44 @@ class BatchWeekService {
     private URI: string;
     constructor() {
         this.URI ="http://localhost:3000/";
-
-
     }
 
-    // get qc_notes for all weeks for the batch
-    getBatchWeekNotes(batchId: string, week: number): Promise <QcNote []> {
-        let pathToBatch = `batches/${batchId}`;
-
-        return axios.get(this.URI + pathToBatch + '/weeks' ).then(result => result.data);
+    // get all week objects for a specific batch
+    getWeeksByBatchId(batchid: string): Promise<QcWeek[]> {
+        // return axios.get(this.URI + `qc/batches/${batchid}/weeks`).then(result => result.data);
+        let testWeeks: QcWeek[] = [
+            {qcweekid: 0, weeknumber: 1, note: '', overallstatus: 'Good', batchid: 'id1'},
+            {qcweekid: 1, weeknumber: 3, note: '', overallstatus: 'Average', batchid: 'id1'},
+            {qcweekid: 2, weeknumber: 2, note: '', overallstatus: 'Poor', batchid: 'id1'}
+        ];
+        return new Promise((resolve) => resolve(testWeeks));
     }
-
-    // get qc_notes for specific batch for specific week
-    getBatchWeekNote(batchId: string, week: number): Promise <QcNote []> {
-        let pathToWeek =`batches/${batchId}/weeks/${week}`
-        return axios.get(this.URI + pathToWeek ).then(result => result.data);
-    }
-
-
 
     // add new qc_week to the qc_week table for /batches/{batchId}/weeks
-    addNewQcWeek(qw: QcWeek): Promise<null> {
-        const pathToQcWeek =''
-        return axios.post(this.URI + pathToQcWeek, qw).then(result => null);
+    addWeek(qw: QcWeek): Promise<null> {
+        return axios.post(this.URI + `qc/batches/${qw.batchid}/weeks`, qw).then(result => null);
     }
 
-
-     // POST function for  many qc_notes /batches/{batchId}/weeks/{weekid}
-     addNewQcNote(qn: QcNote []): Promise<null> {
-        let pathname = `batches/${qn[0].batchId}/weeks/${qn[0].week}`;
-        return axios.post(this.URI + pathname, qn).then(result => null);
+     // update the overall note and technical status for a week
+    updateFeedback(qw: QcWeek): Promise<null> {
+        return axios.post(this.URI + `qc/batches/${qw.batchid}/weeks/${qw.weeknumber}`, qw).then(result => null);
     }
-
 
 }
-
 
 export default new BatchWeekService();
 
+// the way stored in postgres below 
 
-export class QcWeek {
-    public id: number =0;
-    public categoryId: number =0;
-    public batchId: string='';
-    public week: number =1;
+export type STATUS = 'Undefined' | 'Poor' | 'Average' | 'Good' | 'Superstar';
 
-}
 
-export class QcNote {
-    public id: number =0;
-    public batchId: string ='';
-    public associateId: string='';
-    public week: number =1;
-    public technicalStatus: Status ='Good';
-    public softSkillStatus: Status ='Good';
-    public content: string ='';
-    public type: QcNoteType = '';
-
-}
-
-interface Status {
- 
-}
-
-interface QcNoteType {
+export class qcnotes {
+    public qcnoteid: number =0;
+    public weeknumber: number =0;
+    public batchid: string='';
+    public associateid: string ='';
+    public technicalstatus: STATUS='Undefined';  // must be string
+    public notecontent: string ='';
 
 }

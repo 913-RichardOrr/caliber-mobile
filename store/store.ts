@@ -4,12 +4,18 @@ import thunk from 'redux-thunk';
 import batchReducer from './batchReducer';
 import weekReducer from './WeekReducer';
 import userReducer from './userReducer';
-import { AppAction } from './actions';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
+import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
+import WeekCategoryReducer from './WeekCategoryReducer'
+import { weekCategory } from '../weekCategories/weekCategory';
+import { Category } from '../categoriesFeature/Category';
+import categoryReducer from './categoriesFeature/CategoryReducer';
+import { AppAction } from './actions';
 import { UserInput, UserInfo } from '../user/user';
 
 export interface BatchState {
+	batch: Batch;
 	batches: Batch[];
 }
 
@@ -22,6 +28,25 @@ export interface UserState {
 	user: UserInfo;
 	userLogin: UserInput;
 }
+export interface AssociateState {
+	associates: AssociateWithFeedback[];
+}
+export interface CaliberState extends UserState, BatchState,AssociateState {}
+
+export interface WeekCategoryState{
+	weekCategories: Category[];
+	weekCategory: weekCategory;
+}
+
+export interface CaliberState extends UserState, BatchState, WeekCategoryState {}
+
+
+export interface CategoryState {
+    categories: Category[];
+}
+export interface CaliberState extends UserState, CategoryState, BatchState, WeekCategoryState {}
+// <> is generics: Generic arguments allow us to define the type of a thing at runtime instead of when we write it,
+// creating a reusable object.
 
 export interface CaliberState extends UserState, BatchState, WeekState {}
 
@@ -29,7 +54,9 @@ export interface CaliberState extends UserState, BatchState, WeekState {}
 const rootReducer = combineReducers({
 	userReducer,
 	batchReducer,
-	weekReducer
+	weekReducer,
+	WeekCategoryReducer,
+	categoryReducer
 });
 
 //user userSelector(state: RootState => state.yourReducer.yourPayload)
