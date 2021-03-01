@@ -9,12 +9,32 @@ import { RootState } from '../store/store';
 import { changeBatch } from '../store/actions';
 import { style } from '../global_styles';
 
+/**
+ * @typedef {Object} Props
+ * @property {*} navigation
+ * @property {*} route
+ */
+interface Props {
+	navigation: any;
+	route: any;
+}
+
+/**
+ * @typedef {Object} VisibleBatch
+ * @property {number} index
+ * @property {string} info
+ */
 interface VisibleBatch {
 	index: number;
 	info: string;
 }
 
-export default function BatchListComponent({ navigation, route }: any) {
+/**
+ * Renders the Batch List for the user
+ * @param {*} param0
+ * @returns {JSX}
+ */
+export default function BatchListComponent({ navigation, route }: Props) {
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.userReducer.user);
 	const batches = useSelector((state: RootState) => state.batchReducer.batches);
@@ -38,6 +58,7 @@ export default function BatchListComponent({ navigation, route }: any) {
 				return batch;
 			}
 		});
+
 		const visible = batchesInQuarter.map((batch, index) => {
 			return {
 				index,
@@ -55,17 +76,27 @@ export default function BatchListComponent({ navigation, route }: any) {
 
 	// Upon selection, updates the state with a chosen batch
 	// The navigator's destination is to be replaced in code after determining the next component in line
+	/**
+	 * Selects batch and navigates to BatchDetail screen
+	 * @param {string} index
+	 */
 	function handleBatchSelect(index: string) {
 		dispatch(changeBatch(batches[Number(index)]));
 		navigation.navigate('BatchDetail');
 	}
 
-	// Accepts a provided date and returns a number denoting the year it's in
+	/**
+	 * Transforms startDate into 4-digit year
+	 * @param {string} date
+	 */
 	function checkYear(date: string) {
 		return Number(date.slice(0, 4));
 	}
 
-	// Checks a provided date to see which quarter it's in and returns a string representing the quarter
+	/**
+	 * Checks a provided date to see which quarter it's in and returns a string representing the quarter
+	 * @param {string} date
+	 */
 	function checkQuarter(date: string) {
 		const month: number = Number(date.slice(5, 7));
 		switch (month) {
@@ -88,36 +119,11 @@ export default function BatchListComponent({ navigation, route }: any) {
 		}
 	}
 
-	// Accepts a provided date and returns a number denoting the year it's in
-	function checkYear(date: string) {
-		const year: number = Number(date.slice(0, 4));
-		return year;
-	}
-
-	// Checks a provided date to see which quarter it's in and returns a string representing the quarter
-    function checkQuarter(date: string) {
-        const month: number = Number(date.slice(5, 7));
-        switch (month) {
-            case 1:
-            case 2:
-            case 3:
-                return 'Q1';
-            case 4:
-            case 5:
-            case 6:
-                return 'Q2';
-            case 7:
-            case 8:
-            case 9:
-                return 'Q3';
-            case 10:
-            case 11:
-            case 12:
-                return 'Q4';
-        }
-    }
-
-	// Display a selectable batch
+	/**
+	 * Display a selectable batch
+	 * @param {*} params
+	 * @returns {JSX}
+	 */        
 	const batchCard = (params: any) => {
 		return (
 			<Pressable onPress={() => handleBatchSelect(params.item.index)}>
@@ -128,7 +134,10 @@ export default function BatchListComponent({ navigation, route }: any) {
 		);
 	};
 
-	//Filter based on query
+	/**
+	 * Filter batch cards based on new text input; sets query and visible states;
+	 * @param {string} text
+	 */
 	const handleSearch = (text: string) => {
 		let visible: VisibleBatch[] = [];
 		if (query.length > text.length) {

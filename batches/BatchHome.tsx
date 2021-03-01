@@ -3,10 +3,19 @@ import { View, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { style } from '../global_styles';
 
+/**
+ * @typedef {Object} Nav
+ * @property {*} navigation
+ */
 interface Nav {
 	navigation: any;
 }
 
+/**
+ * Renders Home screen
+ * @param {Nav} navigation -navigation props
+ * @returns {JSX}
+ */
 function BatchHome({ navigation }: Nav) {
 	function toYearComponent() {
 		navigation.navigate('Year');

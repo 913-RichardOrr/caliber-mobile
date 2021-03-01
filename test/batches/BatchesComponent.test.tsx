@@ -84,8 +84,14 @@ let obj = {
 };
 
 describe('Batch Service Test', () => {
+	/**
+	 * @type {string}
+	 */
 	let trainerEmail: string =
 		'mock1027.employee74df14df-5842-4811-a57c-be9836537a40@mock.com';
+	/**
+	 * @type {string}
+	 */
 	let gatewayURI: string =
 		'https://aosczl5fvf.execute-api.us-west-2.amazonaws.com/default/';
 

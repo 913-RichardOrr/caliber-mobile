@@ -10,6 +10,11 @@ import { getBatches } from '../store/actions';
 import batchService from './BatchService';
 import { style } from '../global_styles';
 
+/**
+ * Renders Quarter list
+ * @param {*} param0
+ * @returns {JSX}
+ */
 export default function QuarterComponent({ route }: any) {
 	const nav = useNavigation();
 	const dispatch = useDispatch();
@@ -31,13 +36,20 @@ export default function QuarterComponent({ route }: any) {
 		}
 	}, [year]);
 
-	// Sets the quarter and navigates to the batch list
+	/**
+	 * Sets the quarter and navigates to the batch list
+	 * @param {number} index
+	 */
 	function handleQuarterSelect(index: number) {
 		const quarter = quarters[index];
 		nav.navigate('Batches', { year: year, quarter: quarter });
 	}
 
-	// Displays a selectable quarter
+	/**
+	 * Displays a selectable quarter
+	 * @param {*} params
+	 * @returns {JSX}
+	 */
 	const quarterCard = (params: any) => {
 		return (
 			<Pressable onPress={() => handleQuarterSelect(params.index)}>
