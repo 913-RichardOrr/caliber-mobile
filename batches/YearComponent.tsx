@@ -10,7 +10,10 @@ import { getBatches } from '../store/actions';
 import batchService from './BatchService';
 import { style } from '../global_styles';
 
-export default function BatchesComponent() {
+/**
+ * Renders Year list
+ */
+export default function YearComponent() {
 	const nav = useNavigation();
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.userReducer.user);
@@ -37,12 +40,19 @@ export default function BatchesComponent() {
 		}
 	}, []);
 
-	// Sets the year and navigates to the quarter selector
+	/**
+	 * Sets the year and navigates to the quarter selector
+	 * @param {number} year
+	 */
 	function handleYearSelect(year: number) {
 		nav.navigate('Quarter', { year: year });
 	}
 
-	// Displays a selectable year
+	/**
+	 * Displays a selectable year
+	 * @param {*} params
+	 * @returns {JSX}
+	 */
 	const yearCard = (params: any) => {
 		return (
 			<Pressable onPress={() => handleYearSelect(params.item)}>

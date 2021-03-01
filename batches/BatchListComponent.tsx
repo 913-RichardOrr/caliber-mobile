@@ -8,11 +8,21 @@ import { RootState } from '../store/store';
 import { changeBatch } from '../store/actions';
 import { style } from '../global_styles';
 
+/**
+ * @typedef {Object} VisibleBatch
+ * @property {number} index
+ * @property {string} info
+ */
 interface VisibleBatch {
 	index: number;
 	info: string;
 }
 
+/**
+ * Renders the Batch List for the user
+ * @param {*} param0
+ * @returns {JSX}
+ */
 export default function BatchListComponent({ navigation, route }: any) {
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.userReducer.user);
@@ -37,6 +47,7 @@ export default function BatchListComponent({ navigation, route }: any) {
 				return batch;
 			}
 		});
+
 		const visible = batchesInQuarter.map((batch, index) => {
 			return {
 				index,
@@ -54,17 +65,27 @@ export default function BatchListComponent({ navigation, route }: any) {
 
 	// Upon selection, updates the state with a chosen batch
 	// The navigator's destination is to be replaced in code after determining the next component in line
+	/**
+	 * Selects batch and navigates to BatchDetail screen
+	 * @param {string} index
+	 */
 	function handleBatchSelect(index: string) {
 		dispatch(changeBatch(batches[Number(index)]));
 		navigation.navigate('BatchDetail');
 	}
 
-	// Accepts a provided date and returns a number denoting the year it's in
+	/**
+	 * Transforms startDate into 4-digit year
+	 * @param {string} date
+	 */
 	function checkYear(date: string) {
 		return Number(date.slice(0, 4));
 	}
 
-	// Checks a provided date to see which quarter it's in and returns a string representing the quarter
+	/**
+	 * Checks a provided date to see which quarter it's in and returns a string representing the quarter
+	 * @param {string} date
+	 */
 	function checkQuarter(date: string) {
 		const month: number = Number(date.slice(5, 7));
 		switch (month) {
@@ -87,7 +108,11 @@ export default function BatchListComponent({ navigation, route }: any) {
 		}
 	}
 
-	// Display a selectable batch
+	/**
+	 * Display a selectable batch
+	 * @param {*} params
+	 * @returns {JSX}
+	 */
 	const batchCard = (params: any) => {
 		return (
 			<Pressable onPress={() => handleBatchSelect(params.item.index)}>
@@ -98,7 +123,10 @@ export default function BatchListComponent({ navigation, route }: any) {
 		);
 	};
 
-	//Filter based on query
+	/**
+	 * Filter batch cards based on new text input; sets query and visible states;
+	 * @param {string} text
+	 */
 	const handleSearch = (text: string) => {
 		let visible: VisibleBatch[] = [];
 		if (query.length > text.length) {

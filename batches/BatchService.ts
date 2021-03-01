@@ -3,7 +3,7 @@ import Batch from './Batch';
 
 interface TrainerBatchResp {
 	batches: Batch[];
-	validYears: [];
+	validYears: string[];
 }
 
 class BatchService {
