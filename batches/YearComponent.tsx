@@ -10,66 +10,72 @@ import { getBatches } from '../store/actions';
 import batchService from './BatchService';
 import { style } from '../global_styles';
 
-export default function BatchesComponent() {
-    const nav = useNavigation();
-    const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.userReducer.user);
-	const batches = useSelector((state: RootState) => state.batchReducer.batches);
-    const keyExtractor = (item: object, index: number) => {
-        return index.toString();
-    };
+/**
+ * Renders Year list
+ */
+export default function YearComponent() {
+	const nav = useNavigation();
+	const dispatch = useDispatch();
+	const user = useSelector((state: RootState) => state.userReducer.user);
+	const keyExtractor = (item: object, index: number) => {
+		return index.toString();
+	};
 
-    const [validYears, setValidYears] = useState<[]>([]);
+	const [validYears, setValidYears] = useState<[]>([]);
 
-    useEffect(() => {
-        if (user.role.ROLE_QC == true || user.role.ROLE_VP) {
-            batchService
-                .getValidYears()
-                .then((yearResp) => {
-                    setValidYears(yearResp);
-                });
-        } else {
-            batchService
-                .getBatchesByTrainerEmail(/*user.email*/'mock1005.employee7c90a542-e70e-4db5-be8b-629e62f851c5@mock.com')
-                .then((batchesResp) => {
-                    dispatch(getBatches(batchesResp.batches));
-                    setValidYears(batchesResp.validYears);
-                });
-        }
-    }, []);
+	useEffect(() => {
+		if (user.role.ROLE_QC == true || user.role.ROLE_VP) {
+			batchService.getValidYears().then((yearResp) => {
+				setValidYears(yearResp);
+			});
+		} else {
+			batchService
+				.getBatchesByTrainerEmail(
+					/*user.email*/ 'mock1005.employee7c90a542-e70e-4db5-be8b-629e62f851c5@mock.com'
+				)
+				.then((batchesResp) => {
+					dispatch(getBatches(batchesResp.batches));
+					setValidYears(batchesResp.validYears);
+				});
+		}
+	}, []);
 
-    // Accepts a provided date and returns a number denoting the year it's in
-	function checkYear(date: string) {
-		const year: number = Number(date.slice(0, 4));
-		return year;
+	/**
+	 * Sets the year and navigates to the quarter selector
+	 * @param {number} year
+	 */
+	function handleYearSelect(year: number) {
+		nav.navigate('Quarter', { year: year });
 	}
 
-    // Sets the year and navigates to the quarter selector
-    function handleYearSelect(year: number) {
-        nav.navigate('Quarter', {year: year});
-    }
-
-    // Displays a selectable year
-    const yearCard = (params: any) => {
-        return (
-            <Pressable onPress={() => handleYearSelect(params.item)}>
-                <Card>
-                    <Text>{params.item}</Text>
-                </Card>
-            </Pressable>
-        )
-    }
-
-    // Displays a list of years to filter by
-    return (
-        <View>
-            {validYears.length > 0 ? 
-                <FlatList
-                    data={validYears}
-                    renderItem={yearCard}
-                    keyExtractor={keyExtractor}
-                />
-             : <ActivityIndicator style={style.loading}/>}
-        </View>
-    );
+	/**
+	 * Displays a selectable year
+	 * @param {*} params
+	 * @returns {JSX}
+	 */
+	const yearCard = (params: any) => {
+		return (
+			<Pressable onPress={() => handleYearSelect(params.item)}>
+				<Card>
+					<Text>{params.item}</Text>
+				</Card>
+			</Pressable>
+		);
+	};
+    
+	// Displays a list of years to filter by
+	return (
+		<View>
+			<Text style={{ margin: 10 }}>Select Year:</Text>
+			{validYears.length > 0 ? (
+				<FlatList
+					data={validYears}
+					renderItem={yearCard}
+					keyExtractor={keyExtractor}
+				/>
+			) : (
+				<ActivityIndicator style={style.loading} />
+			)}
+		</View>
+	);
 }
