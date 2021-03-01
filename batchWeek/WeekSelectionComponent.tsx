@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Picker } from '@react-native-picker/picker';
-import { WeekState } from '../store/store';
-import { changeSelectedWeek } from '../store/actions';
+import { BatchState, WeekState } from '../store/store';
+import { getWeeks, changeSelectedWeek } from '../store/actions';
+import batchWeekService from './batchWeekService';
 import QcWeek from './QcWeek';
 
 /**
@@ -10,30 +10,35 @@ import QcWeek from './QcWeek';
  */
 export default function WeekSelectionComponent() {
 
-    const [weeks, setWeeks] = useState([] as QcWeek[]);
+    const dispatch = useDispatch();
+    const selectedBatch = {batchId: 'id1'};
+    //const selectedBatch = useSelector((state: BatchState) => state.batch);
+    const weeks = useSelector((state: WeekState) => state.weeks);
 
-    /* useEffect(() => {
-        // Get the weeks in the redux store
-        setWeeks(useSelector((state: WeekState) => state.weeks));
-
-    }, []); */
+    useEffect(() => {
+        // Check the databse for the week objects 
+        batchWeekService.getWeeksByBatchId(selectedBatch.batchId).then((weeks) => {
+            dispatch(getWeeks(weeks));
+        });
+    }, []);
 
     function onWeekSelect(weekValue: number) {
         // Update the redux store with the selected week
-        let selectedWeek = weeks.find(week => week.weekNumber === weekValue);
+        let selectedWeek = weeks.find(week => week.weeknumber === weekValue);
         if(selectedWeek) {
-            useDispatch()(changeSelectedWeek(selectedWeek));
+            dispatch(changeSelectedWeek(selectedWeek));
         }
     }
 
     return (
-        <Picker onValueChange={onWeekSelect} testID='weekPicker'>
-            {weeks.map((qcWeek) => {
-                return <Picker.Item
-                    label={'Week '+qcWeek.weekNumber}
-                    value={qcWeek.weekNumber}
-                />
-            })}
-        </Picker>
+        <></>
+        // <Picker onValueChange={onWeekSelect} testID='weekPicker'>
+        //     {weeks.map((qcWeek) => {
+        //         return <Picker.Item
+        //             label={'Week '+qcWeek.weeknumber}
+        //             value={qcWeek.weeknumber}
+        //         />
+        //     })}
+        // </Picker>
     );
 }

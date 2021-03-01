@@ -15,7 +15,7 @@ function AddNoteComponent(){
     function sendPost(){
         try{
             console.log(week);
-            batchWeekService.addNewQcNote(week);
+            batchWeekService.updateFeedback(week);
             console.log('update success');
         } catch {
             console.log('update failed');
