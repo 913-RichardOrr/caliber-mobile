@@ -32,6 +32,7 @@ export const style = StyleSheet.create({
   },
   loginInput: {
     marginBottom: 40,
+    borderBottomColor: '#fff',
   },
   input: {
     borderColor: '#474C55',

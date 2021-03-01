@@ -1,13 +1,10 @@
-import { auth0SignInButton } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight } from 'react-native';
 import { style } from '../global_styles';
 import { ReducerState } from '../store/store';
-import { f, auth } from './config';
+import { auth } from './config';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginChange } from '../store/actions';
-import { Input } from 'react-native-elements';
-import { Roles } from './user';
 
 interface LoginProp {
   navigation: any;
@@ -16,43 +13,17 @@ interface LoginProp {
 export default function LoginComponent({ navigation }: LoginProp) {
   const [loggedIn, setLoggedin] = useState(false);
   const inputUser = (state: ReducerState) => state.userReducer.userLogin;
-  const newUser = useSelector(inputUser);
-  const dispatchUser = (state: ReducerState) => state.userReducer.user;
-  const useUser = useSelector(dispatchUser);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      // console.log('auth state changed');
-      if (user) {
-        user.getIdTokenResult().then((token) => {
-          const role: Roles = {
-            ROLE_QC: token.claims.ROLE_QC,
-            ROLE_VP: token.claims.ROLE_VP,
-            ROLE_TRAINER: token.claims.ROLE_TRAINER,
-          };
-          let email: string = '';
-          if (user.email) {
-            email = user.email;
-          }
-          dispatch(
-            getUser({ ...useUser, uid: user.uid, email: email, role: role })
-          );
-        });
-      } else {
-        console.log('not logged in');
-      }
-    });
-  }, []);
+  const newUser = useSelector(inputUser);
+  const dispatch = useDispatch();
 
   const loginUser = async (newUser: any) => {
     if (newUser.email != '' && newUser.password != '') {
       try {
         let email = newUser.email;
         let password = newUser.password;
-        let user = await auth.signInWithEmailAndPassword(email, password);
-        //'Test' will be changed to 'Home'
-        navigation.navigate('Drawer');
+        auth.signInWithEmailAndPassword(email, password);
+        navigation.navigate('Home');
       } catch (error) {
         console.log(error);
       }
@@ -60,18 +31,32 @@ export default function LoginComponent({ navigation }: LoginProp) {
       alert('Missing email or password');
     }
   };
-
-  f.auth().onAuthStateChanged(function (user: any) {
-    if (user) {
-      //Logged in
-      setLoggedin(true);
-      // console.log('Logged in', user);
-    } else {
-      //logged out
-      setLoggedin(false);
-      console.log('Logged out');
-    }
-  });
+  useEffect(() => {
+    auth.onIdTokenChanged(function (user: any) {
+      if (user) {
+        //Logged in
+        setLoggedin(true);
+        user
+          .getIdTokenResult()
+          .then((token: any) => {
+            const role = {
+              ROLE_QC: token.claims.ROLE_QC,
+              ROLE_VP: token.claims.ROLE_VP,
+              ROLE_TRAINER: token.claims.ROLE_TRAINER,
+            };
+            const tokenTemp = token.token;
+            dispatch(
+              getUser({ email: user.email, token: tokenTemp, role: role })
+            );
+          })
+          .catch((err: any) => console.log(err));
+      } else {
+        //logged out
+        setLoggedin(false);
+        console.log('Logged out');
+      }
+    });
+  }, []);
 
   return (
     <View style={style.container}>
@@ -79,7 +64,7 @@ export default function LoginComponent({ navigation }: LoginProp) {
 
       <View style={style.login}>
         <View style={style.loginInput}>
-          <Input
+          <TextInput
             placeholder={'Email'}
             style={style.input}
             onChangeText={(value) =>
@@ -90,7 +75,7 @@ export default function LoginComponent({ navigation }: LoginProp) {
         </View>
 
         <View>
-          <Input
+          <TextInput
             placeholder={'Password'}
             style={style.input}
             onChangeText={(value) =>
@@ -102,7 +87,6 @@ export default function LoginComponent({ navigation }: LoginProp) {
         </View>
       </View>
 
-<<<<<<< HEAD
             <View>
                 <TouchableHighlight
                     onPress={ () => loginUser(newUser) }
@@ -116,7 +100,7 @@ export default function LoginComponent({ navigation }: LoginProp) {
                     <Text style={{alignItems:'center', color:'#72A4C2', fontSize:18, fontWeight:'bold'}}>Forgot password?</Text>
                 </TouchableHighlight>
             </View>
-=======
+
       <View>
         <TouchableHighlight
           onPress={() => loginUser(newUser)}
@@ -139,10 +123,11 @@ export default function LoginComponent({ navigation }: LoginProp) {
             LOG IN {'>'}
           </Text>
         </TouchableHighlight>
->>>>>>> bad97080de8e30c4b5848c558ffffb0255b92b2c
 
         <TouchableHighlight
-          // onPress={ forgot password }
+          onPress={() => {
+            navigation.navigate('ForgotPassword');
+          }}
           style={{
             backgroundColor: '#fff',
             height: 45,

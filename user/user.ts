@@ -5,7 +5,7 @@ export class UserInput {
 
 export class UserInfo {
     email: string = '';
-    uid: string = '';
+    token: string = '';
     role: Roles = new Roles();
 }
 

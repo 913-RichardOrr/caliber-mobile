@@ -135,6 +135,7 @@ export default function BatchListComponent({ route }: any) {
   return (
     <View>
       <TextInput
+        placeholder='Search batches'
         value={query}
         onChangeText={(text) => {
           handleSearch(text);

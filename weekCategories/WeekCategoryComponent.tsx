@@ -4,22 +4,22 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 
 export default function CategoryButton(props: any) {
-  var [categoryContext, setCategoryContext] = useState(props.data.skill);
-  return (
-    <View style={[styles.screenContainer]}>
-      <Text style={styles.myFontColor}>{categoryContext + "  "}
-        <TouchableOpacity onPress={() => {
-          alert("Place holder for dispatching {action:'delete',payload:'" + props.data.categoryid + "'}");
-          setCategoryContext('deleted')
-        }}>
-          <Text style={styles.innerContainer}> x </Text></TouchableOpacity></Text>
-    </View>
-  );
+    var [categoryContext, setCategoryContext] = useState(props.data.skill);
+    return (
+        <View style={[styles.screenContainer]}>
+            <Text style={styles.myFontColor}>{categoryContext + "  "}
+                <TouchableOpacity onPress={() => {
+                    alert("Place holder for dispatching {action:'delete',payload:'" + props.data.categoryid + "'}");
+                    setCategoryContext('deleted')
+            }}>
+            <Text style={styles.innerContainer}> x </Text></TouchableOpacity></Text>
+        </View>
+    );
 }
 
 var styles = StyleSheet.create({
 
-  screenContainer: {
+screenContainer: {
     backgroundColor: 'grey',
     opacity: .5,
     borderRadius: 8,
@@ -28,8 +28,8 @@ var styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height:30
-  },
-  innerContainer: {
+    },
+innerContainer: {
     backgroundColor: 'lightgrey',
     opacity: 1,
     paddingBottom: 1,
@@ -39,16 +39,15 @@ var styles = StyleSheet.create({
     color: 'red',
     textAlignVertical: 'center',
     textAlign: 'center',
-  },
-  containerwidth: {
+    },
+containerwidth: {
     width: '100%',
-  },
-  myFontColor: {
+    },
+myFontColor: {
     color: 'blue',
     
-  }
+    }
 
 
 
 });
-

@@ -3,11 +3,19 @@ import 'react-native';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import BatchPageService from '../batchPage/BatchPageService';
+import { QcNote } from '../batchWeek/batchWeekService';
 import style from '../global_styles';
 import { getAssociates } from '../store/actions';
-import { AssociateState, BatchState, WeekState } from '../store/store';
+import {
+  AssociateState,
+  BatchState,
+  ReducerState,
+  WeekState,
+} from '../store/store';
 import AssociateDetail from './AssociateDetail';
 import AssociateService, {
+  Associate,
   AssociateWithFeedback,
   QCFeedback,
 } from './AssociateService';
@@ -20,23 +28,6 @@ import {
 } from './sort';
 
 /**
- * Get Associate needs to do some stuff here.
- */
-
-let assoc1 = new AssociateWithFeedback();
-assoc1.associate.firstName = 'TylerTest';
-assoc1.associate.lastName = 'BetaTest';
-let assoc2 = new AssociateWithFeedback();
-assoc2.associate.firstName = 'KathrynTest';
-assoc2.associate.lastName = 'AlphaTest';
-let assoc3 = new AssociateWithFeedback();
-assoc3.associate.firstName = 'SillyTest';
-assoc3.associate.lastName = 'CharlieTest';
-let assoc4 = new AssociateWithFeedback();
-assoc4.associate.firstName = 'MaryTest';
-assoc4.associate.lastName = 'DeltaTest';
-
-/**
  * This component is to display the associate's first and last name
  * along with a TextInput for the QC note and technical status icon that
  * can cycle for the different statuses.
@@ -45,44 +36,64 @@ assoc4.associate.lastName = 'DeltaTest';
  * on this component.
  */
 function AssociateTableComponent() {
-  let tempAssociates = [assoc1, assoc2, assoc3, assoc4];
   let dispatch = useDispatch();
-  let associates = useSelector((state: AssociateState) => state.associates);
-  let batch = useSelector((state: BatchState) => state.batch);
-  let week = useSelector((state: WeekState) => state.selectedWeek);
-
+  let associates = useSelector(
+    (state: ReducerState) => state.batchReducer.associates
+  );
+  let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
+  let week = useSelector(
+    (state: ReducerState) => state.weekReducer.selectedWeek
+  );
   let iconName: string = 'angle-up';
   let iconColor: string = '#F26925';
   const [sortDirection, setSortDirection] = useState('FUp');
 
   useEffect(() => {
-    dispatch(getAssociates(tempAssociates));
-    // getQCNotes();
+    let mockResult;
+    async function asyncThis() {
+      mockResult = await getAssociateFromMock();
+      getQCNotes(mockResult);
+    }
+    asyncThis();
   }, []);
+
+  /**
+   * Queries the mock API to retrieve all the associates for a given batch.
+   */
+  async function getAssociateFromMock() {
+    let newAssociateArray: Associate[] = [];
+    let serviceResult;
+    serviceResult = await BatchPageService.getAssociates(batch.batchId);
+    serviceResult.forEach((asoc: any) => {
+      let associate = new Associate();
+      associate.firstName = asoc.firstName;
+      associate.lastName = asoc.lastName;
+      associate.associateId = asoc.email;
+      newAssociateArray.push(associate);
+    });
+    return newAssociateArray;
+  }
 
   /**
    * Retrieves QC Notes from back end.
    */
-  function getQCNotes() {
+  function getQCNotes(results: any) {
     let listofassociates: AssociateWithFeedback[] = [];
-    associates.forEach(async (associate) => {
-      let qcnotes: QCFeedback = await AssociateService.getAssociate(
-        associate.associate,
+    console.log(results);
+    results.forEach(async (associate: any) => {
+      let qcNote = await AssociateService.getAssociate(
+        associate,
         batch.batchId,
-        week.qcWeekId.toString()
+        String(week.weekNumber)
       );
-      if (qcnotes) {
-        let value = new AssociateWithFeedback();
-        value.associate = associate.associate;
-        value.qcFeedback = qcnotes;
-        listofassociates.push(value);
-      } else {
-        let val = new AssociateWithFeedback();
-        val.associate = associate.associate;
-        listofassociates.push(val);
+      let value = new AssociateWithFeedback();
+      value.associate = associate;
+      if (qcNote) {
+        value.qcFeedback = qcNote;
       }
+      listofassociates.push(value);
+      dispatch(getAssociates(listofassociates));
     });
-    dispatch(getAssociates(listofassociates));
   }
 
   /**
@@ -119,6 +130,11 @@ function AssociateTableComponent() {
     }
   }
 
+  /**
+   * Updates all of the associates with their new notes and
+   * technical statuses. Is used on the save button that
+   * is stickied to the bottom of the screen.
+   */
   function handleAllUpdate() {
     associates.forEach(async (assoc) => {
       try {
@@ -210,7 +226,8 @@ function AssociateTableComponent() {
         renderItem={({ item }) => (
           <AssociateDetail
             associate={item.associate}
-            qcFeedback={item.qcFeedback}></AssociateDetail>
+            qcFeedback={item.qcFeedback}
+          />
         )}
         keyExtractor={(item) => item.associate.firstName}
       />
@@ -227,5 +244,4 @@ function AssociateTableComponent() {
     </View>
   );
 }
-
 export default AssociateTableComponent;

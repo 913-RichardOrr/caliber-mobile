@@ -1,12 +1,11 @@
 import { Category } from '../categoriesFeature/Category';
-
 import * as Actions from './actions';
 import { initialState } from './initialState';
 import { CaliberState } from './store';
 
 const WeekCategoryReducer = (
-  action: Actions.AppAction,
-  state: CaliberState = initialState
+  state: CaliberState = initialState,
+  action: Actions.AppAction
 ): CaliberState => {
   const newState = { ...state };
   switch (action.type) {
