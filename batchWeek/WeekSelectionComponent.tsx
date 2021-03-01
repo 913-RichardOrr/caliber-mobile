@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ModalSelectList } from 'react-native-modal-select-list';
 import { BatchState, WeekState } from '../store/store';
 import { getWeeks, changeSelectedWeek } from '../store/actions';
 import batchWeekService from './batchWeekService';
@@ -31,14 +32,10 @@ export default function WeekSelectionComponent() {
     }
 
     return (
-        <></>
-        // <Picker onValueChange={onWeekSelect} testID='weekPicker'>
-        //     {weeks.map((qcWeek) => {
-        //         return <Picker.Item
-        //             label={'Week '+qcWeek.weeknumber}
-        //             value={qcWeek.weeknumber}
-        //         />
-        //     })}
-        // </Picker>
+        <ModalSelectList
+            options={weeks.map((week) => 'Week '+week.weeknumber)}
+            onSelectedOption={onWeekSelect}
+            diableTextSearch
+        />
     );
 }
