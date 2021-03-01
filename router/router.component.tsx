@@ -56,11 +56,11 @@ export default function RouterComponent(props: any) {
 				component={YearComponent}
 				options={headerOptions}
 			/>
-			<Stack.Screen 
-                name="Quarter" 
-                component={QuarterComponent}
-                options={headerOptions}
-            />
+			<Stack.Screen
+				name="Quarter"
+				component={QuarterComponent}
+				options={headerOptions}
+			/>
 			<Stack.Screen
 				name="Batches"
 				component={BatchListComponent}
