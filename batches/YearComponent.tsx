@@ -62,7 +62,7 @@ export default function YearComponent() {
 			</Pressable>
 		);
 	};
-
+    
 	// Displays a list of years to filter by
 	return (
 		<View>

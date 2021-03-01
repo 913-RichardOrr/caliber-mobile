@@ -41,8 +41,16 @@ export default function RouterComponent(props: any) {
 				component={LoginComponent}
 				options={headerOptions}
 			/>
-			<Stack.Screen name="Test" component={Test} options={headerOptions} />
-			<Stack.Screen name="Home" component={BatchHome} options={headerOptions} />
+			<Stack.Screen 
+                name="Test" 
+                component={Test} 
+                options={headerOptions} 
+            />
+			<Stack.Screen 
+                name="Home" 
+                component={BatchHome}
+                options={headerOptions} 
+            />
 			<Stack.Screen
 				name="Year"
 				component={YearComponent}

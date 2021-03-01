@@ -17,6 +17,10 @@ interface Nav {
  * @returns {JSX}
  */
 function BatchHome({ navigation }: Nav) {
+	function toYearComponent() {
+		navigation.navigate('Year');
+	}
+
 	//will setup to check user role in state to use the proper service in useEffect
 	return (
 		<View style={style.container}>
@@ -29,7 +33,7 @@ function BatchHome({ navigation }: Nav) {
 				Welcome to Caliber Mobile
 			</Text>
 			<TouchableHighlight
-				onPress={() => navigation.navigate('Year')}
+				onPress={toYearComponent}
 				style={{
 					backgroundColor: '#F26925',
 					height: 45,

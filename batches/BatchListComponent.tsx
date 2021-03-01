@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 
+import { style } from '../global_styles';
 import { RootState } from '../store/store';
 import { changeBatch } from '../store/actions';
 import { style } from '../global_styles';
@@ -122,7 +123,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
 	 * Display a selectable batch
 	 * @param {*} params
 	 * @returns {JSX}
-	 */
+	 */        
 	const batchCard = (params: any) => {
 		return (
 			<Pressable onPress={() => handleBatchSelect(params.item.index)}>
