@@ -124,10 +124,10 @@ export function changeSelectedWeek(week: QcWeek): WeekAction {
 	return action;
 }
 
-export function addWeek(week: QcWeek): WeekAction {
+export function addWeek(weeks: QcWeek[]): WeekAction {
 	const action: WeekAction = {
 		type: WeekActions.AddWeek,
-		payload: week
+		payload: weeks
 	};
 	return action;
 }
