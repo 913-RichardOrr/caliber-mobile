@@ -7,7 +7,7 @@ import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
 
-import QualityAuditComponent from '../../qc/qualityAudit.component';
+import QualityAuditComponent from '../../qc/QualityAuditComponent';
 
 describe('Quality Audit Component tests', ()=> {
     let wrapper: any;

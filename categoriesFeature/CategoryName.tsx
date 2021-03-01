@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { 
+    View, 
+    Text, 
+    Pressable, 
+    TouchableOpacity, 
+    Modal, 
+    TextInput 
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 //import ToastNotification from 'react-native-toast-notification';
 import catStyle from './categoriesStyles';
@@ -179,5 +186,3 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
 }
 
 export default CategoryName;
-
-

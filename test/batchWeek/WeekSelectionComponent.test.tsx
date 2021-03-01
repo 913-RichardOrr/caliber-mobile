@@ -8,14 +8,14 @@ import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
 
-import BatchWeekSelectionComponent from '../../batchWeek/batchWeekSelection.component';
+import WeekSelectionComponent from '../../batchWeek/WeekSelectionComponent';
 import BatchWeekService from '../../batchWeek/batchWeekService';
 
 describe('Batch Week Selection tests', ()=> {
     let wrapper: any;
     beforeAll(()=> {
         jest.mock('react-redux');
-        wrapper = mount(<BatchWeekSelectionComponent/>);
+        wrapper = mount(<WeekSelectionComponent/>);
     })
 
     test('that the year picker callback updates the state', () => {
