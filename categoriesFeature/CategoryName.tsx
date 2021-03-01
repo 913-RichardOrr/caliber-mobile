@@ -24,9 +24,9 @@ interface CategoryNameProp {
  */
 function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     // create or get state
-    const [clicked, setClicked] = useState(false);
-    const [value, onChangeText] = useState('');
-    const [rend, setRend] = useState(false);
+    const [clicked, setClicked] = React.useState(false);
+    const [value, onChangeText] = React.useState('');
+    const [rend, setRend] = React.useState(false);
     //const [toastStatus, setToastStatus] = useState('');
     const dispatch = useDispatch();
     const nav = useNavigation();
@@ -55,7 +55,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                 />
                     : <></>}
             </React.Fragment> */}
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={catStyle.catName}>
                 {/* has a list of category names (depends on props) */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
@@ -163,15 +163,8 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
      *  @param: categories - entire category state that will also need to update with new category
      */
     function changeStatus(category: Category) {
-
-        // find category in categories array and replace with new category
-        //categories.splice(categories.indexOf(category), 1);
         // change category status
-        if (category.active == true) {
-            category.active = false;
-        } else {
-            category.active = true;
-        }
+        category.active = !category.active;
 
         // calls categoryService.updateCategory with the category id
         CategoryService.updateCategory(category).then(() => {

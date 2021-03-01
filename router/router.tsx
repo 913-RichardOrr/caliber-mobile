@@ -10,7 +10,7 @@ import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions'
 import { Category } from '../categoriesFeature/Category';
 
 export type StackParam = {
-  ManageCategories: Category[];
+  ManageCategories: {click: boolean};
 };
 
 const Stack = createStackNavigator();
@@ -37,7 +37,7 @@ export function Router() {
         {/* <Stack.Screen name='Home' component={} />
           <Stack.Screen name='Manage Batch' component={} />
           <Stack.Screen name='Assess Batch' component={} /> */}
-        <Stack.Screen name='Manage Categories' component={ManageCategories} />
+        <Stack.Screen name='Manage Categories' component={ManageCategories}/>
         {/* <Stack.Screen name='Quality Audit' component={} />
           <Stack.Screen name='Reports' component={} /> */}
       </Stack.Navigator>

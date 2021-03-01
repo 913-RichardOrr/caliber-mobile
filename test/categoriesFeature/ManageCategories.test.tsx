@@ -7,13 +7,15 @@ import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
 import ManageCategories from '../../categoriesFeature/ManageCategories';
+import CategoryService from '../../categoriesFeature/CategoryService';
+import { Category } from '../../categoriesFeature/Category';
 
 const mockedNav = jest.fn();
 
 
 jest.mock('@react-navigation/core', () => {
     return {
-        useNavigation: ()=> ({navigate: mockedNav})
+        useNavigation: () => ({ navigate: mockedNav })
     }
 });
 
@@ -21,7 +23,13 @@ const mockedTabs = jest.fn();
 
 jest.mock('@react-navigation/material-top-tabs', () => {
     return {
-        useNavigation: () => ({navigate: mockedTabs})
+        useNavigation: () => ({ navigate: mockedTabs }),
+        createMaterialTopTabNavigator: ()=> {
+            return {
+                Screen: () => () => Component => props => <Component {...props}></Component>,
+                Navigator: () => () => Component => props => <Component {...props}></Component>
+            }
+        }
     }
 });
 
@@ -49,84 +57,63 @@ jest.mock('react-native-section-alphabet-list', () => {
     }
 })
 
-describe('ManageCategories component', () => {
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn(),
+    useDispatch: () => mockDispatch
+}));
+
+describe('ManageCategories component when clicked is false', () => {
     let wrapper: any;
     beforeAll(() => {
-        wrapper = Enzyme.mount(
+        wrapper = Enzyme.shallow(
             <ManageCategories></ManageCategories>
         )
     });
 
-    test('that it has an Add Assessment Category button that calls openModal()', () => {
-        const openModal = jest.fn();
-        const button = wrapper.findWhere((node: any) => node.prop('testID') === 'openModalButton');
-        button.simulate('click');
-        expect(openModal).toBeCalled();;
-    });
-
-    test('that it tabs for active table and it takes in active status prop', () => {
-        const activeTab = wrapper.findWhere((node: any) => node.prop('testID') === 'activeTab');
-        const isActive = 'active';
-        activeTab.simulate('click');
-        expect(mockedNav).toHaveBeenCalledTimes(1);
-        expect(mockedNav).toHaveBeenCalledWith('CategoryTable', isActive);
-    });
-
-    test('that it tabs for inactive table and it takes in inactive status prop', () => {
-        const inactiveTab = wrapper.findWhere((node: any) => node.prop('testID') === 'inactiveTab');
-        const isActive = 'inactive';
-        inactiveTab.simulate('click');
-        expect(mockedNav).toHaveBeenCalledTimes(1);
-        expect(mockedNav).toHaveBeenCalledWith('CategoryTable', isActive);
+    test('that it has an Add Category button', () => {
+        const addCatBtn = wrapper.findWhere((node: any) => node.prop('testID') === 'addCatBtn').first();
+        expect(addCatBtn).toExist();
     });
 });
 
-// describe('openModal function', () => {
-//     beforeAll(() => {
-//         wrapper = Enzyme.mount(
-//             <ManageCategories></ManageCategories>
-//         )
-//     });
+describe('addCategory function', () => {
+    let wrapper: any;
+    const value = '';
+    beforeAll(() => {
+        React.useState = jest.fn().mockImplementationOnce(() => {
+            return [true, jest.fn()]
+        }).mockImplementationOnce(() => {
+            return ['', jest.fn()]
+        });
+        wrapper = Enzyme.shallow(
+            <ManageCategories></ManageCategories>
+        )
+    });
 
-//     test('has a textInput for category name', () => {
-//         const textInput = wrapper.findWhere((node: any) => node.prop('testID') === 'categoryNameTextInput');
-//         textInput.simulate('change', {target: {value: 'Category'}});
-//         expect(textInput).toBe('Category');     
-//     });
+    test('that modal is showing', () => {
+        //const mockState = jest.fn()
+        const addCatModal = wrapper.findWhere((node: any) => node.prop('testID') === 'addCatModal').first();
+        expect(addCatModal).toExist();
+    })
 
+    test('that clicking Add Category button calls AddCategory function', () => {
+        const prop = 'value';
+        const AddCategory = jest.fn();
+        const button = wrapper.findWhere((node: any) => node.prop('testID') === 'addBtn').first();
+        button.simulate('click');
+        expect(AddCategory).toBeCalledTimes(1);
+        expect(AddCategory).toBeCalledWith(prop);
+    })
 
-//     test('has a button that calls addCategory()', () => {
-//         const button = wrapper.findWhere((node: any) => node.prop('testID') === 'addCategoryButton');
-//         const addCategory = jest.fn();
-//         button.simulate('click');
-//         expect(addCategory).toBeCalled();
-//     });
+    // test('calls categoryService.addCategory', () => {
+    //     const serviceAddCategory = jest.fn().mockImplementation((skill) => { });
+    //     const skill = 'test';
+    //     expect(serviceAddCategory).toBeCalledTimes(1);
+    //     expect(serviceAddCategory).toBeCalledWith(skill);
+    // });
 
-//     test('creates an alert for sucessfully creating a category', () => {
-//         const alertText = wrapper.findWhere((node: any) => node.prop('testID') === 'alertText');
-//         expect(alertText.length).toBe(1);
-//     });
-
-
-//     test('has a button that closes the modal', () => {
-//         const button = wrapper.findWhere((node: any) => node.prop('testID') === 'closeModalButton');
-//         button.simulate('click');
-//         expect(button).toBeCalled();
-//     });
-// });
-
-// describe('addCategory function', () => {
-//     test('calls categoryService.addCategory', () => {
-//         const serviceAddCategory = jest.fn().mockImplementation( (skill, isActive) => {});
-//         const skill = 'test';
-//         const isActive = true;
-//         expect(serviceAddCategory).toBeCalledTimes(1);
-//         expect(serviceAddCategory).toBeCalledWith(skill, isActive);
-//     });
-
-//     test('adds category to corresponding table', () => {
-//         const isActive = true;
-//         expect(mockedNav).toBeCalledTimes(1);
-//         expect(mockedNav).toBeCalledWith('CategoryTable', isActive);
-//     });
-// });
+    // test('adds category to corresponding table', () => {
+    //     expect(mockDispatch).toBeCalledTimes(1);
+    // })
+});
