@@ -1,11 +1,10 @@
-import { mount, shallow} from "enzyme";
+import {shallow} from "enzyme";
 import React from 'react';
 import { Button } from "react-native";
 import AddWeek from '../../batchWeek/AddWeek/AddWeekComponent';
 
 describe('Add New Week', () => {
 
-  let wrapper: any;
   let props: any;
   beforeEach(() => {
     props = {};

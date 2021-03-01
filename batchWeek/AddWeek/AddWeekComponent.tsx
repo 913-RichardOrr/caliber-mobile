@@ -6,7 +6,7 @@ import { addWeek, changeSelectedWeek } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import BatchWeekService from '../batchWeekService';
 import { CaliberState } from '../../store/store';
-import style, {REVATUREORANGE} from '../../global_styles';
+import style from '../../global_styles';
 
 
 function AddWeek(){
@@ -21,10 +21,10 @@ function AddWeek(){
         newWeek.weeknumber = weeks.length + 1;
 
         BatchWeekService.addWeek(newWeek).then(()=> {
-            BatchWeekService.getWeeksByBatchId(newWeek.batchid).then((weeks)=> {
-                dispatch(addWeek(weeks));
-                let week = weeks.find(week => week.weeknumber === newWeek.weeknumber);
-                week ? dispatch(changeSelectedWeek(week)) : '';
+            BatchWeekService.getWeeksByBatchId(newWeek.batchid).then((updatedWeeks)=> {
+                dispatch(addWeek(updatedWeeks));
+                let weekSelected = weeks.find(week => week.weeknumber === newWeek.weeknumber);
+                weekSelected ? dispatch(changeSelectedWeek(weekSelected)) : '';
             })
         });
     }
