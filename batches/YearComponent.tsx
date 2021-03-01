@@ -52,7 +52,7 @@ export default function BatchesComponent() {
 			</Pressable>
 		);
 	};
-
+    
 	// Displays a list of years to filter by
 	return (
 		<View>

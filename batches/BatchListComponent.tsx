@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 
+import { style } from '../global_styles';
 import { RootState } from '../store/store';
 import { changeBatch } from '../store/actions';
 import { style } from '../global_styles';
@@ -86,6 +87,35 @@ export default function BatchListComponent({ navigation, route }: any) {
 				return 'Q4';
 		}
 	}
+
+	// Accepts a provided date and returns a number denoting the year it's in
+	function checkYear(date: string) {
+		const year: number = Number(date.slice(0, 4));
+		return year;
+	}
+
+	// Checks a provided date to see which quarter it's in and returns a string representing the quarter
+    function checkQuarter(date: string) {
+        const month: number = Number(date.slice(5, 7));
+        switch (month) {
+            case 1:
+            case 2:
+            case 3:
+                return 'Q1';
+            case 4:
+            case 5:
+            case 6:
+                return 'Q2';
+            case 7:
+            case 8:
+            case 9:
+                return 'Q3';
+            case 10:
+            case 11:
+            case 12:
+                return 'Q4';
+        }
+    }
 
 	// Display a selectable batch
 	const batchCard = (params: any) => {
