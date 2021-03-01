@@ -9,6 +9,16 @@ import { changeBatch } from '../store/actions';
 import { style } from '../global_styles';
 
 /**
+ * @typedef {Object} Props
+ * @property {*} navigation
+ * @property {*} route
+ */
+interface Props {
+	navigation: any;
+	route: any;
+}
+
+/**
  * @typedef {Object} VisibleBatch
  * @property {number} index
  * @property {string} info
@@ -23,7 +33,7 @@ interface VisibleBatch {
  * @param {*} param0
  * @returns {JSX}
  */
-export default function BatchListComponent({ navigation, route }: any) {
+export default function BatchListComponent({ navigation, route }: Props) {
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.userReducer.user);
 	const batches = useSelector((state: RootState) => state.batchReducer.batches);
