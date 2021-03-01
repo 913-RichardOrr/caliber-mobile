@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
-import Enzyme, { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import axios from 'axios';
 import BatchHome from '../../batches/BatchHome';
 import YearComponent from '../../batches/YearComponent';

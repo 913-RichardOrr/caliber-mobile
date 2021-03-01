@@ -37,12 +37,6 @@ export default function BatchesComponent() {
 		}
 	}, []);
 
-	// Accepts a provided date and returns a number denoting the year it's in
-	function checkYear(date: string) {
-		const year: number = Number(date.slice(0, 4));
-		return year;
-	}
-
 	// Sets the year and navigates to the quarter selector
 	function handleYearSelect(year: number) {
 		nav.navigate('Quarter', { year: year });

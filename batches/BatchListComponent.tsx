@@ -61,8 +61,8 @@ export default function BatchListComponent({ navigation, route }: any) {
 
 	// Accepts a provided date and returns a number denoting the year it's in
 	function checkYear(date: string) {
-		const year: number = Number(date.slice(0, 4));
-		return year;
+		const yearFromStartDate: number = Number(date.slice(0, 4));
+		return yearFromStartDate;
 	}
 
 	// Checks a provided date to see which quarter it's in and returns a string representing the quarter

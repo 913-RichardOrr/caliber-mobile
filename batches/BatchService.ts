@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Batch from './Batch';
 
-interface trainerBatchResp {
+interface TrainerBatchResp {
 	batches: Batch[];
 	validYears: [];
 }
@@ -16,13 +16,13 @@ class BatchService {
 	getValidYears(): Promise<[]> {
 		console.log('Batch Service: getValidYears');
 		return axios
-			.get(this.URI + '/batch2', { params: { query: 'validYears'}})
+			.get(this.URI + '/batch2', { params: { query: 'validYears' } })
 			.then((result) => result.data)
 			.catch((error) => {
 				console.error(error);
 			});
 	}
-	getBatchesByTrainerEmail(trainerEmail: string): Promise<trainerBatchResp> {
+	getBatchesByTrainerEmail(trainerEmail: string): Promise<TrainerBatchResp> {
 		console.log('Batch Service: getBatchesByTrainerEmail');
 		return axios
 			.get(this.URI + '/batch2', { params: { trainerEmail: trainerEmail } })
