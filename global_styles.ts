@@ -5,7 +5,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 // Importing using require because there is no @types
 const { create, PREDEF_RES } = require('react-native-pixel-perfect');
 
-const REVATUREORANGE = "#F26925"
+export const REVATUREORANGE = "#F26925"
 
 const designResolution = {
     width: 360,
@@ -150,6 +150,10 @@ const style = StyleSheet.create({
         borderWidth: 2,
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    addWeekButton: {
+        backgroundColor: REVATUREORANGE,
+        width: 45
     }
 })
 

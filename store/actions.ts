@@ -61,11 +61,11 @@ export interface AssociateAction extends AppAction {
 
 /**
  * Set the associates in the state to whatever is currently displaying in the UI.
- * @param associates 
+ * @param associates
  */
 export function getAssociates(associates: AssociateWithFeedback[]): AssociateAction {
 	console.log("calling get associates");
-	
+
 	const action: AssociateAction = {
 		type: AssociateActions.GetAssociates,
 		payload: associates,
@@ -124,10 +124,10 @@ export function changeSelectedWeek(week: QcWeek): WeekAction {
 	return action;
 }
 
-export function addWeek(week: QcWeek): WeekAction {
+export function addWeek(weeks: QcWeek[]): WeekAction {
 	const action: WeekAction = {
 		type: WeekActions.AddWeek,
-		payload: week
+		payload: weeks
 	};
 	return action;
 }

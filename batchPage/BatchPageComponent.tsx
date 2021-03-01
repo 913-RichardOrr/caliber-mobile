@@ -6,7 +6,7 @@ import { Associate } from '../associate/AssociateService';
 import AssociateTableComponent from "../associate/AssociateTableComponent";
 import BatchService from '../batches/BatchService';
 import AddNoteComponent from "../batchWeek/AddNoteComponent";
-import AddWeek from "../batchWeek/AddWeek/addWeek.component";
+import AddWeek from "../batchWeek/AddWeek/AddWeekComponent";
 import WeekSelectionComponent from "../batchWeek/WeekSelectionComponent";
 import { RootState } from '../store/store';
 import weekCategoryList from '../weekCategories/weekCategoryList';
@@ -14,7 +14,7 @@ import BatchPageService from './BatchPageService';
 
 function BatchPageComponent() {
 
-    
+
     let batch = useSelector((state: RootState) => state.batchReducer.batch);
 
     /**
@@ -48,7 +48,7 @@ function BatchPageComponent() {
             {weekCategoryList({weekId:0})}
             <AssociateTableComponent assoc = {getAssociateFromMock()}></AssociateTableComponent>
         </View>
- 
+
     );
 }
 
