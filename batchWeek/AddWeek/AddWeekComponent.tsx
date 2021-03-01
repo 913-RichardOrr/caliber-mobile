@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View} from 'react-native';
+import {Button} from 'react-native-elements';
 import QcWeek from '../QcWeek';
 import { addWeek } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import BatchWeekService from '../batchWeekService';
 import { CaliberState } from '../../store/store';
+import style, {REVATUREORANGE} from '../../global_styles';
 
 
 function AddWeek(){
@@ -27,7 +29,7 @@ function AddWeek(){
 
     return (
         <View>
-            <Button title='+' onPress={addWeekHandler}></Button>
+            <Button title='+' onPress={addWeekHandler} buttonStyle={style.addWeekButton}></Button>
         </View>
     )
 }
