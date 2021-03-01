@@ -4,7 +4,7 @@
 import React from 'react';
 import Enzyme from 'enzyme';
 import AddNoteComponent from '../../batchWeek/AddNoteComponent';
-import { Button, TextInput } from 'react-native';
+import { Input } from 'react-native-elements';
 
 test('test adding an overall note', () => {
     const wrapper = Enzyme.mount(<AddNoteComponent />);
@@ -12,7 +12,7 @@ test('test adding an overall note', () => {
     const mockChange = jest.fn();
 
     const input = Enzyme.shallow(
-        <TextInput onChange={mockChange} />
+        <Input onChangeText={mockChange} />
     );
     input.simulate('change', { target: { value: 'something' } });
     expect(mockChange).toHaveBeenCalled();
