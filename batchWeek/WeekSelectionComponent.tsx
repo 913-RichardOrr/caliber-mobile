@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Picker } from '@react-native-picker/picker';
 import { BatchState, WeekState } from '../store/store';
 import { getWeeks, changeSelectedWeek } from '../store/actions';
 import batchWeekService from './batchWeekService';
@@ -12,7 +11,8 @@ import QcWeek from './QcWeek';
 export default function WeekSelectionComponent() {
 
     const dispatch = useDispatch();
-    const selectedBatch = useSelector((state: BatchState) => state.batch);
+    const selectedBatch = {batchId: 'id1'};
+    //const selectedBatch = useSelector((state: BatchState) => state.batch);
     const weeks = useSelector((state: WeekState) => state.weeks);
 
     useEffect(() => {
@@ -31,13 +31,14 @@ export default function WeekSelectionComponent() {
     }
 
     return (
-        <Picker onValueChange={onWeekSelect} testID='weekPicker'>
-            {weeks.map((qcWeek) => {
-                return <Picker.Item
-                    label={'Week '+qcWeek.weeknumber}
-                    value={qcWeek.weeknumber}
-                />
-            })}
-        </Picker>
+        <></>
+        // <Picker onValueChange={onWeekSelect} testID='weekPicker'>
+        //     {weeks.map((qcWeek) => {
+        //         return <Picker.Item
+        //             label={'Week '+qcWeek.weeknumber}
+        //             value={qcWeek.weeknumber}
+        //         />
+        //     })}
+        // </Picker>
     );
 }
