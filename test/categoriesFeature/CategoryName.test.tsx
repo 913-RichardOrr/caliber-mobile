@@ -110,20 +110,4 @@ describe('EditCategory function', () => {
         const modal = wrapper.findWhere((node: any) => node.prop('testID') === 'modal').first();
         expect(modal.first()).toExist();
     })
-
-    // test('that modal is open when render is true', () => {
-    //     const modal = wrapper.findWhere((node: any) => node.prop('testID') === 'modal').first();
-    //     //modalBtn.first().simulate('click');
-    //     //wrapper.instance().clicked.toBe(true);
-    //     expect(modal.first()).toExist();
-    // });
-
-    // test('that EditCategory is called when button is pushed', () => {
-    //     const EditCategory = jest.fn();
-    //     prop.skill = 'newSkill'
-    //     CategoryService.updateCategory = jest.fn().mockResolvedValue(prop);
-    //     const editBtn = wrapper.findWhere((node: any) => node.prop('testID') === 'editBtn').first();
-    //     editBtn.simulate('click');
-    //     expect(EditCategory).toHaveBeenCalled();
-    // })
 })

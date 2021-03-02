@@ -7,8 +7,6 @@ import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
 import ManageCategories from '../../categoriesFeature/ManageCategories';
-import CategoryService from '../../categoriesFeature/CategoryService';
-import { Category } from '../../categoriesFeature/Category';
 
 const mockedNav = jest.fn();
 
@@ -105,15 +103,4 @@ describe('addCategory function', () => {
         expect(AddCategory).toBeCalledTimes(1);
         expect(AddCategory).toBeCalledWith(prop);
     })
-
-    // test('calls categoryService.addCategory', () => {
-    //     const serviceAddCategory = jest.fn().mockImplementation((skill) => { });
-    //     const skill = 'test';
-    //     expect(serviceAddCategory).toBeCalledTimes(1);
-    //     expect(serviceAddCategory).toBeCalledWith(skill);
-    // });
-
-    // test('adds category to corresponding table', () => {
-    //     expect(mockDispatch).toBeCalledTimes(1);
-    // })
 });
