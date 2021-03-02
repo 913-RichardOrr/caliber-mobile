@@ -150,6 +150,9 @@ const style = StyleSheet.create({
         borderWidth: 2,
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    weekSelect: {
+        fontSize: perfectSize(18)
     }
 })
 

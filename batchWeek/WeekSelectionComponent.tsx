@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { RootState } from '../store/store';
 import { getWeeks, changeSelectedWeek } from '../store/actions';
 import batchWeekService from './batchWeekService';
+import styles from '../global_styles';
 
 /**
  * Provides a picker to select and set the current week we are looking at
@@ -19,8 +20,9 @@ export default function WeekSelectionComponent() {
     useEffect(() => {
         // Check the databse for the week objects 
         batchWeekService.getWeeksByBatchId(user.token, selectedBatch.batchId).then((weeks) => {
-            dispatch(getWeeks(weeks));
-            console.log(weeks);
+            // Sort by week number
+            const sorted = weeks.sort((a, b) => (a.weeknumber - b.weeknumber));
+            dispatch(getWeeks(sorted));
         });
     }, []);
 
@@ -33,7 +35,7 @@ export default function WeekSelectionComponent() {
     }
 
     return (
-        <Picker onValueChange={onWeekSelect} testID='weekPicker'>
+        <Picker style={styles.weekSelect} onValueChange={onWeekSelect} testID='weekPicker'>
             {weeks.map((qcWeek) => {
                 return <Picker.Item
                     label={'Week '+qcWeek.weeknumber}
