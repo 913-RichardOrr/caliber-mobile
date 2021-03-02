@@ -65,9 +65,8 @@ export function generalHeaderOptions(navigation: any) {
  * Home - has a temporary home component which is just the
  *        under development. TODO: add a better home screen.
  * Forgot Password - allows the user to reset their password.
- * @param navigation - navigation prop to open the drawer
  */
-const LoginStackNavigator = ({ navigation }: MenuProp) => {
+const LoginStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -77,14 +76,20 @@ const LoginStackNavigator = ({ navigation }: MenuProp) => {
       />
 
       <Stack.Screen
+        name="'ForgotPassword'"
+        component={ForgotPassword}
+        options={loginHeaderOptions}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const HomeStack = ({ navigation }: MenuProp) => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
         name='Home'
         component={Home}
-        options={generalHeaderOptions(navigation)}
-      />
-
-      <Stack.Screen
-        name='ForgotPassword'
-        component={ForgotPassword}
         options={generalHeaderOptions(navigation)}
       />
     </Stack.Navigator>
@@ -153,4 +158,10 @@ const LogoutStack = ({ navigation }: MenuProp) => {
   );
 };
 
-export { LoginStackNavigator, ReportStack, ManagementStack, LogoutStack };
+export {
+  LoginStackNavigator,
+  HomeStack,
+  ReportStack,
+  ManagementStack,
+  LogoutStack,
+};

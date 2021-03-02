@@ -16,7 +16,6 @@ import AddBtn from './AddBtn.png';
 import CategoryService from './CategoryService';
 import { GetActive } from '../store/categoriesFeature/CategoryActions';
 
-
 /**
  *  This component encloses the entire Manage Categories feature
  *  @returns: view that has tabs of active/stale categories

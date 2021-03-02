@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import batchReducer from './batchReducer';
 import userReducer from './userReducer';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
 import { AppAction } from './actions';
 import { UserInfo, UserInput } from '../user/user';
 import { AssociateWithFeedback } from '../associate/AssociateService';

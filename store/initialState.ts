@@ -1,4 +1,4 @@
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
 import { UserInfo, UserInput } from '../user/user';
 import { WeekCategory } from '../weekCategories/weekCategory';
 import { CaliberState } from './store';

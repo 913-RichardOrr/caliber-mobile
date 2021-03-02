@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import { logout } from '../test/auth/functions';
 import { style } from '../global_styles';
 import { useNavigation } from '@react-navigation/native';
@@ -14,15 +14,17 @@ function LogoutComponent() {
   const dispatch = useDispatch();
 
   return (
-    <TouchableHighlight
-      onPress={() => {
-        logout();
-        dispatch(loginChange(new UserInput()));
-        navigation.navigate('Login');
-      }}
-      style={style.logoutBackground}>
-      <Text style={style.logoutText}>LOG OUT</Text>
-    </TouchableHighlight>
+    <View style={style.container}>
+      <TouchableHighlight
+        onPress={() => {
+          logout();
+          dispatch(loginChange(new UserInput()));
+          navigation.navigate('Login');
+        }}
+        style={style.logoutBackground}>
+        <Text style={style.logoutText}>LOG OUT</Text>
+      </TouchableHighlight>
+    </View>
   );
 }
 

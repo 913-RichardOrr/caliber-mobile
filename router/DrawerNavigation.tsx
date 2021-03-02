@@ -1,9 +1,8 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { enableScreens } from 'react-native-screens';
-import LoginComponent from '../user/Login';
 import {
-  LoginStackNavigator,
+  HomeStack,
   LogoutStack,
   ManagementStack,
   ReportStack,
@@ -28,7 +27,7 @@ const Drawer = createDrawerNavigator();
 function DrawerNavigatorComponent() {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name='Home' component={LoginStackNavigator} />
+      <Drawer.Screen name='Home' component={HomeStack} />
       <Drawer.Screen name='QC Audit' component={BatchStackNavigator} />
       <Drawer.Screen name='Reports' component={ReportStack} />
       <Drawer.Screen name='Management' component={ManagementStack} />
