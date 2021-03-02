@@ -143,6 +143,11 @@ const catStyle = StyleSheet.create({
     logoView: {
         justifyContent: 'center',
         minHeight: 400
+    },
+    loading: {
+        alignSelf:'center',
+        width: 310,
+        height: 95,
     }
 })
 

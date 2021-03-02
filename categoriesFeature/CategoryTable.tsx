@@ -9,7 +9,7 @@ import { AlphabetList } from 'react-native-section-alphabet-list';
 import catStyle from './categoriesStyles';
 import CategoryService from './CategoryService';
 import { useSelector } from 'react-redux';
-import RevLogo from './RevLogo.svg';
+import RevLogo from './RevLogo.png';
 
 interface CategoryTableProp {
     status: boolean;
@@ -35,10 +35,10 @@ export default function CategoryTable({ status }: CategoryTableProp) {
 
     // after every render, check if there is a change in categories
     useEffect(() => store.subscribe(async () => {
-        await CategoryService.getCategories(token,true).then((activeRes) => {
+        await CategoryService.getCategories(token, true).then((activeRes) => {
             setActive(activeRes);
         }).catch(error => console.log(error));
-        await CategoryService.getCategories(token,false).then((staleRes) => {
+        await CategoryService.getCategories(token, false).then((staleRes) => {
             setStale(staleRes);
         }).catch(error => console.log(error));
         setRend(true);
@@ -110,8 +110,9 @@ export default function CategoryTable({ status }: CategoryTableProp) {
             {/* loading view that displays initially */}
             {rend == false && (
                 <View>
-                    <View testID='logo' style={catStyle.logoView}> 
-                        <Image style={catStyle.logo} source={RevLogo} />
+                    <View testID='logo' style={catStyle.logoView}>
+                        <Text style={catStyle.loading}>LOADING...</Text>
+                        {/* <Image style={catStyle.logo} source={RevLogo} /> */}
                     </View>
                 </View>
             )}
