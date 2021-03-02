@@ -76,6 +76,14 @@ export function calHistogram(){
 // pie chart is hardcoded at the moment
 export default function BatchWeekStatusChart () {
   const hist = calHistogram();
+  const p0 = pieData(hist)[0].percentage;
+  const a0 = pieData(hist)[1].percentage;
+  const g0 = pieData(hist)[2].percentage;
+  const s0 = pieData(hist)[3].percentage;
+  const o0 = (p0 + a0 + g0 + s0) ? (p0*1 + a0*2 + g0*3 + s0*4)/(p0+a0+g0+s0): 0;
+  const overallstatus = convertToStatus(o0);
+  const displayOverallStatus = displayIconForStatus(overallstatus);
+
   return (
     <View>
     <Text>Technical Status Distribution Chart</Text>
@@ -89,10 +97,11 @@ export default function BatchWeekStatusChart () {
       paddingLeft="15"
       absolute
     />
-    <Text> Poor:  {pieData(hist)[0].percentage}</Text>
+    <Text> Poor:  {}</Text>
     <Text> Average:  {pieData(hist)[1].percentage}</Text>
     <Text> Good:  {pieData(hist)[2].percentage}</Text>
     <Text> Superstar:  {pieData(hist)[3].percentage}</Text>
+    <Text> OverallStatus icon { displayOverallStatus }  </Text>
 
   </View>
   )
