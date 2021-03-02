@@ -16,12 +16,6 @@ class BatchWeekService {
     // get all week objects for a specific batch
     getWeeksByBatchId(token: string, batchid: string): Promise<QcWeek[]> {
         return axios.get(this.URI + `qc/batches/${batchid}/weeks`, this.getConfig(token)).then(result => result.data);
-        // let testWeeks: QcWeek[] = [
-        //     {qcweekid: 0, weeknumber: 1, note: '', overallstatus: 'Good', batchid: 'id1'},
-        //     {qcweekid: 1, weeknumber: 3, note: '', overallstatus: 'Average', batchid: 'id1'},
-        //     {qcweekid: 2, weeknumber: 2, note: '', overallstatus: 'Poor', batchid: 'id1'}
-        // ];
-        // return new Promise((resolve) => resolve(testWeeks));
     }
 
     // add new qc_week to the qc_week table for /batches/{batchId}/weeks

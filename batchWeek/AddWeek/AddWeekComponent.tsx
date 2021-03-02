@@ -22,9 +22,9 @@ function AddWeek(){
         newWeek.weeknumber = weeks.length + 1;
 
         BatchWeekService.addWeek(user.token, newWeek).then(()=> {
-            BatchWeekService.getWeeksByBatchId(user.token, newWeek.batchid).then((weeks)=> {
-                dispatch(addWeek(weeks));
-                let week = weeks.find(week => week.weeknumber === newWeek.weeknumber);
+            BatchWeekService.getWeeksByBatchId(user.token, newWeek.batchid).then((retrievedWeeks)=> {
+                dispatch(addWeek(retrievedWeeks));
+                let week = retrievedWeeks.find(week => week.weeknumber === newWeek.weeknumber);
                 week ? dispatch(changeSelectedWeek(week)) : '';
             })
         });

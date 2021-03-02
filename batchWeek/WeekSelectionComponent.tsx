@@ -12,25 +12,25 @@ import styles from '../global_styles';
 export default function WeekSelectionComponent() {
 
     const dispatch = useDispatch();
-    const selectedBatch = {batchId: 'id1'};
-    //const selectedBatch = useSelector((state: RootState) => state.batchReducer.batch);
+    const selectedBatch = useSelector((state: ReducerState) => state.batchReducer.batch);
     const weeks = useSelector((state: ReducerState) => state.weekReducer.weeks);
+    const selectedWeek = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
     const user = useSelector((state: ReducerState) => state.weekReducer.user);
 
     useEffect(() => {
         // Check the databse for the week objects 
-        batchWeekService.getWeeksByBatchId(user.token, selectedBatch.batchId).then((weeks) => {
+        batchWeekService.getWeeksByBatchId(user.token, selectedBatch.batchId).then((retrievedWeeks) => {
             // Sort by week number
-            const sorted = weeks.sort((a, b) => (a.weeknumber - b.weeknumber));
-            dispatch(getWeeks(sorted));
+            retrievedWeeks.sort((a, b) => (a.weeknumber - b.weeknumber));
+            dispatch(getWeeks(retrievedWeeks));
         });
     }, []);
 
     function onWeekSelect(weekValue: number) {
         // Update the redux store with the selected week
-        let selectedWeek = weeks.find(week => week.weeknumber === weekValue);
-        if(selectedWeek) {
-            dispatch(changeSelectedWeek(selectedWeek));
+        let selected = weeks.find(week => week.weeknumber === weekValue);
+        if(selected) {
+            dispatch(changeSelectedWeek(selected));
         }
     }
 

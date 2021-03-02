@@ -6,7 +6,7 @@ import userReducer from './userReducer';
 import Batch from '../batches/batch';
 import { AppAction } from './actions';
 import { UserInfo, UserInput } from '../user/user';
-import AssociateService, { AssociateWithFeedback } from '../associate/AssociateService';
+import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
 import WeekCategoryReducer from './WeekCategoryReducer';
 import { Category } from '../categoriesFeature/Category';
