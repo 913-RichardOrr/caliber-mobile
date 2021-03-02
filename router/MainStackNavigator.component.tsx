@@ -1,3 +1,4 @@
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 import Home from '../user/Home';

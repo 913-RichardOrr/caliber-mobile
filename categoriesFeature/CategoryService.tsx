@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Category } from './Category';
 
+// all functions that use axios require an authorization token
 class categoryService {
     private URI: string;
     constructor() {

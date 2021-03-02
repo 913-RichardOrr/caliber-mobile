@@ -32,6 +32,7 @@ export default function ManageCategories() {
     const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
     const token = currentUser.token;
 
+    // switches the render state
     const renderValue = useSelector((state: CategoryState) => state.render);
     let newRender;
     if (renderValue === true ) {
@@ -40,6 +41,7 @@ export default function ManageCategories() {
         newRender = true;
     }
     
+    // dispatch ensures the table rerenders after user navigates away and back
     dispatch(GetRender(newRender));
     
     return (

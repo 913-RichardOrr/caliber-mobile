@@ -32,24 +32,18 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     // create or get state
     const [clicked, setClicked] = useState(false);
     const [value, onChangeText] = useState('');
-    const [rend, setRend] = useState(false);
     const dispatch = useDispatch();
     const nav = useNavigation();
-    
-
 
     // authorizer state
     const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
     const token = currentUser.token;
     
+    //creates a category from the fields passed in
     let category = new Category();
     category.skill = skill;
     category.active = active;
     category.categoryid = categoryid;
-
-    useEffect(() => {
-        setRend(true);
-    }, [])
 
     return (
         <React.Fragment>
@@ -57,6 +51,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                 {/* When a category name is clicked, it is moved to appropriate table */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
+                    // rerenders the view
                     if (active == true) {
                         nav.navigate('Active');
                     } else {
@@ -104,6 +99,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                                     style={catStyle.modalActionBtn}
                                     onPress={() => {
                                         EditCategory(value.toString(), category);
+                                        // rerenders the view
                                         if (active == true) {
                                             nav.navigate('Active');
                                         } else {
@@ -163,7 +159,10 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
      *  @param: target - the specific category whose is is changing
      */
     function changeData(target: Category) {
+        // updates all categories in the database
         CategoryService.updateCategory(token, target).then(() => {
+
+            // updates active and stale category states
             CategoryService.getCategories(token, true).then((activeResults) => {
                 dispatch(GetActive(activeResults));
                 CategoryService.getCategories(token, false).then((staleResults) => {
