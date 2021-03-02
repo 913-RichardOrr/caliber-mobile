@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
-import { WeekState } from '../store/store';
+import { RootState, WeekState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
 
 function AddNoteComponent(){
     const dispatch = useDispatch();
-    const week = useSelector((state: WeekState) => state.selectedWeek);
+    const week = useSelector((state: RootState) => state.weekReducer.selectedWeek);
 
     return (
         <View>
