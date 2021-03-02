@@ -1,7 +1,8 @@
 import React from 'react';
-import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
-import {View, Text} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
+import {STATUS} from '../batchWeekService';
+
 import {
   LineChart,
   BarChart,
@@ -22,11 +23,34 @@ const chartConfig = {
   barPercentage: 0.5,
   useShadowColorFromDataset: false // optional
 };
-import {convertToStatus, convertToNumber} from './BatchWeekUtils';
+import {convertToStatus, convertToNumber, displayIconForStatus} from './BatchWeekUtils';
 
  
+// mocked data from table qcnotes;
+let testItems: { weeknumber: number; batchid: string; associateid: number; technicalstatus: STATUS; 
+    notecontent: string}[] = [
+  {"weeknumber": 1, "batchid": "batch a", "associateid": 1, "technicalstatus": "Undefined", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch a", "associateid": 3, "technicalstatus": "Average", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch a", "associateid": 4, "technicalstatus": "Superstar", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch a", "associateid": 1, "technicalstatus": "Poor", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch a", "associateid": 3, "technicalstatus": "Good", "notecontent": "not a"},
+];
 
-  //initialize hist (frequncey chart) ;
+// actualItems are array obtained from api endpoint qc/batches/batch_a/weeks
+let actualItems =  testItems;
+// items needed to calculate overalltechnicalstatus for specific week
+let weekSpecified = { weeknumber: 1 };
+
+// techItems are array of technical status for the given week for the given batch. 
+// will be nice technicalstatus is set to be 'Undefined' by default before QA select status
+let techItems: STATUS[] = testItems
+  .filter(testItem => testItem["weeknumber"] === weekSpecified.weeknumber)
+  .map(item => { return item["technicalstatus"]});
+// console.log(techItems);
+
+  //initialize hist (frequncey chart)  and pick the right color for each technical status//;
  let pieData = [
     {
       name: 'Poor',
@@ -59,15 +83,15 @@ import {convertToStatus, convertToNumber} from './BatchWeekUtils';
   ];
   
 
-  let hist: any ={
-    GOOD: 0,
-    AVERAGE: 0,
-    POOR: 0,
-    SUPERSTAR: 0,
-    undefined: 0
+  let hist: {'Poor': number; 'Average': number; 'Good': number; 'Undefined': number; 'Superstar': number;} ={
+    'Undefined': 0,
+    'Poor': 0,
+    'Average': 0,
+    'Superstar': 0,
+     'Good': 0
   };
  // set initial qcStatus
-  let qcStatus: string = 'Undefined';
+  let qcStatus: STATUS = 'Undefined';
   let totalsc =0;
   let totalcnt=0;
   let overallsc =0;
@@ -79,17 +103,43 @@ import {convertToStatus, convertToNumber} from './BatchWeekUtils';
   //calculate overall status plus frequncy chart for technical status to be used as a pie chart
 export function calOverallQcStatus(){
  
-  let arr: string[] = ['Good', 'Good', 'Average', 'Average', 'Average', 'Poor', 'Undefined' ];
-  for(let item of arr){
-    if(item === 'Undefined'){
-      hist['Undefined']++;
-    }
-    else {
-      hist[item]++;
-      totalcnt++;
-      totalsc += convertToNumber(item);
-    }
+  // let arr: string[] = ['Good', 'Good', 'Average', 'Average', 'Average', 'Poor', 'Undefined' ];
+  // for(let item of techItems){
+  //   if(item === 'Undefined'){
+  //     hist['Undefined']++;
+  //   }
+  //   else {
+  //     hist[item]++;
+  //     totalcnt++;
+  //     totalsc += convertToNumber(item);
+  //   }
+  // }
+
+  // update pieData for the chart
+  for(let item of techItems){
+   switch(item){
+    case 'Undefined':
+      hist['Undefined']++; break;
+    case 'Poor':
+      hist['Poor']++; pieData[0].percentage= hist['Poor'];
+      totalcnt++; totalsc += convertToNumber(item); break;
+    case 'Average':
+      hist['Average']++; pieData[1].percentage = hist['Average'];
+      totalcnt++; totalsc += convertToNumber(item); break;
+    case 'Good':
+      hist['Good']++; pieData[2].percentage = hist['Good'];
+      totalcnt++; totalsc += convertToNumber(item); break;
+    case 'Superstar':
+      hist['Superstar']++; pieData[3].percentage = hist['Superstar'];
+      totalcnt++; totalsc += convertToNumber(item); break;
+    default:
+      break;
+
+   }
   }
+
+
+
 
   if(totalcnt>=1){
     overallsc = totalsc/totalcnt;
