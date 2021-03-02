@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import catStyle from './categoriesStyles';
-import { GetActive, GetRender, GetStale } from '../store/categoriesFeature/CategoryActions';
+import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions';
 import { Category } from './Category';
 import CategoryService from './CategoryService';
 import { useNavigation } from '@react-navigation/native';
-import { CategoryState, ReducerState } from '../store/store';
+import { ReducerState } from '../store/store';
 
 interface CategoryNameProp {
     skill: string;
@@ -54,7 +54,6 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     return (
         <React.Fragment>
             <View style={catStyle.catName}>
-    
                 {/* When a category name is clicked, it is moved to appropriate table */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
@@ -169,8 +168,15 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                 dispatch(GetActive(activeResults));
                 CategoryService.getCategories(token, false).then((staleResults) => {
                     dispatch(GetStale(staleResults));
+                }).catch(error => {
+                    console.log(error);
                 })
+            }).catch(error => {
+                console.log(error);
             })
+        }).catch(error => {
+            console.log(error);
+            alert('Update Failed');
         });
     }
 }

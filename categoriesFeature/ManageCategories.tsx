@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { 
     TouchableOpacity, 
     View, 
@@ -132,8 +132,12 @@ export default function ManageCategories() {
         CategoryService.addCategory(token, newCat).then(() => {
             CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
+            }).catch(error => {
+                console.log(error);
             })
         }).catch(error => {
+            console.log(error);
+            alert('Failed to Add Category');
         });
     }
 }
