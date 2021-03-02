@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Image } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,10 +9,16 @@ import ForgotPassword from '../user/ForgotPassword';
 import UnderDevelopmentComponent from '../UnderDevelopmentComponent';
 import ManageCategories from '../categoriesFeature/ManageCategories';
 import LogoutComponent from '../user/Logout';
-import YearComponent from '../batches/YearComponent';
-import QuarterComponent from '../batches/QuarterComponent';
+import CategoryService from '../categoriesFeature/CategoryService';
+import { useDispatch } from 'react-redux';
+import {
+  GetActive,
+  GetStale,
+} from '../store/categoriesFeature/CategoryActions';
 import BatchListComponent from '../batches/BatchListComponent';
-import BatchDetailComponent from '../batches/BatchDetailComponent';
+import QuarterComponent from '../batches/QuarterComponent';
+import YearComponent from '../batches/YearComponent';
+import BatchPageComponent from '../batchPage/BatchPageComponent';
 
 enableScreens();
 
@@ -22,7 +28,7 @@ interface MenuProp {
   navigation: any;
 }
 
-const loginHeaderOptions = {
+export const loginHeaderOptions = {
   headerTitle: () => (
     <Image
       style={{ width: 165, height: 50, margin: 30 }}
@@ -31,7 +37,7 @@ const loginHeaderOptions = {
   ),
 };
 
-function generalHeaderOptions(navigation: any) {
+export function generalHeaderOptions(navigation: any) {
   return {
     headerTitle: () => (
       <Image
@@ -51,7 +57,6 @@ function generalHeaderOptions(navigation: any) {
 }
 
 const LoginStackNavigator = () => {
-//const loginStackNavigator = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -83,9 +88,6 @@ const homeStack = ({ navigation }: MenuProp) => {
   );
 };
 
-
-
-
 const reportStack = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
@@ -99,12 +101,50 @@ const reportStack = ({ navigation }: MenuProp) => {
 };
 
 const managementStack = ({ navigation }: MenuProp) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getCategoryFunc() {
+      const active = await CategoryService.getCategories(true);
+      const stale = await CategoryService.getCategories(false);
+      dispatch(GetActive(active));
+      dispatch(GetStale(stale));
+    }
+    getCategoryFunc();
+  }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen
         name='Management'
         component={ManageCategories}
         options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const BatchStack = ({ navigation }: MenuProp) => {
+  return (
+    <Stack.Navigator initialRouteName='Year'>
+      <Stack.Screen
+        name='Year'
+        component={YearComponent}
+        options={generalHeaderOptions}
+      />
+      <Stack.Screen
+        name='Quarter'
+        component={QuarterComponent}
+        options={generalHeaderOptions}
+      />
+      <Stack.Screen
+        name='Batches'
+        component={BatchListComponent}
+        options={generalHeaderOptions}
+      />
+      <Stack.Screen
+        name='BatchDetail'
+        component={BatchPageComponent}
+        options={generalHeaderOptions}
       />
     </Stack.Navigator>
   );
@@ -122,4 +162,10 @@ const LogoutStack = ({ navigation }: MenuProp) => {
   );
 };
 
-export { LoginStackNavigator, reportStack, managementStack, LogoutStack, homeStack };
+export {
+  LoginStackNavigator,
+  reportStack,
+  BatchStack,
+  managementStack,
+  LogoutStack,
+};

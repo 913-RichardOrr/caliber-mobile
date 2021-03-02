@@ -1,5 +1,9 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Text, TouchableHighlight, View } from 'react-native';
+=======
+import { Text, TouchableHighlight } from 'react-native';
+>>>>>>> f1bc06ab895306a1100ac41a9cf60483853adec4
 import { logout } from '../test/auth/functions';
 import { style } from '../global_styles';
 import { useNavigation } from '@react-navigation/native';

@@ -4,6 +4,7 @@ import BatchListComponent from '../batches/BatchListComponent';
 import QuarterComponent from '../batches/QuarterComponent';
 import YearComponent from '../batches/YearComponent';
 import BatchPageComponent from '../batchPage/BatchPageComponent';
+import { generalHeaderOptions } from './MainStackNavigator.component';
 
 const Stack = createStackNavigator();
 

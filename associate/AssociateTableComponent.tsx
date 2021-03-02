@@ -4,20 +4,13 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import BatchPageService from '../batchPage/BatchPageService';
-import { QcNote } from '../batchWeek/batchWeekService';
 import style from '../global_styles';
 import { getAssociates } from '../store/actions';
-import {
-  AssociateState,
-  BatchState,
-  ReducerState,
-  WeekState,
-} from '../store/store';
+import { ReducerState } from '../store/store';
 import AssociateDetail from './AssociateDetail';
 import AssociateService, {
   Associate,
   AssociateWithFeedback,
-  QCFeedback,
 } from './AssociateService';
 import {
   shuffle,

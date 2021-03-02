@@ -8,9 +8,9 @@ import AuthWrapper from './user/AuthWrapper';
 export default function App() {
   return (
     <Provider store={store}>
-        <NavigationContainer>
-          <RouterComponent />
-        </NavigationContainer>     
+      <NavigationContainer>
+        <RouterComponent />
+      </NavigationContainer>
     </Provider>
   );
 }

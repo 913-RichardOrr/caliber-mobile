@@ -4,13 +4,18 @@ import { enableScreens } from 'react-native-screens';
 import LoginComponent from '../user/Login';
 import {
   homeStack,
-  LoginStackNavigator,
   LogoutStack,
   managementStack,
   reportStack,
 } from './MainStackNavigator.component';
 import BatchStackNavigator from './BatchStackNavigator.component';
 import LogoutComponent from '../user/Logout';
+import CategoryService from '../categoriesFeature/CategoryService';
+import {
+  GetActive,
+  GetStale,
+} from '../store/categoriesFeature/CategoryActions';
+import { useDispatch } from 'react-redux';
 
 enableScreens();
 
@@ -23,7 +28,7 @@ const DrawerNavigatorComponent = () => {
       <Drawer.Screen name='QC Audit' component={BatchStackNavigator} />
       <Drawer.Screen name='Reports' component={reportStack} />
       <Drawer.Screen name='Management' component={managementStack} />
-      <Drawer.Screen name='Logout' component={LogoutStack} />
+      <Drawer.Screen name='Logout' component={LogoutComponent} />
     </Drawer.Navigator>
   );
 };

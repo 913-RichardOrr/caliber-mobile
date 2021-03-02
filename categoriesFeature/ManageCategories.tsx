@@ -1,5 +1,5 @@
 //import ToastNotification from 'react-native-toast-notification';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { 
     TouchableOpacity, 
     View, 
@@ -21,19 +21,12 @@ import { GetActive } from '../store/categoriesFeature/CategoryActions';
  *  @returns: view that has tabs of active/stale categories
  *  and a button that adds a category
  */
-export default function ManageCategories() {
+function ManageCategories() {
     const Tab = createMaterialTopTabNavigator();
     // set local state for currently viewed tab
-    const [clicked, setClicked] = useState(false);
+    const [clicked, setClicked] = React.useState(false);
     const [textValue, onChangeText] = React.useState('');
-    const [rend, setRend] = useState(true);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        setRend(true);
-    }, [])
-
-
 
     return (
         <React.Fragment>
@@ -52,37 +45,36 @@ export default function ManageCategories() {
                     : <></>}
             </React.Fragment> */}
             {/* Tabs that navigate between active and stale categories */}
-            {rend == true && (
-                <React.Fragment>
-                    <Tab.Navigator
-                        tabBarOptions={{
-                            labelStyle: { fontSize: 14 },
-                            activeTintColor: '#F26925',
-                            inactiveTintColor: '#474C55',
-                            style: { backgroundColor: '#FFFFFF' },
-                            indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
+            <React.Fragment>
+                <Tab.Navigator
+                    tabBarOptions={{
+                        labelStyle: { fontSize: 14 },
+                        activeTintColor: '#F26925',
+                        inactiveTintColor: '#474C55',
+                        style: { backgroundColor: '#FFFFFF' },
+                        indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
 
-                        }}
-                    >
-                        {/* Active Categories Table */}
-                        <Tab.Screen
-                            name="Active"
-                            children={() => <CategoryTable status={true} />}
-                        />
-                        {/* Stale Categories Table */}
-                        <Tab.Screen
-                            name="Inactive"
-                            children={() => <CategoryTable status={false} />}
-                        />
-                    </Tab.Navigator>
-                    {/* Add button to be rendered at the bottom of the screen */}
-                    <TouchableOpacity
-                        onPress={() => setClicked(true)}
-                        accessibilityLabel='Add Category'>
-                        <Image style={catStyle.addBtnPicture} source={AddBtn} />
-                    </TouchableOpacity>
-                </React.Fragment>
-            )}
+                    }}
+                >
+                    {/* Active Categories Table */}
+                    <Tab.Screen
+                        name="Active"
+                        children={() => <CategoryTable status={true}/>}
+                    />
+                    {/* Stale Categories Table */}
+                    <Tab.Screen
+                        name="Inactive"
+                        children={() => <CategoryTable status={false}/>}
+                    />
+                </Tab.Navigator>
+                {/* Add button to be rendered at the bottom of the screen */}
+                <TouchableOpacity
+                    testID='addCatBtn'
+                    onPress={() => setClicked(true)}
+                    accessibilityLabel='Add Category'>
+                    <Image style={catStyle.addBtnPicture} source={AddBtn} />
+                </TouchableOpacity>
+            </React.Fragment>
             {/* If clicked is true, open the modal */}
             {clicked == true && (
                 <Modal
@@ -97,7 +89,7 @@ export default function ManageCategories() {
                     }}
                     transparent
                 >
-                    <View style={catStyle.modal}>
+                    <View testID='addCatModal' style={catStyle.modal}>
                         {/* Title for modal */}
                         <Text style={catStyle.modalTitle}>{'Add Category'}</Text>
 
@@ -114,6 +106,7 @@ export default function ManageCategories() {
 
                         {/* Button that adds a category */}
                         <TouchableOpacity
+                            testID='addBtn'
                             style={catStyle.modalActionBtn}
                             onPress={() => {
                                 AddCategory(textValue);
@@ -155,3 +148,5 @@ export default function ManageCategories() {
         });
     }
 }
+
+export default ManageCategories;
