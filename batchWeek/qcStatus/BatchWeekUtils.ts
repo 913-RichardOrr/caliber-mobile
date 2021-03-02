@@ -1,4 +1,5 @@
 import {STATUS} from '../batchWeekService';
+import React from 'react';
 
 // convert technicalstatus to integer 0,1,2,3,4 default case should not happen
 export function convertToNumber(str: STATUS): number {
@@ -41,21 +42,40 @@ export function convertToStatus(num: number): STATUS {
   }
 
   // display coorect icon for each status
-  export function displayIconForStatus(status: STATUS){
-    // return the correct icon
-      switch(status){
-        case 'Undefined':
-          return 'Undefined'; // icon for Undefined 
-        case 'Poor':
-          return 'Poor'; // icon for Poor
-        case 'Average':
-          return 'Average';  // icon for Average
-        case 'Good':
-          return 'Good';  // icon for Good
-        case 'Superstar':
-          return 'Superstar';  // icon for Superstar
-        default:
-          return 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
-      }
+  // export function displayIconForStatus(status: STATUS){
+  //   // return the correct icon
+  //     switch(status){
+  //       case 'Undefined':
+  //         return 'Undefined'; // icon for Undefined 
+  //       case 'Poor':
+  //         return 'Poor'; // icon for Poor
+  //       case 'Average':
+  //         return 'Average';  // icon for Average
+  //       case 'Good':
+  //         return 'Good';  // icon for Good
+  //       case 'Superstar':
+  //         return 'Superstar';  // icon for Superstar
+  //       default:
+  //         return 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
+  //     }
     
-  }
+  // }
+
+
+
+
+    /**
+ * Shows the technical status of an associate/group
+ * Editable if provided with a setStatus function as a prop
+*/
+
+
+// interface TechnicalStatusProps {
+//     status: number;
+// }
+
+// /**
+//  * Component to display the correct icon for the technical status, passed in via props
+//  * Ie displays a question mark, sad face, neutral, smile, or star
+//  * @param props 
+//  */

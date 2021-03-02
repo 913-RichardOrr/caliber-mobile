@@ -2,6 +2,7 @@ import React, {useState, useEffect}  from 'react';
 const screenWidth = Dimensions.get("window").width;
 import {View, Text, Dimensions} from 'react-native';
 import {STATUS} from  '../batchWeekService';
+import { ReducerState } from '../../store/store';
 
 import {
   LineChart,
@@ -27,6 +28,7 @@ const chartConfig = {
   useShadowColorFromDataset: false // optional
 };
 import {convertToStatus, convertToNumber, displayIconForStatus} from './BatchWeekUtils';
+import { useSelector } from 'react-redux';
 
  
 // mocked data from table qcnotes;
@@ -73,14 +75,18 @@ export function calHistogram(){
 }
 
 export function DisplayOverallStatus(){
+  const selectedBatch = useSelector((state: ReducerState) => state.batchReducer.batch);
+
+
   const hist = calHistogram();
-  const p0 = pieData(hist)[0].percentage;
-  const a0 = pieData(hist)[1].percentage;
-  const g0 = pieData(hist)[2].percentage;
-  const s0 = pieData(hist)[3].percentage;
+  const p0 = pieData(hist)[0].percentage; // number of 'Poor' 
+  const a0 = pieData(hist)[1].percentage;  // number of 'Average'
+  const g0 = pieData(hist)[2].percentage;  // number of 'Good'
+  const s0 = pieData(hist)[3].percentage;  // number of 'Superstar'
   const o0 = (p0 + a0 + g0 + s0) ? (p0*1 + a0*2 + g0*3 + s0*4)/(p0+a0+g0+s0): 0;
-  const overallstatus = convertToStatus(o0);
-  
+  const  overallstatus = convertToStatus(o0);
+
+ 
   return <Text> To be updated with Icon:  {displayIconForStatus(overallstatus)} </Text>
 
 }
