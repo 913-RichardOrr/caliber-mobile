@@ -19,7 +19,7 @@ function LogoutComponent() {
         onPress={() => {
           logout();
           dispatch(loginChange(new UserInput()));
-          navigation.navigate('Login');
+          navigation.navigate('Login', { Screen: 'Login' });
         }}
         style={style.logoutBackground}>
         <Text style={style.logoutText}>LOG OUT</Text>

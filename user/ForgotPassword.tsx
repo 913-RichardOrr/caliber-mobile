@@ -22,7 +22,7 @@ function ForgotPassword(props: any) {
       alert('Email Not Sent!');
     }
     dispatch(getUser(new UserInfo()));
-    nav.navigate('Login');
+    nav.navigate('Login', { Screen: 'Login' });
   }
 
   return (
