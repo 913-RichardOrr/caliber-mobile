@@ -8,13 +8,14 @@ import {
     TextInput, 
     Image 
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CategoryTable from './CategoryTable';
 import catStyle from '../categoriesFeature/categoriesStyles';
 import AddBtn from './AddBtn.png';
 import CategoryService from './CategoryService';
-import { GetActive } from '../store/categoriesFeature/CategoryActions';
+import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions';
+import store, { CategoryState, ReducerState } from '../store/store';
 
 /**
  *  This component encloses the entire Manage Categories feature
@@ -26,14 +27,17 @@ export default function ManageCategories() {
     // set local state for currently viewed tab
     const [clicked, setClicked] = useState(false);
     const [textValue, onChangeText] = React.useState('');
-    const [rend, setRend] = useState(true);
+    const [rend, setRend] = useState(false);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    // authorizer state
+    const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
+    const token = currentUser.token;
+    
+    useEffect(()=> {
+        console.log('Manage Categories');
         setRend(true);
-    }, [])
-
-
+    }, []);
 
     return (
         <React.Fragment>
@@ -67,12 +71,12 @@ export default function ManageCategories() {
                         {/* Active Categories Table */}
                         <Tab.Screen
                             name="Active"
-                            children={() => <CategoryTable status={true} />}
+                            children={() => <CategoryTable status={true}/>}
                         />
                         {/* Stale Categories Table */}
                         <Tab.Screen
                             name="Inactive"
-                            children={() => <CategoryTable status={false} />}
+                            children={() => <CategoryTable status={false}/>}
                         />
                     </Tab.Navigator>
                     {/* Add button to be rendered at the bottom of the screen */}
@@ -141,8 +145,8 @@ export default function ManageCategories() {
      */
     function AddCategory(value: string) {
         // calls categoryService.addCategory then getCategory to update the page
-        CategoryService.addCategory(value).then(() => {
-            CategoryService.getCategories(true).then((results) => {
+        CategoryService.addCategory(token, value).then(() => {
+            CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
             })
 

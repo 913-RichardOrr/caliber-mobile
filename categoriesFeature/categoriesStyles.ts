@@ -94,6 +94,14 @@ const catStyle = StyleSheet.create({
         backgroundColor: '#72A4C2',
         margin: 2,
     },
+    catName:{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderTopColor: '#B9B9BA',
+        borderTopWidth: 1,
+
+    },
     //Search Bar
     inputBar: {
         backgroundColor:'white',
@@ -127,6 +135,15 @@ const catStyle = StyleSheet.create({
         paddingRight: 15,
         alignSelf: 'center'
     },
+    logo: {
+        alignSelf:'center',
+        width: 310,
+        height: 95,
+    },
+    logoView: {
+        justifyContent: 'center',
+        minHeight: 400
+    }
 })
 
 export default catStyle;

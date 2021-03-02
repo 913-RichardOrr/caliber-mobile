@@ -7,13 +7,13 @@ import {
     Modal, 
     TextInput 
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-//import ToastNotification from 'react-native-toast-notification';
+import { useDispatch, useSelector } from 'react-redux';
 import catStyle from './categoriesStyles';
 import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions';
 import { Category } from './Category';
 import CategoryService from './CategoryService';
 import { useNavigation } from '@react-navigation/native';
+import { ReducerState } from '../store/store';
 
 interface CategoryNameProp {
     skill: string;
@@ -34,10 +34,13 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     const [clicked, setClicked] = useState(false);
     const [value, onChangeText] = useState('');
     const [rend, setRend] = useState(false);
-    //const [toastStatus, setToastStatus] = useState('');
     const dispatch = useDispatch();
     const nav = useNavigation();
 
+    // authorizer state
+    const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
+    const token = currentUser.token;
+    
     let category = new Category();
     category.skill = skill;
     category.active = active;
@@ -50,19 +53,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     return (
         <React.Fragment>
             {/* Conditional rendering for toast notifications for edit categories */}
-            {/* <React.Fragment>
-                {toastStatus === 'success' ? <ToastNotification
-                    text='Category updated!'
-                    duration={3000}
-                />
-                    : <></>}
-                {toastStatus === 'failure' ? <ToastNotification
-                    text='Failed to update category'
-                    duration={3000}
-                />
-                    : <></>}
-            </React.Fragment> */}
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={catStyle.catName}>
                 {/* has a list of category names (depends on props) */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
@@ -87,11 +78,6 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                         animationType='slide'
                         // this happens when a user presses the hardware back button
                         onRequestClose={() => {
-                            // tiny toast
-                            // <ToastNotification
-                            //     text='Closed without saving.'
-                            //     duration={3000}
-                            // />
                             setClicked(false);
                         }}
                         transparent
@@ -154,10 +140,10 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
         category.skill = value;
 
         // calls categoryService.updateCategory with the category id
-        CategoryService.updateCategory(category).then(() => {
-            CategoryService.getCategories(true).then((results) => {
+        CategoryService.updateCategory(token, category).then(() => {
+            CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
-                CategoryService.getCategories(false).then((results) => {
+                CategoryService.getCategories(token, false).then((results) => {
                     dispatch(GetStale(results));
                 })
             })
@@ -170,9 +156,6 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
      *  @param: categories - entire category state that will also need to update with new category
      */
     function changeStatus(category: Category) {
-
-        // find category in categories array and replace with new category
-        //categories.splice(categories.indexOf(category), 1);
         // change category status
         if (category.active == true) {
             category.active = false;
@@ -181,10 +164,10 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
         }
 
         // calls categoryService.updateCategory with the category id
-        CategoryService.updateCategory(category).then(() => {
-            CategoryService.getCategories(true).then((results) => {
+        CategoryService.updateCategory(token, category).then(() => {
+            CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
-                CategoryService.getCategories(false).then((results) => {
+                CategoryService.getCategories(token, false).then((results) => {
                     dispatch(GetStale(results));
                 })
             })
