@@ -6,6 +6,7 @@ function UnderDevelopmentComponent() {
   return (
     <View>
       <Text>This page is under development</Text>
+      <Text>Sorry!</Text>
       <Icon
         name={'wrench'}
         type='font-awesome'

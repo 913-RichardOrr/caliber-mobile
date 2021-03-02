@@ -62,7 +62,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                 />
                     : <></>}
             </React.Fragment> */}
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={catStyle.catName}>
                 {/* has a list of category names (depends on props) */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
