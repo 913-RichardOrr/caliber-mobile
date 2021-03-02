@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react';
+import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Image } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,19 +15,17 @@ import {
   GetActive,
   GetStale,
 } from '../store/categoriesFeature/CategoryActions';
-import BatchListComponent from '../batches/BatchListComponent';
-import QuarterComponent from '../batches/QuarterComponent';
-import YearComponent from '../batches/YearComponent';
-import BatchPageComponent from '../batchPage/BatchPageComponent';
 
 enableScreens();
 
 const Stack = createStackNavigator();
 
-interface MenuProp {
+export interface MenuProp {
   navigation: any;
 }
-
+/**
+ * Shows only the Revature logo for the header
+ */
 export const loginHeaderOptions = {
   headerTitle: () => (
     <Image
@@ -37,6 +35,11 @@ export const loginHeaderOptions = {
   ),
 };
 
+/**
+ * Shows the Revature logo and the DrawerNavigator button
+ * in the header
+ * @param navigation - navigation prop to open the drawer
+ */
 export function generalHeaderOptions(navigation: any) {
   return {
     headerTitle: () => (
@@ -56,6 +59,13 @@ export function generalHeaderOptions(navigation: any) {
   };
 }
 
+/**
+ * Login Stack Screens:
+ * Login - just a login screen with the login header
+ * Home - has a temporary home component which is just the
+ *        under development. TODO: add a better home screen.
+ * Forgot Password - allows the user to reset their password.
+ */
 const LoginStackNavigator = () => {
   return (
     <Stack.Navigator>
@@ -74,9 +84,7 @@ const LoginStackNavigator = () => {
   );
 };
 
-
-
-const homeStack = ({ navigation }: MenuProp) => {
+const HomeStack = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -88,7 +96,11 @@ const homeStack = ({ navigation }: MenuProp) => {
   );
 };
 
-const reportStack = ({ navigation }: MenuProp) => {
+/**
+ * TODO: get the report stack added
+ * @param navigation - navigation prop to open the drawer
+ */
+const ReportStack = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -100,7 +112,13 @@ const reportStack = ({ navigation }: MenuProp) => {
   );
 };
 
-const managementStack = ({ navigation }: MenuProp) => {
+/**
+ * ManagementStack displays the management tools for the VP users.
+ * They can see the active and inactive categories, add categories, change
+ * status of a category.
+ * @param navigation - navigation prop to open the drawer
+ */
+const ManagementStack = ({ navigation }: MenuProp) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -123,33 +141,11 @@ const managementStack = ({ navigation }: MenuProp) => {
   );
 };
 
-const BatchStack = ({ navigation }: MenuProp) => {
-  return (
-    <Stack.Navigator initialRouteName='Year'>
-      <Stack.Screen
-        name='Year'
-        component={YearComponent}
-        options={generalHeaderOptions}
-      />
-      <Stack.Screen
-        name='Quarter'
-        component={QuarterComponent}
-        options={generalHeaderOptions}
-      />
-      <Stack.Screen
-        name='Batches'
-        component={BatchListComponent}
-        options={generalHeaderOptions}
-      />
-      <Stack.Screen
-        name='BatchDetail'
-        component={BatchPageComponent}
-        options={generalHeaderOptions}
-      />
-    </Stack.Navigator>
-  );
-};
-
+/**
+ * LogoutStack shows the logout screen with a button that
+ * allows them to logout
+ * @param navigation - navigation prop to open the drawer
+ */
 const LogoutStack = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
@@ -164,8 +160,8 @@ const LogoutStack = ({ navigation }: MenuProp) => {
 
 export {
   LoginStackNavigator,
-  reportStack,
-  BatchStack,
-  managementStack,
+  HomeStack,
+  ReportStack,
+  ManagementStack,
   LogoutStack,
 };
