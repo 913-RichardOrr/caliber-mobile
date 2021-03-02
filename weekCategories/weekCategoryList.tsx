@@ -11,7 +11,7 @@ import WeekCategoryComponent from './WeekCategoryComponent';
 import { Category } from '../categoriesFeature/Category';
 
 
-interface weekProp {
+interface WeekProp {
   weekId: number,
   weekCategoriesAsCategory: Category[],
   addCategory:Function,
@@ -23,7 +23,7 @@ interface weekProp {
  * 
  * @param {weekProp} qcWeek - The weekId of the current week
  */
-export function WeekCategoryList(props: weekProp) {
+export function WeekCategoryList(props: WeekProp) {
   return (
     <View style={styles.allContainer}>
       <Text>Categories: </Text>

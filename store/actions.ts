@@ -179,7 +179,7 @@ export function getWeekCategories(categories: Category[]): WeekCategoryAction {
   return action;
 }
 
-export function CategoriesMenuOptions(categories: Category[]): WeekCategoryAction {
+export function categoriesMenuOptions(categories: Category[]): WeekCategoryAction {
   const action: WeekCategoryAction = {
     type: WeekCategoryActions.CategoriesMenuOptions,
     payload: categories,
