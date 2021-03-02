@@ -69,7 +69,7 @@ export function generalHeaderOptions(navigation: any) {
  *        under development. TODO: add a better home screen.
  * Forgot Password - allows the user to reset their password.
  */
-const LoginStackNavigator = () => {
+function LoginStackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -85,9 +85,13 @@ const LoginStackNavigator = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
-const HomeStack = ({ navigation }: MenuProp) => {
+/**
+ *
+ * @param navigation - navigation prop to open the drawer
+ */
+function HomeStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -97,13 +101,13 @@ const HomeStack = ({ navigation }: MenuProp) => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 /**
  * TODO: get the report stack added
  * @param navigation - navigation prop to open the drawer
  */
-const ReportStack = ({ navigation }: MenuProp) => {
+function ReportStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -113,7 +117,7 @@ const ReportStack = ({ navigation }: MenuProp) => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 /**
  * ManagementStack displays the management tools for the VP users.
@@ -121,7 +125,7 @@ const ReportStack = ({ navigation }: MenuProp) => {
  * status of a category.
  * @param navigation - navigation prop to open the drawer
  */
-const ManagementStack = ({ navigation }: MenuProp) => {
+function ManagementStack({ navigation }: MenuProp) {
   const dispatch = useDispatch();
   // authorizer state
   const currentUser = useSelector(
@@ -150,14 +154,14 @@ const ManagementStack = ({ navigation }: MenuProp) => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 /**
  * LogoutStack shows the logout screen with a button that
  * allows them to logout
  * @param navigation - navigation prop to open the drawer
  */
-const LogoutStack = ({ navigation }: MenuProp) => {
+function LogoutStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -167,7 +171,7 @@ const LogoutStack = ({ navigation }: MenuProp) => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 export {
   LoginStackNavigator,

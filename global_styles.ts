@@ -162,8 +162,8 @@ export const style = StyleSheet.create({
   },
   underDevelopmentText: {
     color: REVATURE_ORANGE,
-    textAlign: 'center',
-    fontSize: 48,
+    // textAlign: 'center',
+    fontSize: 36,
   },
 });
 

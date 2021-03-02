@@ -9,7 +9,8 @@ class AssociateService {
   private URI: string;
   constructor() {
     // URI for the API Gateway
-    this.URI = 'https://x9ofuwde2l.execute-api.us-east-1.amazonaws.com/default/qc';
+    this.URI =
+      'https://d3e1hb8u20.execute-api.us-east-1.amazonaws.com/default/qc';
   }
 
   async getAssociate(
@@ -18,23 +19,25 @@ class AssociateService {
     week: string,
     token: string
   ): Promise<QCFeedback> {
-    console.log(`getting associate: token ${token}`);
     return axios
       .get(
-        this.URI + '/batches/' + batch + '/weeks/' + week + '/associates/' + a.associateId,
-        { headers: {'Authorization': `Bearer ${token}`}}
+        `${this.URI}/batches/${batch}/weeks/${week}/associates/${a.associateId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
-        console.log('caught!');
         let qcFeedback = new QCFeedback();
         qcFeedback.associateId = a.associateId;
         qcFeedback.batchId = batch;
         qcFeedback.weekId = Number(week);
-        this.putAssociate(qcFeedback, {
+        this.putAssociate(
+          qcFeedback,
+          {
             notecontent: qcFeedback.qcNote,
             technicalstatus: qcFeedback.qcTechnicalStatus,
-          }, token);
+          },
+          token
+        );
         console.error(err);
       });
   }
@@ -44,12 +47,11 @@ class AssociateService {
     updateObject: Object,
     token: string
   ): Promise<QCFeedback> {
-    console.log(`putting associate: token ${token}`);
     return axios
       .put(
-        this.URI + '/batches/' + qcfeedback.batchId + '/weeks/' + qcfeedback.weekId + '/associates/' + qcfeedback.associateId,
+        `${this.URI}/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
         JSON.stringify(updateObject),
-        { headers: {'Authorization': `Bearer ${token}`}}
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
@@ -64,9 +66,9 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .patch(
-        this.URI + '/batches/' + qcfeedback.batchId + '/weeks/' + qcfeedback.weekId + '/associates/' + qcfeedback.associateId,
+        `${this.URI}/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
         updateObject,
-        { headers: {'Authorization': `Bearer ${token}`}}
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
