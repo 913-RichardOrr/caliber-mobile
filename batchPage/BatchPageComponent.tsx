@@ -11,6 +11,8 @@ import WeekSelectionComponent from "../batchWeek/WeekSelectionComponent";
 import { RootState } from '../store/store';
 import weekCategoryList from '../weekCategories/weekCategoryList';
 import BatchPageService from './BatchPageService';
+import BatchWeekStatusChart, {DisplayOverallStatus} from '../batchWeek/qcStatus/OverallQcStatusChart.component';
+
 
 function BatchPageComponent() {
 
@@ -46,6 +48,7 @@ function BatchPageComponent() {
             <AddWeek></AddWeek>
             <AddNoteComponent></AddNoteComponent>
             {weekCategoryList({weekId:0})}
+            <DisplayOverallStatus />
             <AssociateTableComponent assoc = {getAssociateFromMock()}></AssociateTableComponent>
         </View>
 
