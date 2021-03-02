@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import ForgotPassword from '../../user/ForgotPassword';
 
 
 jest.mock('../../firebase-client-config', () => ({
