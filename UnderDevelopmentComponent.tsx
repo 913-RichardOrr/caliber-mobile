@@ -1,0 +1,19 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
+
+function UnderDevelopmentComponent() {
+  return (
+    <View>
+      <Text>This page is under development</Text>
+      <Icon
+        name={'wrench'}
+        type='font-awesome'
+        color={'#F26925'}
+        testID='statusIcon'
+      />
+    </View>
+  );
+}
+
+export default UnderDevelopmentComponent;
