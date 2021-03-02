@@ -18,8 +18,8 @@
   "jest": {
     "preset": "react-native",
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler)/)",
-      "node_modules/(?!(react-native|@react-native-[a-z]*|react-native-[a-z]*|react-native-[a-z]*-[a-z]*|@expo)/)"
+      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler|react-native-elements|react-native-size-matters|react-native-ratings)/)",
+			"node_modules/(?!(jest-)?react-native|react-(native|universal|navigation)-(.*)|@react-native-community/(.*)|@react-navigation/(.*)|(@[a-zA-Z]+/)?(reason|rescript)-(.*)+)"
     ],
     "moduleFileExtensions": [
       "ts",

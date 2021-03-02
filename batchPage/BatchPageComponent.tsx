@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import AssociateTableComponent from '../associate/AssociateTableComponent';
 import AddNoteComponent from '../batchWeek/AddNoteComponent';
-import AddWeek from '../batchWeek/AddWeek/addWeek.component';
+import AddWeek from '../batchWeek/AddWeek/AddWeekComponent';
 import WeekSelectionComponent from '../batchWeek/WeekSelectionComponent';
 import weekCategoryList from '../weekCategories/weekCategoryList';
 

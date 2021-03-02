@@ -58,6 +58,16 @@ export default function weekCategoryList(qcWeek: weekProp) {
         })
         .catch((err) => {
           console.log(err);
+  // let weekCategoriesAsCategory: Category[] = []
+  // WeekCategoryService.getCategory(qcWeek.weekId).then((results) => {
+  //   categoryService.getCategories().then((allCats:Category[])=>{
+  //     let thisWeekCats: Category[] = []
+  //     allCats.forEach((allCatElement) => {
+
+  //       results.forEach((catid) => {
+  //         if (allCatElement.categoryid == catid.categoryId) {
+  //           thisWeekCats.push(allCatElement as Category);
+  //         };
         });
     })
     .catch((err) => {
@@ -66,7 +76,7 @@ export default function weekCategoryList(qcWeek: weekProp) {
 
   //create a list of active categories that are not in weekCategories
   categoryService
-    .getCategories('true')
+    .getCategories(true)
     .then((results: Category[]) => {
       let availableCats: Category[] = [];
       results.forEach((element) => {
@@ -153,9 +163,8 @@ const styles = StyleSheet.create({
   },
   menu: {
     flexDirection: 'row',
-
-    height: 100,
-    marginLeft: 10,
+    height:100,
+    marginLeft:10,
   },
   menuContainer: {
     width: '30%',

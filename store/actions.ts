@@ -139,45 +139,46 @@ export function changeSelectedWeek(week: QcWeek): WeekAction {
   return action;
 }
 
-export function addWeek(week: QcWeek): WeekAction {
-  const action: WeekAction = {
-    type: WeekActions.AddWeek,
-    payload: week,
-  };
-  return action;
+export function addWeek(weeks: QcWeek[]): WeekAction {
+	const action: WeekAction = {
+		type: WeekActions.AddWeek,
+		payload: weeks
+	};
+	return action;
 }
 
-export function addOverallNote(week: QcWeek): WeekAction {
-  const action: WeekAction = {
-    type: WeekActions.ChangeSelectedWeek,
-    payload: week,
-  };
-  return action;
+export function addOverallNote(notes: QcWeek): WeekAction {
+	const action: WeekAction = {
+		type: WeekActions.ChangeSelectedWeek,
+		payload: notes
+	};
+	return action;
 }
+
 
 export function deleteWeekCategory(category: WeekCategory): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.DeleteWeekCategory,
-    payload: category,
-  };
-  return action;
-}
+	const action: WeekCategoryAction = {
+		type: WeekCategoryActions.DeleteWeekCategory,
+		payload: category
+	};
+	return action;
+};
 
 export function addWeekCategory(category: WeekCategory): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.AddWeekCategory,
-    payload: category,
-  };
-  return action;
-}
+	const action: WeekCategoryAction = {
+		type: WeekCategoryActions.AddWeekCategory,
+		payload: category
+	};
+	return action;
+};
 
-export function getWeekCategories(categories: Category[]): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.GetWeekCategories,
-    payload: categories,
-  };
-  return action;
-}
+export function getWeekCategories(categories:Category[]): WeekCategoryAction {
+	const action: WeekCategoryAction ={
+		type: WeekCategoryActions.GetWeekCategories,
+		payload: categories
+	};
+	return action;
+};
 
 export function ChangeCategories(categories: Category[]): WeekCategoryAction {
   const action: WeekCategoryAction = {

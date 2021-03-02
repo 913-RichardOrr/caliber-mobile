@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
-import { RootState } from '../store/store';
+import { ReducerState } from '../store/store';
 import { getWeeks, changeSelectedWeek } from '../store/actions';
 import batchWeekService from './batchWeekService';
 import styles from '../global_styles';
@@ -14,8 +14,8 @@ export default function WeekSelectionComponent() {
     const dispatch = useDispatch();
     const selectedBatch = {batchId: 'id1'};
     //const selectedBatch = useSelector((state: RootState) => state.batchReducer.batch);
-    const weeks = useSelector((state: RootState) => state.weekReducer.weeks);
-    const user = useSelector((state: RootState) => state.userReducer.user);
+    const weeks = useSelector((state: ReducerState) => state.weekReducer.weeks);
+    const user = useSelector((state: ReducerState) => state.weekReducer.user);
 
     useEffect(() => {
         // Check the databse for the week objects 

@@ -1,27 +1,39 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View } from 'react-native';
 import { ReducerState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
+import { Input } from 'react-native-elements';
+import batchWeekService from './batchWeekService';
 
-function AddNoteComponent() {
-  const dispatch = useDispatch();
-  const week = useSelector(
-    (state: ReducerState) => state.weekReducer.selectedWeek
-  );
 
-  return (
-    <View>
-      <Text>Overall Note</Text>
-      <TextInput
-        multiline
-        onChangeText={(value) =>
-          dispatch(addOverallNote({ ...week, note: value }))
+function AddNoteComponent(){
+    const dispatch = useDispatch();
+    const week = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
+    console.log(week);
+    const user = useSelector((state: ReducerState) => state.weekReducer.user);
+
+    function sendPost(){
+        try{
+            console.log(week);
+            batchWeekService.updateFeedback(user.token, week);
+            console.log('update success');
+        } catch {
+            console.log('update failed');
         }
-        value={week.note}></TextInput>
-      {/* TODO: add overall technical status */}
-    </View>
-  );
+    }
+
+    return (
+        <View>
+            <Input multiline numberOfLines={3} label='Overall QC Feedback' 
+            onChangeText={(value: any) => 
+                dispatch(addOverallNote({...week, note: value}))
+            }
+            onBlur={sendPost}
+            value = {week.note}>
+            </Input>
+        </View>
+    )
 }
 
 export default AddNoteComponent;

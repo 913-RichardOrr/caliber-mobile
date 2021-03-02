@@ -1,6 +1,7 @@
 import {STATUS} from '../batchWeekService';
 
-export function convertToNumber(str: string): number {
+// convert technicalstatus to integer 0,1,2,3,4 default case should not happen
+export function convertToNumber(str: STATUS): number {
     switch(str){
       case 'Undefined':
         return 0;
@@ -17,9 +18,8 @@ export function convertToNumber(str: string): number {
     }
   }
 
-  
 
-
+// convert number to technicalstatus or overalltechnicalstatus  default case happens when num is a text not a number
 export function convertToStatus(num: number): STATUS {
     // make sure to num is not a text but a number Number(num);
   
@@ -41,10 +41,21 @@ export function convertToStatus(num: number): STATUS {
   }
 
   // display coorect icon for each status
-  export function DisplayIconForStatus(status: STATUS){
+  export function displayIconForStatus(status: STATUS){
     // return the correct icon
       switch(status){
-        
+        case 'Undefined':
+          return 'Undefined'; // icon for Undefined 
+        case 'Poor':
+          return 'Poor'; // icon for Poor
+        case 'Average':
+          return 'Average';  // icon for Average
+        case 'Good':
+          return 'Good';  // icon for Good
+        case 'Superstar':
+          return 'Superstar';  // icon for Superstar
+        default:
+          return 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
       }
     
   }
