@@ -13,12 +13,12 @@ jest.mock('./functions', () => {
     } 
 })
 
-// test('onPress', () => {
-//     const component = shallow(
-//         <typeOf LogoutComponent/>
-//     );
+test('onPress', () => {
+        const wrapper = shallow(
+        <LogoutComponent/>
+    );
 
-//     component.simulate('press');
-//     expect(logout);
+    wrapper.simulate('press');
+    expect(logout);
 
-// })
+})

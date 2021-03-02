@@ -9,7 +9,7 @@ const designResolution = {
   width: 360,
   height: 640,
 }; // what we're designing for
-const perfectSize = create(designResolution);
+const perfectSize = create(designResolution); 
 
 export const style = StyleSheet.create({
   container: {
@@ -56,7 +56,7 @@ export const style = StyleSheet.create({
     color: '#474C55',
     backgroundColor: '#B9B9BA',
     borderRadius: 20,
-    height: 46,
+    height: perfectSize(50),
     width: 250,
     padding: 15,
     borderWidth: 2,
