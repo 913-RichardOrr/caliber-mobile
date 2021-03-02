@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import catStyle from './categoriesStyles';
-import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions';
+import { GetActive, GetRender, GetStale } from '../store/categoriesFeature/CategoryActions';
 import { Category } from './Category';
 import CategoryService from './CategoryService';
 import { useNavigation } from '@react-navigation/native';
-import { ReducerState } from '../store/store';
+import { CategoryState, ReducerState } from '../store/store';
 
 interface CategoryNameProp {
     skill: string;
@@ -26,7 +26,6 @@ interface CategoryNameProp {
  *  @param: skill - the specific category skill we are displaying
  *  @param: categoryid - the categoryid of the specified category
  *  @param: active - the active status of the specified category
- *  @param: categories - entire category state that will also need to update with new category
  *  @returns: view with a pressable category name
  */
 function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
@@ -36,6 +35,8 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     const [rend, setRend] = useState(false);
     const dispatch = useDispatch();
     const nav = useNavigation();
+    
+
 
     // authorizer state
     const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
@@ -52,9 +53,9 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
 
     return (
         <React.Fragment>
-            {/* Conditional rendering for toast notifications for edit categories */}
             <View style={catStyle.catName}>
-                {/* has a list of category names (depends on props) */}
+    
+                {/* When a category name is clicked, it is moved to appropriate table */}
                 <Pressable testID='statusBtn' onPress={() => {
                     changeStatus(category);
                     if (active == true) {
@@ -133,42 +134,41 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
 
     /**
      *  This component opens a modal when 'Edit' TouchableOpacity is clicked
-     *  @param: value is a string that is what the user inputs for a editing a category name
+     *  @param: newSkill - value is a string that is what the user inputs for a editing a category name
+     *  @param: target - category whose skill will change
      */
-    function EditCategory(value: string, category: Category) {
+    function EditCategory(newSkill: string, target: Category) {
         // update skill name
-        category.skill = value;
-
-        // calls categoryService.updateCategory with the category id
-        CategoryService.updateCategory(token, category).then(() => {
-            CategoryService.getCategories(token, true).then((results) => {
-                dispatch(GetActive(results));
-                CategoryService.getCategories(token, false).then((results) => {
-                    dispatch(GetStale(results));
-                })
-            })
-        });
+        target.skill = newSkill;
+        
+        changeData(target);
     }
 
     /**
      *  This function is called when a category is pressed and changes the status of the category
-     *  @param: category - the specific category whose status is changing
-     *  @param: categories - entire category state that will also need to update with new category
+     *  @param: target - the specific category whose status is changing
      */
-    function changeStatus(category: Category) {
+    function changeStatus(target: Category) {
         // change category status
-        if (category.active == true) {
-            category.active = false;
+        if (target.active == true) {
+            target.active = false;
         } else {
-            category.active = true;
+            target.active = true;
         }
 
-        // calls categoryService.updateCategory with the category id
-        CategoryService.updateCategory(token, category).then(() => {
-            CategoryService.getCategories(token, true).then((results) => {
-                dispatch(GetActive(results));
-                CategoryService.getCategories(token, false).then((results) => {
-                    dispatch(GetStale(results));
+        changeData(target);
+    }
+
+    /**
+     *  This function is takes in a target category and updates app state and database
+     *  @param: target - the specific category whose is is changing
+     */
+    function changeData(target: Category) {
+        CategoryService.updateCategory(token, target).then(() => {
+            CategoryService.getCategories(token, true).then((activeResults) => {
+                dispatch(GetActive(activeResults));
+                CategoryService.getCategories(token, false).then((staleResults) => {
+                    dispatch(GetStale(staleResults));
                 })
             })
         });

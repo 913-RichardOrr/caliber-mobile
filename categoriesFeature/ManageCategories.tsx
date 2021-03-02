@@ -1,4 +1,3 @@
-//import ToastNotification from 'react-native-toast-notification';
 import React, { useEffect, useState } from 'react';
 import { 
     TouchableOpacity, 
@@ -14,8 +13,8 @@ import CategoryTable from './CategoryTable';
 import catStyle from '../categoriesFeature/categoriesStyles';
 import AddBtn from './AddBtn.png';
 import CategoryService from './CategoryService';
-import { GetActive, GetStale } from '../store/categoriesFeature/CategoryActions';
-import store, { CategoryState, ReducerState } from '../store/store';
+import { GetActive, GetRender } from '../store/categoriesFeature/CategoryActions';
+import { CategoryState, ReducerState } from '../store/store';
 
 /**
  *  This component encloses the entire Manage Categories feature
@@ -23,40 +22,29 @@ import store, { CategoryState, ReducerState } from '../store/store';
  *  and a button that adds a category
  */
 export default function ManageCategories() {
+    // create or get state
     const Tab = createMaterialTopTabNavigator();
-    // set local state for currently viewed tab
     const [clicked, setClicked] = useState(false);
     const [textValue, onChangeText] = React.useState('');
-    const [rend, setRend] = useState(false);
     const dispatch = useDispatch();
 
     // authorizer state
     const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
     const token = currentUser.token;
-    
-    useEffect(()=> {
-        console.log('Manage Categories');
-        setRend(true);
-    }, []);
 
+    const renderValue = useSelector((state: CategoryState) => state.render);
+    let newRender;
+    if (renderValue === true ) {
+        newRender = false;
+    } else {
+        newRender = true;
+    }
+    
+    dispatch(GetRender(newRender));
+    
     return (
         <React.Fragment>
-            {/* Conditional rendering for toast notifications for add categories */}
-            {/* <React.Fragment>
-                {toastStatus === 'success' ? <ToastNotification
-                    text='Category updated!'
-                    duration={3000}
-                    isTop={true}
-                />
-                    : <></>}
-                {toastStatus === 'failure' ? <ToastNotification
-                    text='Failed to update category'
-                    duration={3000}
-                />
-                    : <></>}
-            </React.Fragment> */}
             {/* Tabs that navigate between active and stale categories */}
-            {rend == true && (
                 <React.Fragment>
                     <Tab.Navigator
                         tabBarOptions={{
@@ -86,18 +74,13 @@ export default function ManageCategories() {
                         <Image style={catStyle.addBtnPicture} source={AddBtn} />
                     </TouchableOpacity>
                 </React.Fragment>
-            )}
             {/* If clicked is true, open the modal */}
             {clicked == true && (
                 <Modal
                     animationType='slide'
                     // this happens when a user presses the hardware back TouchableOpacity
                     onRequestClose={() => {
-                        // tiny toast
-                        // <ToastNotification
-                        //     text='Closed without saving.'
-                        //     duration={3000}
-                        // />
+                        setClicked(false);
                     }}
                     transparent
                 >
@@ -143,19 +126,13 @@ export default function ManageCategories() {
      *  This component opens a modal when 'Add Category' TouchableOpacity is clicked
      *  @param: value is a string that is what the user inputs for a new category
      */
-    function AddCategory(value: string) {
+    function AddCategory(newCat: string) {
         // calls categoryService.addCategory then getCategory to update the page
-        CategoryService.addCategory(token, value).then(() => {
+        CategoryService.addCategory(token, newCat).then(() => {
             CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
             })
-
-            // call toast function with result
-            //setToastStatus('success');
-
         }).catch(error => {
-            // call toast function with result
-            //setToastStatus('failure');
         });
     }
 }

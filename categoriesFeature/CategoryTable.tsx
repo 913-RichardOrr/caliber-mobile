@@ -21,6 +21,7 @@ interface CategoryTableProp {
  *  @returns: view that has a table of either active or stale categories
  */
 export default function CategoryTable({ status }: CategoryTableProp) {
+    // create or get state
     let [search, searchSet] = useState('');
     const array: Category[] = [];
     const [activeCat, setActive] = useState(array);
@@ -34,7 +35,6 @@ export default function CategoryTable({ status }: CategoryTableProp) {
 
     // after every render, check if there is a change in categories
     useEffect(() => store.subscribe(async () => {
-        console.log('Category Table');
         const active = await CategoryService.getCategories(token,true);
         const stale = await CategoryService.getCategories(token,false);
         setActive(active);
@@ -115,5 +115,3 @@ export default function CategoryTable({ status }: CategoryTableProp) {
         </View>
     )
 }
-
-// export default CategoryTable;

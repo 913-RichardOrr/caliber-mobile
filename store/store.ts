@@ -40,6 +40,7 @@ export interface WeekCategoryState {
 export interface CategoryState {
 	activeCat: Category[];
 	staleCat: Category[];
+  render: boolean;
 }
 export interface CaliberState
   extends UserState,
