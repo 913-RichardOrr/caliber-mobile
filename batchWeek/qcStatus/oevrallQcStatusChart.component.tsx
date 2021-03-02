@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect}  from 'react';
 const screenWidth = Dimensions.get("window").width;
 import {View, Text, Dimensions} from 'react-native';
-import {STATUS} from '../batchWeekService';
+import {STATUS} from  '../batchWeekService';
 
 import {
   LineChart,
@@ -11,6 +11,9 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
+
+import {pieData } from './pieData';
+
 
 
 const chartConfig = {
@@ -50,114 +53,34 @@ let techItems: STATUS[] = testItems
   .map(item => { return item["technicalstatus"]});
 // console.log(techItems);
 
-  //initialize hist (frequncey chart)  and pick the right color for each technical status//;
- let pieData = [
-    {
-      name: 'Poor',
-      percentage: 3,
-      color: 'rgba(131, 167, 234, 1)',
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Average',
-      percentage: 5,
-      color: '#F00',
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Good',
-      percentage: 5,
-      color: 'red',
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Superstar',
-      percentage: 2,
-      color: '#ffffff',
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-  ];
-  
 
-  let hist: {'Poor': number; 'Average': number; 'Good': number; 'Undefined': number; 'Superstar': number;} ={
+  //histogram function to be used for  pie chart
+export function calHistogram(){
+
+//initialize histogram. 
+  let histogram: {'Poor': number; 'Average': number; 'Good': number; 'Undefined': number; 'Superstar': number;} ={
     'Undefined': 0,
     'Poor': 0,
     'Average': 0,
     'Superstar': 0,
      'Good': 0
   };
- // set initial qcStatus
-  let qcStatus: STATUS = 'Undefined';
-  let totalsc =0;
-  let totalcnt=0;
-  let overallsc =0;
 
-  // arr is an array of technical status;
-  // convert props to array of status
-
-
-  //calculate overall status plus frequncy chart for technical status to be used as a pie chart
-export function calOverallQcStatus(){
- 
-  // let arr: string[] = ['Good', 'Good', 'Average', 'Average', 'Average', 'Poor', 'Undefined' ];
-  // for(let item of techItems){
-  //   if(item === 'Undefined'){
-  //     hist['Undefined']++;
-  //   }
-  //   else {
-  //     hist[item]++;
-  //     totalcnt++;
-  //     totalsc += convertToNumber(item);
-  //   }
-  // }
-
-  // update pieData for the chart
   for(let item of techItems){
-   switch(item){
-    case 'Undefined':
-      hist['Undefined']++; break;
-    case 'Poor':
-      hist['Poor']++; pieData[0].percentage= hist['Poor'];
-      totalcnt++; totalsc += convertToNumber(item); break;
-    case 'Average':
-      hist['Average']++; pieData[1].percentage = hist['Average'];
-      totalcnt++; totalsc += convertToNumber(item); break;
-    case 'Good':
-      hist['Good']++; pieData[2].percentage = hist['Good'];
-      totalcnt++; totalsc += convertToNumber(item); break;
-    case 'Superstar':
-      hist['Superstar']++; pieData[3].percentage = hist['Superstar'];
-      totalcnt++; totalsc += convertToNumber(item); break;
-    default:
-      break;
-
+      histogram[item]++;
    }
-  }
-
-
-
-
-  if(totalcnt>=1){
-    overallsc = totalsc/totalcnt;
-  }
-
-  qcStatus = convertToStatus(overallsc);
-
-  return qcStatus;
+  return histogram;
 }
 
 
 // pie chart is hardcoded at the moment
 export default function BatchWeekStatusChart () {
+  const hist = calHistogram();
   return (
     <View>
     <Text>Technical Status Distribution Chart</Text>
     <PieChart
-      data={pieData}
+      data={pieData(hist)}
       width={screenWidth}
       height={220}
       chartConfig={chartConfig}
@@ -166,6 +89,11 @@ export default function BatchWeekStatusChart () {
       paddingLeft="15"
       absolute
     />
+    <Text> Poor:  {pieData(hist)[0].percentage}</Text>
+    <Text> Average:  {pieData(hist)[1].percentage}</Text>
+    <Text> Good:  {pieData(hist)[2].percentage}</Text>
+    <Text> Superstar:  {pieData(hist)[3].percentage}</Text>
+
   </View>
   )
 }

@@ -18,7 +18,6 @@ export function convertToNumber(str: STATUS): number {
     }
   }
 
-  
 
 // convert number to technicalstatus or overalltechnicalstatus  default case happens when num is a text not a number
 export function convertToStatus(num: number): STATUS {
