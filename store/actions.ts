@@ -132,10 +132,10 @@ export function addWeek(weeks: QcWeek[]): WeekAction {
 	return action;
 }
 
-export function addOverallNote(week: QcWeek): WeekAction {
+export function addOverallNote(notes: QcWeek): WeekAction {
 	const action: WeekAction = {
 		type: WeekActions.ChangeSelectedWeek,
-		payload: week
+		payload: notes
 	};
 	return action;
 }
