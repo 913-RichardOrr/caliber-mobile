@@ -31,24 +31,16 @@ export interface UserState {
 export interface AssociateState {
 	associates: AssociateWithFeedback[];
 }
-export interface CaliberState extends UserState, BatchState,AssociateState {}
 
 export interface WeekCategoryState{
 	weekCategories: Category[];
 	weekCategory: weekCategory;
 }
 
-export interface CaliberState extends UserState, BatchState, WeekCategoryState {}
-
-
 export interface CategoryState {
     categories: Category[];
 }
-export interface CaliberState extends UserState, CategoryState, BatchState, WeekCategoryState {}
-// <> is generics: Generic arguments allow us to define the type of a thing at runtime instead of when we write it,
-// creating a reusable object.
-
-export interface CaliberState extends UserState, BatchState, WeekState {}
+export interface CaliberState extends UserState, CategoryState, BatchState, WeekState, WeekCategoryState, AssociateState {}
 
 //add your reducer to the object
 const rootReducer = combineReducers({
