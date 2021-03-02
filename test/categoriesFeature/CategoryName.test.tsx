@@ -13,15 +13,6 @@ import { Provider } from 'react-redux';
 import store from '../../store/store';
 import CategoryService from '../../categoriesFeature/CategoryService';
 
-const mockedNav = jest.fn();
-
-
-jest.mock('@react-navigation/core', () => {
-    return {
-        useNavigation: ()=> ({navigate: mockedNav})
-    }
-});
-
 describe('CategoryName component', () => {
     let wrapper: any;
     let prop: Category = new Category();
@@ -42,15 +33,7 @@ describe('CategoryName component', () => {
     });
 
     test('that modal opens when edit button is pressed', () => {
-        const clickedValue = true;
-        // reactModule.useState = jest.fn(initialClickedValue => [
-        //     clickedValue,
-        //     () => {}
-        // ])
-        //const modal = wrapper.findWhere((node: any) => node.prop('testID') === 'modal').first();
         const modalBtn = wrapper.findWhere((node: any) => node.prop('testID') === 'modalBtn').first();
-        //modalBtn.first().simulate('click');
-        //expect(modal.first()).toExist();
         expect(modalBtn.first()).toExist();
     });
 });

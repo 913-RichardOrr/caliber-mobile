@@ -23,7 +23,7 @@ export enum WeekCategoryActions {
   DeleteWeekCategory = 'DELETE_WEEK_CATEGORY',
   AddWeekCategory = 'ADD_WEEK_CATETGORY',
   GetWeekCategories = 'GET_WEEK_CATEGORIES',
-  ChangeWeekCategories = 'CHANGE_WEEK_CATEGORIES',
+  CategoriesMenuOptions = 'CATEGORIES_MENU_OPTIONS',
 }
 
 export enum AssociateActions {
@@ -179,9 +179,9 @@ export function getWeekCategories(categories: Category[]): WeekCategoryAction {
   return action;
 }
 
-export function ChangeCategories(categories: Category[]): WeekCategoryAction {
+export function CategoriesMenuOptions(categories: Category[]): WeekCategoryAction {
   const action: WeekCategoryAction = {
-    type: WeekCategoryActions.ChangeWeekCategories,
+    type: WeekCategoryActions.CategoriesMenuOptions,
     payload: categories,
   };
   return action;

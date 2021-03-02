@@ -6,7 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { BatchState } from '../store/store';
 import { getBatches } from '../store/actions';
-import Batch from './batch';
+import Batch from './Batch';
 import batchService from './BatchService';
 
 export default function BatchesComponent() {

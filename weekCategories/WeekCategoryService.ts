@@ -1,26 +1,38 @@
 import axios from 'axios';
-import { WeekCategory } from './weekCategory';
+import { WeekCategory } from './WeekCategory';
 
-class weekCategoryService {
+class WeekCategoryService {
     private URI: string;
     constructor() {
         this.URI = 'https://localhost:3000/';
     }
-    // POSt function for /weekCategories
+
+    /**
+    * Display a list of current categories for the week and a button to add categories to the week
+    * 
+    * @param weekCategory the added weekCategory
+    * @return the category that was added
+    */
     addCategory(weekcategory: WeekCategory): Promise<WeekCategory> {
-        return axios
-        .post(this.URI, weekcategory)
-        .then((result) => result.data)
-        .catch((err) => err);
+        return axios.post(this.URI, weekcategory).then(result => result.data).catch(err => err);
     }
-    // GET function for /weekCategories
+     
+    /**
+    * Display a list of current categories for the week and a button to add categories to the week
+    * 
+    * @param number the id of the week
+    * @return an array of all categories for a given week
+    */
     getCategory(weekid: number): Promise<WeekCategory[]> {
-        return axios
-        .get(this.URI + '/' + weekid)
-        .then((result) => result.data)
-        .catch((err) => err);
+        return axios.get(this.URI+'/'+weekid).then(result => result.data).catch(err => err);
     }
-    // DELETE function for /weekCcategories
+    
+    /**
+    * Remove the given category from a list
+    * 
+    * @param  string the id of the category
+    * @return nothing
+    */
     deleteCategory(id: string): Promise<null> {
         console.log(id);
         return axios
@@ -30,4 +42,4 @@ class weekCategoryService {
     }
 }
 
-export default new weekCategoryService();
+export default new WeekCategoryService();

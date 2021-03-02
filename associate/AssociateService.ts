@@ -9,45 +9,64 @@ class AssociateService {
   private URI: string;
   constructor() {
     // URI for the API Gateway
-    this.URI = 'https://7tu8pm3exl.execute-api.us-east-1.amazonaws.com/default';
+    this.URI = 'https://x9ofuwde2l.execute-api.us-east-1.amazonaws.com/default/qc';
   }
 
   async getAssociate(
     a: Associate,
     batch: string,
-    week: string
+    week: string,
+    token: string
   ): Promise<QCFeedback> {
+    console.log(`getting associate: token ${token}`);
     return axios
       .get(
-        `${this.URI}/qc/batches/${batch}/weeks/${week}/associates/${a.associateId}`
+        this.URI + '/batches/' + batch + '/weeks/' + week + '/associates/' + a.associateId,
+        { headers: {'Authorization': `Bearer ${token}`}}
       )
       .then((result) => result.data)
       .catch((err) => {
+        console.log('caught!');
+        let qcFeedback = new QCFeedback();
+        qcFeedback.associateId = a.associateId;
+        qcFeedback.batchId = batch;
+        qcFeedback.weekId = Number(week);
+        this.putAssociate(qcFeedback, {
+            notecontent: qcFeedback.qcNote,
+            technicalstatus: qcFeedback.qcTechnicalStatus,
+          }, token);
         console.error(err);
       });
   }
-  async replaceAssociate(
+
+  async putAssociate(
     qcfeedback: QCFeedback,
-    updateObject: Object
+    updateObject: Object,
+    token: string
   ): Promise<QCFeedback> {
+    console.log(`putting associate: token ${token}`);
     return axios
       .put(
-        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
-        updateObject
+        this.URI + '/batches/' + qcfeedback.batchId + '/weeks/' + qcfeedback.weekId + '/associates/' + qcfeedback.associateId,
+        JSON.stringify(updateObject),
+        { headers: {'Authorization': `Bearer ${token}`}}
       )
       .then((result) => result.data)
       .catch((err) => {
         console.error(err);
       });
   }
+
   async updateAssociate(
     qcfeedback: QCFeedback,
-    updateObject: Object
+    updateObject: Object,
+    token: string
   ): Promise<QCFeedback> {
     return axios
       .patch(
-        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
-        updateObject
+        this.URI + '/batches/' + qcfeedback.batchId + '/weeks/' + qcfeedback.weekId + '/associates/' + qcfeedback.associateId,
+        updateObject,
+        { headers: {'Authorization': `Bearer ${token}`}}
       )
       .then((result) => result.data)
       .catch((err) => {

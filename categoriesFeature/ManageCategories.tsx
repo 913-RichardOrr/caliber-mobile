@@ -84,7 +84,7 @@ export default function ManageCategories() {
                     }}
                     transparent
                 >
-                    <View style={catStyle.modal}>
+                    <View testID='addCatModal' style={catStyle.modal}>
                         {/* Title for modal */}
                         <Text style={catStyle.modalTitle}>{'Add Category'}</Text>
 
@@ -101,6 +101,7 @@ export default function ManageCategories() {
 
                         {/* Button that adds a category */}
                         <TouchableOpacity
+                            testID='addBtn'
                             style={catStyle.modalActionBtn}
                             onPress={() => {
                                 AddCategory(textValue);

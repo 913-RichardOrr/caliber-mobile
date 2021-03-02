@@ -24,4 +24,4 @@ export function sendPasswordResetEmail(email: string) {
     }).catch((err)=>{
         console.log(err);
     });
-  } 
+} 

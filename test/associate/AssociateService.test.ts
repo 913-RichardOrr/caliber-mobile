@@ -26,7 +26,7 @@ test('Test Axios request to Put associate singular', async ()=>{
     
     let obj = {data: []};
     axios.put = jest.fn().mockResolvedValue(obj);
-    await associateService.replaceAssociate(new Associate(),"","").then((arr:any) => {
+    await associateService.putAssociate(new Associate(),"","").then((arr:any) => {
         returnValues = arr;
     });
     expect(axios.put).toHaveBeenCalledTimes(1);
