@@ -1,21 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const catStyle = StyleSheet.create({
-    tab: {
-        backgroundColor:'#F26925',
-    },
-    header: {
+    //Instructions
+    instructView: {
         backgroundColor: 'white',
     },
-    title: {
-        fontSize: 20,
-        fontWeight: '700',
-        marginLeft: '5%',
-        marginTop: '5%',
-        marginBottom: 50,
-        color: '#474C55'
-    },
-    instruct: {
+    instructText: {
         fontSize: 15,
         alignSelf: 'center',
         fontWeight: '700',
@@ -25,40 +15,20 @@ const catStyle = StyleSheet.create({
         marginBottom:2
 
     },
-
-    editBtn: {
-        backgroundColor: '#72A4C2',
-        margin: 2,
-    },
-    closeBtn: {
-        backgroundColor: '#72A4C2',
-        margin: 10,
-        borderRadius: 20,
-        alignSelf: 'center',
-        width:'90%'
-
-    },
-    modalActionBtn: {
-        backgroundColor: '#F26925',
-        margin: 10,
-        borderRadius: 20,
-        alignSelf: 'center',
-        width:'90%'
-    },
-    btnText: {
-        color: '#FFFFFF',
-        fontSize: 20,
-        padding: 5,
-        paddingLeft: 15,
-        paddingRight: 15,
-        alignSelf: 'center'
-    },
+    //Add categories button
+    addBtnPicture: {
+        alignSelf:'center',
+        width: 50,
+        height: 50,
+        bottom: 15,
+    }, 
+    //Modal
     modal: {
         flex: 1,
         backgroundColor: 'white',
-        borderWidth: 5,
+        borderWidth: 2,
         borderRadius: 10,
-        borderColor: '#474C55',
+        borderColor: '#E6E6E6',
         padding: 30,
         width: '90%',
         minHeight: 350,
@@ -67,6 +37,14 @@ const catStyle = StyleSheet.create({
         marginBottom: 'auto',
         alignSelf: 'center',
         justifyContent:'center', 
+    },    
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: '700',
+        marginLeft: '5%',
+        marginTop: '5%',
+        marginBottom: 50,
+        color: '#474C55'
     },
     modalTextInput: {
         alignSelf:'center',
@@ -82,34 +60,41 @@ const catStyle = StyleSheet.create({
         borderWidth:2,
         borderRadius: 4
     },
-    addBtn: {
-        borderColor:'#F26925',
-        width:'95%',
-        height: 30,  
-        borderRadius: 10,
-        backgroundColor: '#F26925',
+    //Modal Buttons
+    closeBtn: {
+        backgroundColor: '#72A4C2',
+        margin: 10,
+        borderRadius: 20,
         alignSelf: 'center',
-        justifyContent: 'center',
-        marginBottom:5
-
-        
+        width:'90%'
     },
-    offText: {
-        color: '#B9B9BA',
+    modalActionBtn: {
+        backgroundColor: '#F26925',
+        margin: 10,
+        borderRadius: 20,
+        alignSelf: 'center',
+        width:'90%'
     },
-    text: {
-        color:'#000',
+    //Category Name Component
+    sectionHeaderLabel: {
+        color: '#474C55',
+        fontSize: 16,
+        fontWeight: '700',
+        marginLeft: 15,
+        padding: 2
+    },
+    skillText: {
+        color:'black',
         fontSize: 20,
         justifyContent: 'center',
         marginTop: 7,
         marginLeft: 15
     },
-    addCatText: {
-        color: 'white',
-        fontWeight: '500',
-        fontSize: 16,
-        alignSelf:'center'
-    }, 
+    editBtn: {
+        backgroundColor: '#72A4C2',
+        margin: 2,
+    },
+    //Search Bar
     inputBar: {
         backgroundColor:'white',
         color: '#474C55',
@@ -119,7 +104,7 @@ const catStyle = StyleSheet.create({
         paddingRight:10,
     },
     inputContainer: {
-        backgroundColor: '#72A4C2',
+        backgroundColor: '#F26925',
         borderRadius: 25,
         color: 'white',
         alignItems: 'center',
@@ -129,17 +114,18 @@ const catStyle = StyleSheet.create({
         borderWidth: 0,
         borderBottomColor: 'white',
         borderTopColor: 'white',
-        
     }, 
     sectionHeaderContainer: {
         backgroundColor: '#B9B9BA',
     },
-    sectionHeaderLabel: {
-        color: '#474C55',
-        fontSize: 16,
-        fontWeight: '700',
-        marginLeft: 15,
-        padding: 2
+    //General
+    btnText: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        padding: 5,
+        paddingLeft: 15,
+        paddingRight: 15,
+        alignSelf: 'center'
     },
 })
 

@@ -9,7 +9,7 @@ class AssociateService {
   private URI: string;
   constructor() {
     // URI for the API Gateway
-    this.URI = 'PLACEHOLDER FOR API URI';
+    this.URI = 'https://7tu8pm3exl.execute-api.us-east-1.amazonaws.com/default';
   }
 
   async getAssociate(
@@ -19,13 +19,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .get(
-        this.URI +
-          '/batches/' +
-          batch +
-          '/weeks/' +
-          week +
-          '/associates/' +
-          a.associateId
+        `${this.URI}/qc/batches/${batch}/weeks/${week}/associates/${a.associateId}`
       )
       .then((result) => result.data)
       .catch((err) => {
@@ -38,13 +32,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .put(
-        this.URI +
-          '/batches/' +
-          qcfeedback.batchId +
-          '/weeks/' +
-          qcfeedback.weekId +
-          '/associates/' +
-          qcfeedback.associateId,
+        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
         updateObject
       )
       .then((result) => result.data)
@@ -58,13 +46,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .patch(
-        this.URI +
-          '/batches/' +
-          qcfeedback.batchId +
-          '/weeks/' +
-          qcfeedback.weekId +
-          '/associates/' +
-          qcfeedback.associateId,
+        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
         updateObject
       )
       .then((result) => result.data)

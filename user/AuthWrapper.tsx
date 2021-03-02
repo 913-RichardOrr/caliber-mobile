@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import DrawerNavigatorComponent from './DrawerNavigation';
-import { enableScreens } from 'react-native-screens';
-import { ReducerState } from '../store/store';
+import React, { useEffect, useState } from 'react'
+import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../user/config';
 import { getUser } from '../store/actions';
+import { ReducerState } from '../store/store';
+import { auth } from './config';
 
-enableScreens();
-
-function RouterComponent(props: any) {
+export default function AuthWrapper({children}: any) {
     const [loggedIn, setLoggedin] = useState(false);
     const inputUser = (state: ReducerState) => state.userReducer.userLogin;
 
@@ -41,10 +38,9 @@ function RouterComponent(props: any) {
             }
         });
     }, [])
-    
     return (
-        <DrawerNavigatorComponent />
-    );
+        <View>
+            {children}
+        </View>
+    )
 }
-
-export default RouterComponent;
