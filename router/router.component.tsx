@@ -5,6 +5,7 @@ import { ReducerState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../user/config';
 import { getUser } from '../store/actions';
+import { LoginStackNavigator } from './MainStackNavigator.component';
 
 enableScreens();
 
@@ -19,6 +20,7 @@ function RouterComponent(props: any) {
         auth.onIdTokenChanged(function (user: any) {
         if (user) {
             //Logged in
+            console.log(user);
             setLoggedin(true);
             user
                 .getIdTokenResult()
@@ -43,7 +45,13 @@ function RouterComponent(props: any) {
     }, [])
     
     return (
-        <DrawerNavigatorComponent />
+        <>
+        {loggedIn ? (
+            <DrawerNavigatorComponent />
+        ) : (
+            <LoginStackNavigator />
+        )}
+        </>
     );
 }
 

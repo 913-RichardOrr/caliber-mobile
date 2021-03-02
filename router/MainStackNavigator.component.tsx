@@ -50,7 +50,8 @@ function generalHeaderOptions(navigation: any) {
   };
 }
 
-const loginStackNavigator = ({ navigation }: MenuProp) => {
+const LoginStackNavigator = () => {
+//const loginStackNavigator = ({ navigation }: MenuProp) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -60,67 +61,30 @@ const loginStackNavigator = ({ navigation }: MenuProp) => {
       />
 
       <Stack.Screen
+        name="'ForgotPassword'"
+        component={ForgotPassword}
+        options={loginHeaderOptions}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+
+const homeStack = ({ navigation }: MenuProp) => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
         name='Home'
         component={Home}
         options={generalHeaderOptions(navigation)}
       />
-
-      <Stack.Screen
-        name="'ForgotPassword'"
-        component={ForgotPassword}
-        options={generalHeaderOptions(navigation)}
-      />
     </Stack.Navigator>
   );
 };
 
-const yearStack = ({ navigation }: MenuProp) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='Year'
-        component={YearComponent}
-        options={generalHeaderOptions(navigation)}
-      />
-    </Stack.Navigator>
-  );
-};
 
-const quarterStack = ({ navigation }: MenuProp) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='Quarter'
-        component={QuarterComponent}
-        options={generalHeaderOptions(navigation)}
-      />
-    </Stack.Navigator>
-  );
-};
 
-const batchStack = ({ navigation }: MenuProp) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='Batches'
-        component={BatchListComponent}
-        options={generalHeaderOptions(navigation)}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const batchDetailStack = ({ navigation }: MenuProp) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='Batches'
-        component={BatchDetailComponent}
-        options={generalHeaderOptions(navigation)}
-      />
-    </Stack.Navigator>
-  );
-};
 
 const reportStack = ({ navigation }: MenuProp) => {
   return (
@@ -158,4 +122,4 @@ const LogoutStack = ({ navigation }: MenuProp) => {
   );
 };
 
-export { loginStackNavigator, reportStack, managementStack, LogoutStack, yearStack, quarterStack, batchStack, batchDetailStack };
+export { LoginStackNavigator, reportStack, managementStack, LogoutStack, homeStack };

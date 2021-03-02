@@ -32,33 +32,6 @@ export default function LoginComponent({ navigation }: LoginProp) {
         }
     };
 
-/*     useEffect(() => {
-        auth.onIdTokenChanged(function (user: any) {
-        if (user) {
-            //Logged in
-            setLoggedin(true);
-            user
-            .getIdTokenResult()
-            .then((token: any) => {
-                const role = {
-                ROLE_QC: token.claims.ROLE_QC,
-                ROLE_VP: token.claims.ROLE_VP,
-                ROLE_TRAINER: token.claims.ROLE_TRAINER,
-                };
-                const tokenTemp = token.token;
-                dispatch(
-                getUser({ email: user.email, token: tokenTemp, role: role })
-                );
-            })
-            .catch((err: any) => console.log(err));
-        } else {
-            //logged out
-            setLoggedin(false);
-            console.log('Logged out');
-        }
-        });
-    }, []); */
-
     return (
     <View style={style.container}>
         <Text style={style.caliber}>Caliber</Text>
@@ -76,62 +49,62 @@ export default function LoginComponent({ navigation }: LoginProp) {
         </View>
 
         <View>
-          <TextInput
-            placeholder={'Password'}
-            style={style.input}
-            onChangeText={(value) =>
-              dispatch(loginChange({ ...newUser, password: value }))
-            }
-            secureTextEntry
-            value={newUser.password}
-          />
+            <TextInput
+                placeholder={'Password'}
+                style={style.input}
+                onChangeText={(value) =>
+                dispatch(loginChange({ ...newUser, password: value }))
+                }
+                secureTextEntry
+                value={newUser.password}
+            />
+            </View>
         </View>
-      </View>
-      <View>
-        <TouchableHighlight
-          onPress={() => loginUser(newUser)}
-          style={{
-            backgroundColor: '#F26925',
-            height: 45,
-            width: 200,
-            borderRadius: 40,
-            alignItems: 'center',
-            marginBottom: 40,
-          }}>
-          <Text
+        <View>
+            <TouchableHighlight
+            onPress={() => loginUser(newUser)}
             style={{
-              alignItems: 'center',
-              padding: 8,
-              color: '#fff',
-              fontSize: 18,
-              fontWeight: 'bold',
+                backgroundColor: '#F26925',
+                height: 45,
+                width: 200,
+                borderRadius: 40,
+                alignItems: 'center',
+                marginBottom: 40,
             }}>
-            LOG IN {'>'}
-          </Text>
-        </TouchableHighlight>
+            <Text
+                style={{
+                alignItems: 'center',
+                padding: 8,
+                color: '#fff',
+                fontSize: 18,
+                fontWeight: 'bold',
+                }}>
+                LOG IN {'>'}
+            </Text>
+            </TouchableHighlight>
 
-        <TouchableHighlight
-          onPress={() => {
-            navigation.navigate('ForgotPassword');
-          }}
-          style={{
-            backgroundColor: '#fff',
-            height: 45,
-            width: 200,
-            borderRadius: 40,
-            alignItems: 'center',
-          }}>
-          <Text
+            <TouchableHighlight
+            onPress={() => {
+                navigation.navigate('ForgotPassword');
+            }}
             style={{
-              alignItems: 'center',
-              color: '#72A4C2',
-              fontSize: 18,
-              fontWeight: 'bold',
+                backgroundColor: '#fff',
+                height: 45,
+                width: 200,
+                borderRadius: 40,
+                alignItems: 'center',
             }}>
-            Forgot password?
-          </Text>
-        </TouchableHighlight>
-      </View>
+            <Text
+                style={{
+                alignItems: 'center',
+                color: '#72A4C2',
+                fontSize: 18,
+                fontWeight: 'bold',
+                }}>
+                Forgot password?
+            </Text>
+            </TouchableHighlight>
+        </View>
     </View>
-  );
+    );
 }
