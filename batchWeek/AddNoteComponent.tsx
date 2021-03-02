@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { RootState } from '../store/store';
+import { ReducerState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
 import { Input } from 'react-native-elements';
@@ -9,13 +9,14 @@ import batchWeekService from './batchWeekService';
 
 function AddNoteComponent(){
     const dispatch = useDispatch();
-    const week = useSelector((state: RootState) => state.weekReducer.selectedWeek);
+    const week = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
     console.log(week);
+    const user = useSelector((state: ReducerState) => state.weekReducer.user);
 
     function sendPost(){
         try{
             console.log(week);
-            batchWeekService.updateFeedback(week);
+            batchWeekService.updateFeedback(user.token, week);
             console.log('update success');
         } catch {
             console.log('update failed');
@@ -25,7 +26,7 @@ function AddNoteComponent(){
     return (
         <View>
             <Input multiline numberOfLines={3} label='Overall QC Feedback' 
-            onChangeText={(value) => 
+            onChangeText={(value: any) => 
                 dispatch(addOverallNote({...week, note: value}))
             }
             onBlur={sendPost}

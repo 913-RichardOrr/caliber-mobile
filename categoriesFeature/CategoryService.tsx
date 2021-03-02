@@ -4,32 +4,38 @@ import { Category } from './Category';
 class categoryService {
     private URI: string;
     constructor() {
-        this.URI = '';
+        this.URI = 'https://l98yeck4nc.execute-api.us-east-1.amazonaws.com/default';
     }
 
     // GET function for /categories
-    getCategories(queryString?: string): Promise<Category[]> {
-        let promise: Promise<Category[]> = new Promise ((resolve) => {
-            setTimeout(resolve, 10, new Category());
-        })
-        return promise;
+    getCategories(queryString?: boolean): Promise<any> {
+        return axios.get(`${this.URI}/categories`, {params: { active: queryString}}).then((result) => {
+            return result.data;
+        }).catch((err) => {
+            console.log(`Error getting categories: ${err}`);
+            return null;
+        });
     }
 
     // POST function for /categories
-    addCategory(skill: string): Promise<Category> {
-        let promise: Promise<Category> = new Promise ((resolve) => {
-            setTimeout(resolve, 10, new Category());
-        })
-        return promise;
+    addCategory(skill: string): Promise<any> {
+        return axios.post(`${this.URI}/categories`, skill).then((result) => {
+            return result.data;
+        }).catch((err) => {
+            console.log(`Error getting category: ${err}`);
+            return null;
+        });
     }
 
     // PUT function for /categories/{categoryId}
-    // should take in a category object? 
-    updateCategory(category: Category): Promise<Category>{ 
-        let promise: Promise<Category> = new Promise ((resolve) => {
-            setTimeout(resolve, 10, new Category());
-        })
-        return promise;
+    updateCategory(category: Category): Promise<any>{ 
+        console.log('category for put: ', category);
+        return axios.put(`${this.URI}/categories` + `/${category.categoryid}`, category).then((result) => {
+            return result.data;
+        }).catch((err) => {
+            console.log(`Error getting category: ${err}`);
+            return null;
+        });
     }
 }
 

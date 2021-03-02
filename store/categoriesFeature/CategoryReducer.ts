@@ -1,14 +1,19 @@
+
 import { Category } from "../../categoriesFeature/Category";
 import { CaliberState } from "../store"
 import { initialState } from "../initialState";
-import * as Actions from './CategoryActions';
+import * as Action from '../actions';
+import * as Actions from './CategoryActions'
 
-const categoryReducer = (state: CaliberState = initialState, action: Actions.AppAction): CaliberState => {
-    const newState = {...state}; 
+const categoryReducer = (state: CaliberState = initialState, action: Action.AppAction): CaliberState => {
+    const newState = {...state};
 
     switch (action.type) {    
-        case Actions.CategoryActions.GetCategories:
-            newState.categories = action.payload as Category[];
+        case Actions.CategoryActions.GetActive:
+            newState.activeCat = action.payload as Category[];
+            return newState;
+        case Actions.CategoryActions.GetStale:
+            newState.staleCat = action.payload as Category[];
             return newState;
         default: 
             return state;
