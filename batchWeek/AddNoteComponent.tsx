@@ -24,7 +24,7 @@ function AddNoteComponent(){
 
     return (
         <View>
-            <Input multiline numberOfLines={3} label='Overall QC Feedback'
+            <Input multiline numberOfLines={3} label='Overall QC Feedback' 
             onChangeText={(value) => 
                 dispatch(addOverallNote({...week, note: value}))
             }

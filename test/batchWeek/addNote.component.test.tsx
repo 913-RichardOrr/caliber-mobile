@@ -1,26 +1,28 @@
 /**
  * @jest-environment jsdom
  */
+import { shallow, ShallowWrapper, mount } from 'enzyme';
 import React from 'react';
-import Enzyme from 'enzyme';
+import 'react-native';
+import 'jest-enzyme';
+import '@testing-library/jest-dom';
+import 'enzyme-adapter-react-16';
+
 import AddNoteComponent from '../../batchWeek/AddNoteComponent';
 import { Input } from 'react-native-elements';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import store from '../../store/store';
+import BatchPageComponent from '../../batchPage/BatchPageComponent';
 
 test('test adding an overall note', () => {
-    const wrapper = Enzyme.mount(<AddNoteComponent />);
-    const mockFn = jest.fn();
-    const mockChange = jest.fn();
+  const mockChange = jest.fn();
+  
+  const input = shallow(
+    <Input onChangeText={mockChange} />
+  );
 
-    const input = Enzyme.shallow(
-        <Input onChangeText={mockChange} />
-    );
-    input.simulate('change', { target: { value: 'something' } });
-    expect(mockChange).toHaveBeenCalled();
-
-    /* const tree = Enzyme.shallow(
-        <Button title='button test' onPress={mockFn} />
-    );
-    tree.simulate('click');
-    expect(mockFn).toHaveBeenCalled(); */
+  input.simulate('changeText', { target: { value: 'something' } });
+  expect(mockChange).toHaveBeenCalled();
 
 });
