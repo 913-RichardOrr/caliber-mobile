@@ -1,15 +1,11 @@
-import React, { useEffect } from 'react'
-
-import { View,Text } from "react-native";
-import { useSelector } from 'react-redux';
-import { Associate } from '../associate/AssociateService';
-import AssociateTableComponent from "../associate/AssociateTableComponent";
-import BatchService from '../batches/BatchService';
-import AddNoteComponent from "../batchWeek/AddNoteComponent";
-import AddWeek from "../batchWeek/AddWeek/AddWeekComponent";
-import WeekSelectionComponent from "../batchWeek/WeekSelectionComponent";
-import { RootState } from '../store/store';
+import React from 'react';
+import { View } from 'react-native';
+import AssociateTableComponent from '../associate/AssociateTableComponent';
+import AddNoteComponent from '../batchWeek/AddNoteComponent';
+import AddWeek from '../batchWeek/AddWeek/AddWeekComponent';
+import WeekSelectionComponent from '../batchWeek/WeekSelectionComponent';
 import weekCategoryList from '../weekCategories/weekCategoryList';
+<<<<<<< HEAD
 import BatchPageService from './BatchPageService';
 import BatchWeekStatusChart, {DisplayOverallStatus} from '../batchWeek/qcStatus/OverallQcStatusChart.component';
 
@@ -53,6 +49,19 @@ function BatchPageComponent() {
         </View>
 
     );
+=======
+
+function BatchPageComponent() {
+  return (
+    <View>
+      <WeekSelectionComponent></WeekSelectionComponent>
+      <AddWeek></AddWeek>
+      {weekCategoryList({ weekId: 0 })}
+      <AddNoteComponent></AddNoteComponent>
+      <AssociateTableComponent></AssociateTableComponent>
+    </View>
+  );
+>>>>>>> 65959c3d0d2c842a005d2af6fb337c3f251b5d33
 }
 
-export default BatchPageComponent
+export default BatchPageComponent;

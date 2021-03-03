@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import "react-native";
-import "jest-enzyme";
-import "@testing-library/jest-dom";
-import axios from "axios";
-import Enzyme, { shallow } from "enzyme";
+import React, { Component } from 'react';
+import 'react-native';
+import 'jest-enzyme';
+import '@testing-library/jest-dom';
+import axios from 'axios';
+import Enzyme, { shallow } from 'enzyme';
 
-import BatchesComponent from "../../batches/BatchesComponent";
-import batchService from "../../batches/BatchService";
-import store from "../../store/store";
-import { Provider } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
+import BatchesComponent from '../../batches/batches.component';
+import batchService from '../../batches/BatchService';
+import store from '../../store/store';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
 
-describe("BatchesComponent Test(s)", () => {
+describe('BatchesComponent Test(s)', () => {
   let trainerEmail: string =
-    "mock1027.employee74df14df-5842-4811-a57c-be9836537a40@mock.com";
+    'mock1027.employee74df14df-5842-4811-a57c-be9836537a40@mock.com';
   let gatewayURI: string =
-    "https://aosczl5fvf.execute-api.us-west-2.amazonaws.com/default/";
+    'https://aosczl5fvf.execute-api.us-west-2.amazonaws.com/default/';
 
-  test("GET Batches from API Gateway", async () => {
+  test('GET Batches from API Gateway', async () => {
     //test goes here
 
     let returnValues;
@@ -25,53 +25,53 @@ describe("BatchesComponent Test(s)", () => {
       data: [
         {
           id: 65,
-          batchId: "TR-1131",
-          name: "Mock Batch 65",
-          startDate: "2021-04-09",
-          endDate: "2021-06-18",
-          skill: "Java React",
-          location: "New York",
-          type: "Revature",
+          batchId: 'TR-1131',
+          name: 'Mock Batch 65',
+          startDate: '2021-04-09',
+          endDate: '2021-06-18',
+          skill: 'Java React',
+          location: 'New York',
+          type: 'Revature',
         },
         {
           id: 98,
-          batchId: "TR-1196",
-          name: "Mock Batch 98",
-          startDate: "2021-11-19",
-          endDate: "2022-01-28",
-          skill: "SalesForce",
-          location: "Tampa",
-          type: "ROCP",
+          batchId: 'TR-1196',
+          name: 'Mock Batch 98',
+          startDate: '2021-11-19',
+          endDate: '2022-01-28',
+          skill: 'SalesForce',
+          location: 'Tampa',
+          type: 'ROCP',
         },
         {
           id: 67,
-          batchId: "TR-1135",
-          name: "Mock Batch 67",
-          startDate: "2021-04-23",
-          endDate: "2021-07-02",
-          skill: "Java Devops",
-          location: "West Virginia",
-          type: "Corporate",
+          batchId: 'TR-1135',
+          name: 'Mock Batch 67',
+          startDate: '2021-04-23',
+          endDate: '2021-07-02',
+          skill: 'Java Devops',
+          location: 'West Virginia',
+          type: 'Corporate',
         },
         {
           id: 71,
-          batchId: "TR-1143",
-          name: "Mock Batch 71",
-          startDate: "2021-05-21",
-          endDate: "2021-07-30",
-          skill: "SalesForce",
-          location: "New York",
-          type: "ROCP",
+          batchId: 'TR-1143',
+          name: 'Mock Batch 71',
+          startDate: '2021-05-21',
+          endDate: '2021-07-30',
+          skill: 'SalesForce',
+          location: 'New York',
+          type: 'ROCP',
         },
         {
           id: 72,
-          batchId: "TR-1145",
-          name: "Mock Batch 72",
-          startDate: "2021-05-28",
-          endDate: "2021-08-06",
-          skill: "PEGA",
-          location: "Tampa",
-          type: "Corporate",
+          batchId: 'TR-1145',
+          name: 'Mock Batch 72',
+          startDate: '2021-05-28',
+          endDate: '2021-08-06',
+          skill: 'PEGA',
+          location: 'Tampa',
+          type: 'Corporate',
         },
       ],
     };
@@ -93,7 +93,7 @@ describe("BatchesComponent Test(s)", () => {
     });
   });
 
-  test("the component did mount", () => {
+  test('the component did mount', () => {
     expect(
       shallow(
         <Provider store={store}>
