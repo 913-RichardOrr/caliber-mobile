@@ -35,7 +35,6 @@ function AssociateTableComponent() {
     (state: ReducerState) => state.batchReducer.associates
   );
   let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
-  console.log('table: ' + batch.batchId);
 
   let week = useSelector(
     (state: ReducerState) => state.weekReducer.selectedWeek
@@ -66,7 +65,7 @@ function AssociateTableComponent() {
     let newAssociateArray: Associate[] = [];
     let serviceResult;
     serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
-    if(serviceResult) {
+    if (serviceResult) {
       serviceResult.forEach((asoc: any) => {
         let associate = new Associate();
         associate.firstName = asoc.firstName;

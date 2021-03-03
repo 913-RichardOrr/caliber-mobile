@@ -57,11 +57,10 @@ export function ReportsTable({ navigation }: Props) {
    * Return an array of technical statuses for each [associate][week]
    */
   async function getQCNotes(results: Associate[]) {
-    // let weeks = await batchWeekService.getBatchWeekNotes(batch.batchId, 0);
-    // let nweeks = weeks.length;
-    let nweeks = 2;
+    let weeks = await batchWeekService.getWeeksByBatchId(token, batch.batchId);
+    let nweeks = weeks.length;
 
-    //make header array of
+    //make header array for table headers of the Week Numbers
     for (let i = 0; i < nweeks; i++) {
       let temp = weeksHeader;
       temp.push(`Week ${i + 1}`);
@@ -78,7 +77,6 @@ export function ReportsTable({ navigation }: Props) {
           String(i),
           token
         );
-
         feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
       }
       let temp = associateWeekFeedback;
@@ -87,14 +85,13 @@ export function ReportsTable({ navigation }: Props) {
       setAssociateWeekFeedback([...temp]);
     });
   }
-  console.log('batch', batch);
 
   return (
     <>
       {Platform.OS === 'web' ? (
         <View></View>
       ) : (
-        <ScrollView>
+        <>
           <View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
             <Button
               color='#F26925'
@@ -104,23 +101,28 @@ export function ReportsTable({ navigation }: Props) {
             <Text
               style={style.subheading}>{`${batch.name} - ${batch.skill}`}</Text>
           </View>
-          <View style={style.associatesViewComponent}>
-            <View>
-              <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-                <Row
-                  data={weeksHeader}
-                  style={{
-                    height: 40,
-                    width: '100%',
-                    backgroundColor: '#f1f8ff',
-                  }}
-                  textStyle={{ margin: 6 }}
-                />
-                <Rows data={associateWeekFeedback} textStyle={{ margin: 6 }} />
-              </Table>
+          <ScrollView horizontal={true}>
+            <View style={style.associatesViewComponent}>
+              <View>
+                <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+                  <Row
+                    data={weeksHeader}
+                    style={{
+                      height: 40,
+                      width: '100%',
+                      backgroundColor: '#f1f8ff',
+                    }}
+                    textStyle={{ margin: 6 }}
+                  />
+                  <Rows
+                    data={associateWeekFeedback}
+                    textStyle={{ margin: 6 }}
+                  />
+                </Table>
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </>
       )}
     </>
   );
