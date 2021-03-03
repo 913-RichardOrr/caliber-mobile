@@ -21,20 +21,12 @@ export type StackParams = {
  * @param navigation - the navigation prop to allow the drawer button in the header
  * to open the DrawerNavigator
  */
-export default function BatchStackNavigator({ navigation }: MenuProp) {
+export default function BatchStackNavigator() {
   return (
     <Stack.Navigator initialRouteName='Year'>
       <Stack.Screen name='Year' component={YearComponent} />
-      <Stack.Screen
-        name='Quarter'
-        component={QuarterComponent}
-        // options={generalHeaderOptions(navigation)}
-      />
-      <Stack.Screen
-        name='Batches'
-        component={BatchListComponent}
-        // options={generalHeaderOptions(navigation)}
-      />
+      <Stack.Screen name='Quarter' component={QuarterComponent} />
+      <Stack.Screen name='Batches' component={BatchListComponent} />
     </Stack.Navigator>
   );
 }

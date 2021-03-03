@@ -6,7 +6,7 @@ class BatchWeekService {
   private URI: string;
   constructor() {
     this.URI =
-      'https://rtnkp17gz4.execute-api.us-east-1.amazonaws.com/default/qc/';
+      'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/qc/';
   }
 
   // get qc_notes for all weeks for the batch
