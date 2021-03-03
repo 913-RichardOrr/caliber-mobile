@@ -5,6 +5,7 @@ import QuarterComponent from '../batches/QuarterComponent';
 import YearComponent from '../batches/YearComponent';
 import BatchPageComponent from '../batchPage/BatchPageComponent';
 import { generalHeaderOptions, MenuProp } from './MainStackNavigator.component';
+import { ReportsTable } from '../reports/ReportTable';
 
 const Stack = createStackNavigator();
 
@@ -42,7 +43,7 @@ export default function BatchStackNavigator({ navigation }: MenuProp) {
       />
       <Stack.Screen
         name='BatchDetail'
-        component={BatchPageComponent}
+        component={ReportsTable}
         options={generalHeaderOptions(navigation)}
       />
     </Stack.Navigator>

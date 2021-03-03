@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Associate } from '../associate/AssociateService';
 
 class BatchPageService {
   private URI: string;
@@ -9,12 +10,13 @@ class BatchPageService {
 
   async getAssociates(batchID: string, token: string): Promise<[]> {
     return axios
-      .get(`${this.URI}/qc/batches/${batchID}`, {headers: {'Authorization': `Bearer ${token}`}})
+      .get(`${this.URI}/qc/batches/${batchID}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((result) => result.data)
       .catch((err) => {
         console.error(err);
       });
   }
 }
-
 export default new BatchPageService();
