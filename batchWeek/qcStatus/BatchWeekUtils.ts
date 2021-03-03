@@ -1,4 +1,5 @@
 import {STATUS} from '../batchWeekService';
+import React from 'react';
 
 // convert technicalstatus to integer 0,1,2,3,4 default case should not happen
 export function convertToNumber(str: STATUS): number {
@@ -40,22 +41,23 @@ export function convertToStatus(num: number): STATUS {
     }
   }
 
-  // display coorect icon for each status
-  export function displayIconForStatus(status: STATUS){
+  // credit to associates group for choosing icons and colors
+  export function IconForStatus(status: STATUS): {iconName: string; iconColor: string}{
     // return the correct icon
       switch(status){
         case 'Undefined':
-          return 'Undefined'; // icon for Undefined 
+          return {iconName:  'question-circle', iconColor: '#F26925'}; // icon for Undefined 
         case 'Poor':
-          return 'Poor'; // icon for Poor
+          return  {iconName:  'frown-o', iconColor: 'red'};  // icon for Poor
         case 'Average':
-          return 'Average';  // icon for Average
+          return  {iconName:  'meh-o', iconColor: '#F26925'};   // icon for Average
         case 'Good':
-          return 'Good';  // icon for Good
+          return  {iconName:  'smile-o', iconColor: 'green'};   // icon for Good
         case 'Superstar':
-          return 'Superstar';  // icon for Superstar
+          return {iconName:  'star', iconColor: 'blue'};  // icon for Superstar
         default:
-          return 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
+          return  {iconName:  'question-circle', iconColor: '#F26925'}; 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
       }
     
   }
+

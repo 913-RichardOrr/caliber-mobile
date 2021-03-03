@@ -1,7 +1,9 @@
 import React, {useState, useEffect}  from 'react';
+import {Icon} from 'react-native-elements';
 const screenWidth = Dimensions.get("window").width;
 import {View, Text, Dimensions} from 'react-native';
 import {STATUS} from  '../batchWeekService';
+import { ReducerState } from '../../store/store';
 
 import {
   LineChart,
@@ -26,30 +28,35 @@ const chartConfig = {
   barPercentage: 0.5,
   useShadowColorFromDataset: false // optional
 };
-import {convertToStatus, convertToNumber, displayIconForStatus} from './BatchWeekUtils';
+import {convertToStatus, convertToNumber, IconForStatus} from './BatchWeekUtils';
+import { useSelector } from 'react-redux';
 
  
 // mocked data from table qcnotes;
+// let actualItems = 
+
+
 let testItems: { weeknumber: number; batchid: string; associateid: number; technicalstatus: STATUS; 
     notecontent: string}[] = [
   {"weeknumber": 1, "batchid": "batch a", "associateid": 1, "technicalstatus": "Undefined", "notecontent": "not a"},
-  {"weeknumber": 1, "batchid": "batch a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
-  {"weeknumber": 1, "batchid": "batch a", "associateid": 3, "technicalstatus": "Average", "notecontent": "not a"},
-  {"weeknumber": 1, "batchid": "batch a", "associateid": 4, "technicalstatus": "Superstar", "notecontent": "not a"},
-  {"weeknumber": 2, "batchid": "batch a", "associateid": 1, "technicalstatus": "Poor", "notecontent": "not a"},
-  {"weeknumber": 2, "batchid": "batch a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
-  {"weeknumber": 2, "batchid": "batch a", "associateid": 3, "technicalstatus": "Good", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch-a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch-a", "associateid": 3, "technicalstatus": "Average", "notecontent": "not a"},
+  {"weeknumber": 1, "batchid": "batch-a", "associateid": 4, "technicalstatus": "Superstar", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch-a", "associateid": 1, "technicalstatus": "Poor", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch-a", "associateid": 2, "technicalstatus": "Good", "notecontent": "not a"},
+  {"weeknumber": 2, "batchid": "batch-a", "associateid": 3, "technicalstatus": "Good", "notecontent": "not a"},
 ];
 
 // actualItems are array obtained from api endpoint qc/batches/batch_a/weeks
 let actualItems =  testItems;
 // items needed to calculate overalltechnicalstatus for specific week
-let weekSpecified = { weeknumber: 1 };
+let weekSpecified = { weekNumber: 1 };
+let batchSpecified = { batchId: 'batch-a' }
 
 // techItems are array of technical status for the given week for the given batch. 
 // will be nice technicalstatus is set to be 'Undefined' by default before QA select status
 let techItems: STATUS[] = testItems
-  .filter(testItem => testItem["weeknumber"] === weekSpecified.weeknumber)
+  .filter(testItem => (testItem["weeknumber"] === weekSpecified.weekNumber && testItem["batchid"]=== batchSpecified.batchId))
   .map(item => { return item["technicalstatus"]});
 // console.log(techItems);
 
@@ -73,6 +80,7 @@ export function calHistogram(){
 }
 
 
+
 // pie chart is hardcoded at the moment
 export default function BatchWeekStatusChart () {
   const hist = calHistogram();
@@ -82,26 +90,32 @@ export default function BatchWeekStatusChart () {
   const s0 = pieData(hist)[3].percentage;
   const o0 = (p0 + a0 + g0 + s0) ? (p0*1 + a0*2 + g0*3 + s0*4)/(p0+a0+g0+s0): 0;
   const overallstatus = convertToStatus(o0);
-  const displayOverallStatus = displayIconForStatus(overallstatus);
+  const {iconName, iconColor} = IconForStatus(overallstatus);
 
   return (
     <View>
-    <Text>Technical Status Distribution Chart</Text>
-    <PieChart
-      data={pieData(hist)}
-      width={screenWidth}
-      height={220}
-      chartConfig={chartConfig}
-      accessor="percentage"
-      backgroundColor="transparent"
-      paddingLeft="15"
-      absolute
+      <View>
+        <Text>Technical Status Distribution Chart</Text>
+        <PieChart
+          data={pieData(hist)}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+          accessor="percentage"
+          backgroundColor="transparent"
+          paddingLeft="15"
+          absolute
+        />
+      </View>
+    <View style={{ flexDirection: 'row', padding: 30}}>
+    <Text style={{ fontSize: 15, paddingRight: 30}}> Overall Status for batch {batchSpecified.batchId} and week {weekSpecified.weekNumber}</Text>
+    <Icon
+      name={iconName}
+      type='font-awesome'
+      color={iconColor}
     />
-    <Text> Poor:  {}</Text>
-    <Text> Average:  {pieData(hist)[1].percentage}</Text>
-    <Text> Good:  {pieData(hist)[2].percentage}</Text>
-    <Text> Superstar:  {pieData(hist)[3].percentage}</Text>
-    <Text> OverallStatus icon { displayOverallStatus }  </Text>
+    </View>
+  
 
   </View>
   )
