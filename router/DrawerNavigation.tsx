@@ -8,6 +8,7 @@ import {
   ManagementStack,
   ReportStack,
 } from './MainStackNavigator.component';
+import Home from '../user/Home';
 import BatchStackNavigator from './BatchStackNavigator.component';
 import { ReducerState } from '../store/store';
 

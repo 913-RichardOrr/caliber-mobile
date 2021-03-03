@@ -65,13 +65,8 @@ function AssociateDetail(this: any, props: AssociateProps) {
     }
   }
 
-  function viewrole() {
-    console.log(user.role.ROLE_QC + " " + user.role.ROLE_TRAINER + " " +user.role.ROLE_VP);
-  }
-
   return (
     <View style={style.notesCard}>
-      <Button onress = {viewrole}></Button>
       <Text testID='firstName' style={style.noteName}>
         {props.associate.firstName} {props.associate.lastName}
       </Text>
