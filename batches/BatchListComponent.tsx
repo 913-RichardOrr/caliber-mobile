@@ -46,8 +46,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
     return index.toString();
   };
 
-  const year = route.params.year;
-  const quarter = route.params.quarter;
+  const { year, quarter, screenName } = route.params;
 
   // Filters based on the year and quarter, then displays different data based on the user's role(s)
   useEffect(() => {
@@ -83,7 +82,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
    */
   function handleBatchSelect(index: string) {
     dispatch(changeBatch(batches[Number(index)]));
-    navigation.navigate('Reports');
+    navigation.navigate(screenName);
   }
 
   /**

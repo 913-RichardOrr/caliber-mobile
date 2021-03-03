@@ -27,6 +27,7 @@ const Stack = createStackNavigator();
 
 export interface MenuProp {
   navigation: any;
+  route: any;
 }
 /**
  * Shows only the Revature logo for the header
@@ -106,6 +107,7 @@ function QCAuditStack({ navigation }: MenuProp) {
         name='Batches'
         component={BatchStackNavigator}
         options={generalHeaderOptions(navigation)}
+        initialParams={{ screenName: 'Batch Page' }}
       />
       <Stack.Screen
         name='Batch Page'
@@ -127,6 +129,7 @@ function ReportStack({ navigation }: MenuProp) {
         name='Batches'
         component={BatchStackNavigator}
         options={generalHeaderOptions(navigation)}
+        initialParams={{ screenName: 'Reports' }}
       />
       <Stack.Screen
         name='Reports'

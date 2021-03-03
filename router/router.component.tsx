@@ -20,7 +20,6 @@ function RouterComponent(props: any) {
     auth.onIdTokenChanged(function (user: any) {
       if (user) {
         //Logged in
-        console.log(user);
         setLoggedin(true);
         user
           .getIdTokenResult()
