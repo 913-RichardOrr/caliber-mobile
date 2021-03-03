@@ -28,13 +28,12 @@ const Drawer = createDrawerNavigator();
  */
 function DrawerNavigatorComponent() {
   const user = useSelector((state: ReducerState) => state.userReducer.user);
-
   return (
     <Drawer.Navigator>
       <Drawer.Screen name='Home' component={HomeStack} />
       <Drawer.Screen name='QC Audit' component={BatchStackNavigator} />
       <Drawer.Screen name='Reports' component={ReportStack} />
-      {user.role.ROLE_VP && (
+      {!user.role.ROLE_QC && (
         <Drawer.Screen name='Management' component={ManagementStack} />
       )}
       <Drawer.Screen name='Logout' component={LogoutStack} />

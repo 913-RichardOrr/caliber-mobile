@@ -21,13 +21,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .get(
-        this.URI +
-          '/batches/' +
-          batch +
-          '/weeks/' +
-          week +
-          '/associates/' +
-          a.associateId,
+        `${this.URI}/batches/${batch}/weeks/${week}/associates/${a.associateId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
@@ -55,13 +49,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .put(
-        this.URI +
-          '/batches/' +
-          qcfeedback.batchid +
-          '/weeks/' +
-          qcfeedback.weeknumber +
-          '/associates/' +
-          qcfeedback.associateid,
+        `${this.URI}/batches/${qcfeedback.batchid}/weeks/${qcfeedback.weeknumber}/associates/${qcfeedback.associateid}`,
         JSON.stringify(updateObject),
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -78,13 +66,7 @@ class AssociateService {
   ): Promise<QCFeedback> {
     return axios
       .patch(
-        this.URI +
-          '/batches/' +
-          qcfeedback.batchid +
-          '/weeks/' +
-          qcfeedback.weeknumber +
-          '/associates/' +
-          qcfeedback.associateid,
+        `${this.URI}/batches/${qcfeedback.batchid}/weeks/${qcfeedback.weeknumber}/associates/${qcfeedback.associateid}`,
         updateObject,
         { headers: { Authorization: `Bearer ${token}` } }
       )

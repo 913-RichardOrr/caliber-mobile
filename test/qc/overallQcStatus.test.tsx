@@ -1,5 +1,3 @@
-import React from 'react';
-import { View, Button, TextInput } from 'react-native';
 
 let items = [
     {"associate": {"email" : "abc1@abc.com", "firstName": "abc", "lastName": "labc", "associateId": 1,  "technicalStatus": "GOOD"}},

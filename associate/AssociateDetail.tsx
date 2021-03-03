@@ -1,14 +1,13 @@
 //Shows associate name, technical status, note (editable)
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
-import associateService, { Associate, QCFeedback } from './AssociateService';
+import AssociateService, { Associate, QCFeedback } from './AssociateService';
 import TechnicalStatus from './TechnicalStatus';
 import style from '../global_styles';
 import { ReducerState } from '../store/store';
 import { useSelector } from 'react-redux';
-import AssociateService from './AssociateService';
 
 interface AssociateProps {
   associate: Associate;
@@ -32,11 +31,6 @@ function AssociateDetail(this: any, props: AssociateProps) {
   //Should we be able to view their note?
   const [viewNote, setViewNote] = useState(false);
 
-  useEffect(() => {
-    console.log(`associate: ${JSON.stringify(props.associate)}`);
-    console.log(`qcfeedback: ${JSON.stringify(props.qcFeedback)}`);
-  }, []);
-
   /**
    * When the Technical Status component is pressed, should cycle through 0-4
    *  Update both the state and the database.
@@ -50,7 +44,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
      * Every time this button is pressed the database will update with the correct feedback.
      */
     setQcTechnicalStatus(newStatus);
-    associateService.updateAssociate(props.qcFeedback, { technicalstatus: newStatus }, token);
+    AssociateService.updateAssociate(props.qcFeedback, { technicalstatus: newStatus }, token);
   }
 
   /**
