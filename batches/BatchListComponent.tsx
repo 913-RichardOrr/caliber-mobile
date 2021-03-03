@@ -96,9 +96,9 @@ export default function BatchListComponent({ navigation, route }: Props) {
 			} else {
 				dispatch(changeSelectedWeek(allWeeks[0]));
 			}
-
+			navigation.navigate('BatchDetail');
 		});
-		navigation.navigate('BatchDetail');
+
 	}
 
 	/**

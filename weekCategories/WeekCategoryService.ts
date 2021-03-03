@@ -4,7 +4,7 @@ import { WeekCategory } from './WeekCategory';
 class WeekCategoryService {
     private URI: string;
     constructor() {
-        this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
+        this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/';
     }
 
     /**
@@ -15,7 +15,7 @@ class WeekCategoryService {
     */
     addCategory(weekCategory: WeekCategory, batchId: string, weekId: number ,token:string): Promise<null> {
         return axios
-            .post(this.URI + '/batches/' + batchId + '/weeks/' + weekId + '/categories', weekCategory,{headers: { Authorization: `Bearer ${token}`}})
+            .post(this.URI + 'qc/batches/' + batchId + '/weeks/' + weekId + '/categories', weekCategory,{headers: { Authorization: `Bearer ${token}`}})
             .then((result) => null)
             .catch(err => err);
     }
@@ -28,7 +28,7 @@ class WeekCategoryService {
     */
     getCategory(weekId: number, batchId:string, token:string): Promise<WeekCategory[]> {
         return axios
-            .get(this.URI + '/batches/' + batchId + '/weeks/' + weekId + '/categories',{headers: { Authorization: `Bearer ${token}`}})
+            .get(this.URI + 'qc/batches/' + batchId + '/weeks/' + weekId + '/categories',{headers: { Authorization: `Bearer ${token}`}})
             .then((result) => result.data)
             .catch(err => err);
     }
@@ -42,7 +42,7 @@ class WeekCategoryService {
     deleteCategory(weekId: number, batchId: string, catId: number, token:string): Promise<null> {
 
         return axios
-            .delete(this.URI + '/batches/' + batchId + '/weeks/' + weekId + '/categories/' + catId,{headers: { Authorization: `Bearer ${token}`}})
+            .delete(this.URI + 'qc/batches/' + batchId + '/weeks/' + weekId + '/categories/' + catId,{headers: { Authorization: `Bearer ${token}`}})
             .then((result) => null)
             .catch((err) => err);
     }

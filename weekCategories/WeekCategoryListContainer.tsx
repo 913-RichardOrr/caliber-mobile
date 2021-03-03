@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Category } from '../categoriesFeature/Category';
 import {
-	addWeekCategory,
-	categoriesMenuOptions,
-	getWeekCategories,
+  addWeekCategory,
+  categoriesMenuOptions,
+  getWeekCategories,
 } from '../store/actions';
 import { WeekCategory } from './WeekCategory';
 import { WeekCategoryList } from '../weekCategories/weekCategoryList';
@@ -30,17 +30,18 @@ export default function WeekCategoryListContainer() {
   const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
   const token = currentUser.token;
   const dispatch = useDispatch();
+  console.log('batchid: ' + week.batchid)
+  console.log('weekid: ' + week.qcweekid)
 
   /**
    * Create a list of categories that are already in this week
    *
    * @return an array of type Category[]
    */
-  function createCatList(week:QcWeek) {
-    let weekCategoriesAsCategoryTemp: Category[];
-    weekCategoryService.getCategory(week.qcweekid, week.batchid, token).then((results) => {
+  function createCatList(week: QcWeek) {
+    console.log('in createCatList')
+    weekCategoryService.getCategory(week.weeknumber, week.batchid, token).then((results) => {
       console.log('test: ' + results)
-      console.log(week)
       if (results.length == 0) {
         return [];
       } else {
@@ -52,13 +53,15 @@ export default function WeekCategoryListContainer() {
                 thisWeekCats.push(allCatElement);
               }
             });
-            weekCategoriesAsCategoryTemp = thisWeekCats;
-            dispatch(getWeekCategories(thisWeekCats));
-            return weekCategoriesAsCategoryTemp;
+
           });
-        });
+          
+          dispatch(getWeekCategories(thisWeekCats));
+          console.log('at end of create cat list')
+          return thisWeekCats;
+        }).catch(err => console.log(err));
       }
-    });
+    }).catch(err => console.log(err));
     return [];
   }
 
@@ -67,17 +70,18 @@ export default function WeekCategoryListContainer() {
    *
    * @return an array of type Category[]
    */
-  function createActiveList() {
+  function createActiveList(weekCat: Category[]) {
     categoryService.getCategories(token, true).then((results) => {
       let availableCats: Category[] = [];
-      console.log(results)
+      console.log('in create active list ' + results.length)
       if (results != availableCats) {
         results.forEach((element: Category) => {
-          if (weekCategories.includes(element) == false) {
+          if (weekCat.includes(element) == false) {
             availableCats.push(element);
           }
         });
       }
+      console.log('end of createActive: ' + availableCats.length)
       dispatch(categoriesMenuOptions(availableCats));
       return availableCats;
     });
@@ -90,7 +94,7 @@ export default function WeekCategoryListContainer() {
    * @param {Category} newCat - The category to be added to the week
    * qcWeek is what was passed to weekCategoryList function
    */
-  function addCategory(newCat: Category, week:QcWeek) {
+  function addCategory(newCat: Category, week: QcWeek) {
     if (newCat.categoryid != -1) {
       let weekCat: WeekCategory = { categoryId: newCat.categoryid, qcWeekId: week.qcweekid };
       weekCategoryService.addCategory(weekCat, week.batchid, week.qcweekid, token).then(() => {
@@ -100,7 +104,7 @@ export default function WeekCategoryListContainer() {
   }
 
   let weekCategoriesAsCategory: Category[] = createCatList(week);
-  let activeCategoriesList: Category[] = createActiveList();
+  let activeCategoriesList: Category[] = createActiveList(weekCategoriesAsCategory);
 
   return (
     <View>

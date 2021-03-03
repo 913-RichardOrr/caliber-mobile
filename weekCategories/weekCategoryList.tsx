@@ -27,13 +27,14 @@ interface WeekProp {
  * @param {weekProp} qcWeek - The weekId of the current week
  */
 export function WeekCategoryList(props: WeekProp) {
+  console.log('in component '+ props)
   return (
     <View style={styles.allContainer}>
       <Text style = {styles.heading}>Categories: </Text>
 
       <View style={styles.container}>
         {props.weekCategoriesAsCategory.length == 0 && (
-          <Text style={styles.text} testID='noCats'>No Categories For This Week</Text>
+          <Text  testID='noCats'>No Categories For This Week</Text>
 
         )}
         <FlatList
