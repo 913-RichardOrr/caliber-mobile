@@ -35,6 +35,7 @@ function AssociateTableComponent() {
     (state: ReducerState) => state.batchReducer.associates
   );
   let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
+
   let week = useSelector(
     (state: ReducerState) => state.weekReducer.selectedWeek
   );
@@ -65,6 +66,7 @@ function AssociateTableComponent() {
     let serviceResult;
     serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
 <<<<<<< HEAD
+<<<<<<< HEAD
     serviceResult.forEach((asoc: any) => {
       let associate = new Associate();
       associate.firstName = asoc.firstName;
@@ -74,6 +76,9 @@ function AssociateTableComponent() {
     });
 =======
     if(serviceResult) {
+=======
+    if (serviceResult) {
+>>>>>>> 7cc0affa5e677d5dff01c2d95481e04419aaee11
       serviceResult.forEach((asoc: any) => {
         let associate = new Associate();
         associate.firstName = asoc.firstName;
@@ -117,34 +122,30 @@ function AssociateTableComponent() {
    * Switches sorting direction for first name (Button Handler)
    */
   function switchSortingF() {
+    let val = [...associates];
     if (sortDirection == 'FUp') {
       setSortDirection('FDown');
-      let val = [...associates];
       sortAssociateByFirstName(val);
-      dispatch(getAssociates(val));
     } else {
       setSortDirection('FUp');
-      let val = [...associates];
       sortAssociateByFirstNameReversed(val);
-      dispatch(getAssociates(val));
     }
+    dispatch(getAssociates(val));
   }
 
   /**
    * Switches sorting direction for last name (Button Handler)
    */
   function switchSortingL() {
+    let val = [...associates];
     if (sortDirection == 'LUp') {
       setSortDirection('LDown');
-      let val = [...associates];
       sortAssociateByLastName(val);
-      dispatch(getAssociates(val));
     } else {
       setSortDirection('LUp');
-      let val = [...associates];
       sortAssociateByLastNameReversed(val);
-      dispatch(getAssociates(val));
     }
+    dispatch(getAssociates(val));
   }
 <<<<<<< HEAD
 
