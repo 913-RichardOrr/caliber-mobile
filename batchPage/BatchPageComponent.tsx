@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import AssociateTableComponent from '../associate/AssociateTableComponent';
 import AddNoteComponent from '../batchWeek/AddNoteComponent';
@@ -8,8 +8,9 @@ import AddWeek from '../batchWeek/AddWeek/addWeek.component';
 import WeekSelectionComponent from '../batchWeek/WeekSelectionComponent';
 import { ReducerState } from '../store/store';
 import style from '../global_styles';
-import AssociateService, { AssociateWithFeedback } from '../associate/AssociateService';
-import { Icon } from 'react-native-elements';
+import AssociateService, {
+  AssociateWithFeedback,
+} from '../associate/AssociateService';
 import WeekCategoryListContainer from '../weekCategories/WeekCategoryListContainer';
 
 function BatchPageComponent() {
@@ -17,31 +18,41 @@ function BatchPageComponent() {
     (state: ReducerState) => state.batchReducer.associates
   );
 
-  const curentUser = useSelector((state: ReducerState) => state.userReducer.user);
+  const curentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
   const token = curentUser.token;
 
   /**
- * Updates all of the associates with their new notes and
- * technical statuses. Is used on the save button that
- * is stickied to the bottom of the screen.
- */
+   * Updates all of the associates with their new notes and
+   * technical statuses. Is used on the save button that
+   * is stickied to the bottom of the screen.
+   */
   function handleAllUpdate() {
     associates.forEach(async (assoc: AssociateWithFeedback) => {
       console.log("associates");
       if (assoc.qcFeedback.notecontent || assoc.qcFeedback.technicalstatus) {
         try {
-          await AssociateService.updateAssociate(assoc.qcFeedback, {
-            notecontent: assoc.qcFeedback.notecontent,
-            technicalstatus: assoc.qcFeedback.technicalstatus
-          }, token);
+          await AssociateService.updateAssociate(
+            assoc.qcFeedback,
+            {
+              notecontent: assoc.qcFeedback.notecontent,
+              technicalstatus: assoc.qcFeedback.technicalstatus,
+            },
+            token
+          );
         } catch (err: any) {
-          await AssociateService.putAssociate(assoc.qcFeedback, {
-            notecontent: assoc.qcFeedback.notecontent,
-            technicalstatus: assoc.qcFeedback.technicalstatus
-          }, token);
+          await AssociateService.putAssociate(
+            assoc.qcFeedback,
+            {
+              notecontent: assoc.qcFeedback.notecontent,
+              technicalstatus: assoc.qcFeedback.technicalstatus,
+            },
+            token
+          );
         }
       }
-    })
+    });
   }
 
   return (

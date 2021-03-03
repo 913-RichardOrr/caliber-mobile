@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Batch from './Batch';
+import Batch from './batch';
 
 class BatchService {
   private URI: string;

@@ -15,10 +15,10 @@ export const style = StyleSheet.create({
   overallText: {
     width: perfectSize(360),
     height: perfectSize(150),
-    backgroundColor:"white",
-    borderWidth:perfectSize(1),
-    borderColor:REVATURE_ORANGE,
-    marginBottom:perfectSize(15),
+    backgroundColor: 'white',
+    borderWidth: perfectSize(1),
+    borderColor: REVATURE_ORANGE,
+    marginBottom: perfectSize(15),
   },
   container: {
     flex: 1,
@@ -174,7 +174,7 @@ export const style = StyleSheet.create({
   underDevelopmentText: {
     color: REVATURE_ORANGE,
     textAlign: 'center',
-    fontSize: 48,
+    fontSize: 36,
   },
 });
 

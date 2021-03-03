@@ -2,43 +2,49 @@ import React from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Category } from '../categoriesFeature/Category';
-import { addWeekCategory, categoriesMenuOptions, getWeekCategories } from '../store/actions';
+import {
+  addWeekCategory,
+  categoriesMenuOptions,
+  getWeekCategories,
+} from '../store/actions';
 import { WeekCategory } from './weekCategory';
 import { WeekCategoryList } from '../weekCategories/weekCategoryList';
 import weekCategoryService from '../weekCategories/WeekCategoryService';
 import { ReducerState } from '../store/store';
 import categoryService from '../categoriesFeature/CategoryService';
 
-
 /**
  * Get all information that weekCategoryList will display then call weekCategoryList
- * 
- * 
+ *
+ *
  */
 export default function WeekCategoryListContainer() {
-  const weekCatSelector = (state: ReducerState) => state.WeekCategoryReducer.weekCategories;
+  const weekCatSelector = (state: ReducerState) =>
+    state.WeekCategoryReducer.weekCategories;
   const weekCategories = useSelector(weekCatSelector);
-  const weekIDSelector = (state: ReducerState) => state.weekReducer.selectedWeek;
+  const weekIDSelector = (state: ReducerState) =>
+    state.weekReducer.selectedWeek;
   const weekId = useSelector(weekIDSelector);
   // authorizer state
-  const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
+  const currentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
   const token = currentUser.token;
   const dispatch = useDispatch();
 
-
   /**
- * Create a list of categories that are already in this week
- * 
- * @return an array of type Category[]
- */
+   * Create a list of categories that are already in this week
+   *
+   * @return an array of type Category[]
+   */
   function createCatList() {
     let weekCategoriesAsCategoryTemp: Category[];
     weekCategoryService.getCategory(weekId.qcWeekId).then((results) => {
       if (results == []) {
-        return ([]);
+        return [];
       } else {
         categoryService.getCategories(token).then((allCats: Category[]) => {
-          let thisWeekCats: Category[] = []
+          let thisWeekCats: Category[] = [];
           allCats.forEach((allCatElement) => {
             results.forEach((catid) => {
               if (allCatElement.categoryid == catid.categoryId) {
@@ -47,24 +53,22 @@ export default function WeekCategoryListContainer() {
             });
             weekCategoriesAsCategoryTemp = thisWeekCats;
             dispatch(getWeekCategories(thisWeekCats));
-            return (weekCategoriesAsCategoryTemp);
+            return weekCategoriesAsCategoryTemp;
           });
         });
       }
-
-    })
-    return ([]);
+    });
+    return [];
   }
-
 
   /**
    * Create a list of categories that are active and not already in the week
-   * 
+   *
    * @return an array of type Category[]
    */
   function createActiveList() {
-    categoryService.getCategories(token,true).then((results) => {
-      let availableCats: Category[] = []
+    categoryService.getCategories(token, true).then((results) => {
+      let availableCats: Category[] = [];
       if (results != availableCats) {
         results.forEach((element: Category) => {
           if (weekCategories.includes(element) == false) {
@@ -73,28 +77,27 @@ export default function WeekCategoryListContainer() {
         });
       }
       dispatch(categoriesMenuOptions(availableCats));
-      return (availableCats);
+      return availableCats;
     });
-    return ([]);
+    return [];
   }
 
-
-
   /**
- * Add a category to the database and update the store
- * 
- * @param {Category} newCat - The category to be added to the week
- * qcWeek is what was passed to weekCategoryList function
- */
+   * Add a category to the database and update the store
+   *
+   * @param {Category} newCat - The category to be added to the week
+   * qcWeek is what was passed to weekCategoryList function
+   */
   function addCategory(newCat: Category) {
     if (newCat.categoryid != -1) {
-      let weekCat: WeekCategory = { categoryId: newCat.categoryid, qcWeekId: weekId.qcWeekId };
+      let weekCat: WeekCategory = {
+        categoryId: newCat.categoryid,
+        qcWeekId: weekId.qcWeekId,
+      };
       weekCategoryService.addCategory(weekCat).then(() => {
         dispatch(addWeekCategory(weekCat));
-
       });
     }
-
   }
 
   let weekCategoriesAsCategory: Category[] = createCatList();
@@ -102,9 +105,12 @@ export default function WeekCategoryListContainer() {
 
   return (
     <View>
-      <WeekCategoryList weekId={weekId.qcWeekId} weekCategoriesAsCategory={weekCategoriesAsCategory} addCategory={addCategory} activeCategories={activeCategoriesList} />
+      <WeekCategoryList
+        weekId={weekId.qcWeekId}
+        weekCategoriesAsCategory={weekCategoriesAsCategory}
+        addCategory={addCategory}
+        activeCategories={activeCategoriesList}
+      />
     </View>
-  )
-
-
+  );
 }
