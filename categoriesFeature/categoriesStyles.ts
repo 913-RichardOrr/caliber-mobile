@@ -146,8 +146,10 @@ const catStyle = StyleSheet.create({
     },
     loading: {
         alignSelf:'center',
+        textAlign: 'center',
         width: 310,
         height: 95,
+        fontSize: 20
     }
 })
 
