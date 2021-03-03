@@ -6,41 +6,40 @@ import axios from 'axios';
  * also sends axios calls to the mock data api, to get associate's name
  */
 class AssociateService {
-	private URI: string;
-	constructor() {
-		// URI for the API Gateway
-		this.URI =
-			'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/qc';
-	}
+  private URI: string;
+  constructor() {
+    // URI for the API Gateway
+    this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/qc';
+  }
 
-	async getAssociate(
-		a: Associate,
-		batch: string,
-		week: string,
-		token: string
-	): Promise<QCFeedback> {
-		return axios
-			.get(
-				`${this.URI}/batches/${batch}/weeks/${week}/associates/${a.associateId}`,
-				{ headers: { Authorization: `Bearer ${token}` } }
-			)
-			.then((result) => result.data)
-			.catch((err) => {
-				console.error(err);
-				let qcFeedback = new QCFeedback();
-				qcFeedback.associateid = a.associateId;
-				qcFeedback.batchid = batch;
-				qcFeedback.weeknumber = Number(week);
-				return this.putAssociate(
-					qcFeedback,
-					{
-						notecontent: qcFeedback.notecontent,
-						technicalstatus: qcFeedback.technicalstatus,
-					},
-					token
-				);
-			});
-	}
+  async getAssociate(
+    a: Associate,
+    batch: string,
+    week: string,
+    token: string
+  ): Promise<QCFeedback> {
+    return axios
+      .get(
+        `${this.URI}/batches/${batch}/weeks/${week}/associates/${a.associateId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((result) => result.data)
+      .catch((err) => {
+        console.error(err);
+        let qcFeedback = new QCFeedback();
+        qcFeedback.associateid = a.associateId;
+        qcFeedback.batchid = batch;
+        qcFeedback.weeknumber = Number(week);
+        return this.putAssociate(
+          qcFeedback,
+          {
+            notecontent: qcFeedback.notecontent,
+            technicalstatus: qcFeedback.technicalstatus,
+          },
+          token
+        );
+      });
+  }
 
 	async putAssociate(
 		qcfeedback: QCFeedback,

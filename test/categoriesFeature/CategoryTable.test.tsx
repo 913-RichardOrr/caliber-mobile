@@ -1,13 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import Enzyme, {mount, shallow} from 'enzyme';
+import Enzyme from 'enzyme';
 import React from 'react';
 import 'react-native';
 import 'jest-enzyme';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import store from '../../store/store';
 import CategoryTable from '../../categoriesFeature/CategoryTable';
 
 const mockedNav = jest.fn();

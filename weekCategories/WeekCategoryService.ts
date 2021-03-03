@@ -2,10 +2,10 @@ import axios from 'axios';
 import { WeekCategory } from './weekCategory';
 
 class WeekCategoryService {
-  private URI: string;
-  constructor() {
-    this.URI = 'https://localhost:3000/';
-  }
+    private URI: string;
+    constructor() {
+        this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
+    }
 
   /**
    * Display a list of current categories for the week and a button to add categories to the week

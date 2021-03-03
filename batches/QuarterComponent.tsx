@@ -44,7 +44,6 @@ export default function QuarterComponent({ route }: any) {
    */
   function handleQuarterSelect(index: number) {
     const quarter = quarters[index];
-    console.log(JSON.stringify(route));
 
     nav.navigate('Batches', {
       year: year,

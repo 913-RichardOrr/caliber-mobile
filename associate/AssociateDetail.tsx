@@ -94,29 +94,11 @@ function AssociateDetail(this: any, props: AssociateProps) {
         onPress={() => setViewNote(viewNote ? false : true)}
         testID='displayNote'
       />
-      {viewNote && user.role.ROLE_TRAINER && (
+      {viewNote && (
         <Input
-          disabled
-          onBlur={() => {
-            handleNoteUpdate(localText);
-            console.log(localText);
-          }}
-          placeholder='Insert note here'
-          defaultValue={qcNote}
-          multiline
-          numberOfLines={4}
-          scrollEnabled
-          spellCheck={true}
-          onChangeText={(text: string) => {
-            setQcNote(text);
-            setLocalText(text);
-            props.qcFeedback.notecontent = text;
-          }}
-          testID='qcNote'
-        />
-      )}
-      {viewNote && !user.role.ROLE_TRAINER && (
-        <Input
+          disabled={
+            !user.role.ROLE_QC && !user.role.ROLE_VP && user.role.ROLE_TRAINER
+          }
           onBlur={() => {
             handleNoteUpdate(localText);
             console.log(localText);

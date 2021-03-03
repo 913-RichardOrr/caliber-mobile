@@ -35,14 +35,12 @@ export default function CategoryTable({ status }: CategoryTableProp) {
 
     // after every render, check if there is a change in categories
     useEffect(() => store.subscribe(async () => {
-        await CategoryService.getCategories(token,true).then((activeRes) => {
+        await CategoryService.getCategories(token, true).then((activeRes) => {
             setActive(activeRes);
         }).catch(error => console.log(error));
-        await CategoryService.getCategories(token,false).then((staleRes) => {
+        await CategoryService.getCategories(token, false).then((staleRes) => {
             setStale(staleRes);
         }).catch(error => console.log(error));
-        // setActive(active);
-        // setStale(stale);
         setRend(true);
     }), [store, store.getState().categoryReducer]);
 
@@ -111,8 +109,8 @@ export default function CategoryTable({ status }: CategoryTableProp) {
             )}
             {rend == false && (
                 <View>
-                    <View testID='logo' style={catStyle.logoView}> 
-                        <Image style={catStyle.logo} source={RevLogo} />
+                    <View testID='logo' style={catStyle.logoView}>
+                        <Text style={catStyle.loading}>LOADING...</Text>
                     </View>
                 </View>
             )}
