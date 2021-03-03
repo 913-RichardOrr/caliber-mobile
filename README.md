@@ -40,16 +40,16 @@
 ## Usage
 * Login for Trainer role:
   * Username: `trainer@revature.com`
-  * Password: password
+  * Password: `password`
 * Login for Quality Auditor role:
   * Username: `qc@revature.com`
-  * Password: password
+  * Password: `password`
 * Login for Manager role:
   * Username: `vp@revature.com`
-  * Password: password
+  * Password: `password`
 * Login for Trainer/QC role:
   * Username: `trainerqc@revature.com`
-  * Password: password
+  * Password: `password`
 
 ## Contributors
 * [Medbh Campbell](https://github.com/medbhcampbell)
