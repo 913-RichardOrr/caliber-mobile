@@ -4,15 +4,9 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import BatchPageService from '../batchPage/BatchPageService';
-import { QcNote } from '../batchWeek/batchWeekService';
 import style from '../global_styles';
 import { getAssociates } from '../store/actions';
-import {
-  AssociateState,
-  BatchState,
-  ReducerState,
-  WeekState,
-} from '../store/store';
+import { ReducerState } from '../store/store';
 import AssociateDetail from './AssociateDetail';
 import AssociateService, {
   Associate,
@@ -44,6 +38,12 @@ function AssociateTableComponent() {
   let week = useSelector(
     (state: ReducerState) => state.weekReducer.selectedWeek
   );
+
+  const curentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
+  const token = curentUser.token;
+
   let iconName: string = 'angle-up';
   let iconColor: string = '#F26925';
   const [sortDirection, setSortDirection] = useState('FUp');
@@ -63,35 +63,34 @@ function AssociateTableComponent() {
   async function getAssociateFromMock() {
     let newAssociateArray: Associate[] = [];
     let serviceResult;
-    serviceResult = await BatchPageService.getAssociates(batch.batchId);
-    if(serviceResult) {
-      serviceResult.forEach((asoc: any) => {
-        let associate = new Associate();
-        associate.firstName = asoc.firstName;
-        associate.lastName = asoc.lastName;
-        associate.associateId = asoc.email;
-        newAssociateArray.push(associate);
-      });
-    }
+    serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
+    serviceResult.forEach((asoc: any) => {
+      let associate = new Associate();
+      associate.firstName = asoc.firstName;
+      associate.lastName = asoc.lastName;
+      associate.associateId = asoc.email;
+      newAssociateArray.push(associate);
+    });
     return newAssociateArray;
   }
 
   /**
    * Retrieves QC Notes from back end.
    */
-  function getQCNotes(results: any) {
+  function getQCNotes(results: Associate[]) {
     let listofassociates: AssociateWithFeedback[] = [];
-    console.log(results);
-    results.forEach(async (associate: any) => {
-      let qcNote = await AssociateService.getAssociate(
+    results.forEach(async (associate: Associate) => {
+      let qcFeedback = new QCFeedback();
+      qcFeedback = await AssociateService.getAssociate(
         associate,
         batch.batchId,
-        String(week.weekNumber)
+        String(week.weeknumber),
+        token
       );
       let value = new AssociateWithFeedback();
       value.associate = associate;
-      if (qcNote) {
-        value.qcFeedback = qcNote;
+      if (qcFeedback) {
+        value.qcFeedback = qcFeedback;
       }
       listofassociates.push(value);
       dispatch(getAssociates(listofassociates));
@@ -106,12 +105,12 @@ function AssociateTableComponent() {
       setSortDirection('FDown');
       let val = [...associates];
       sortAssociateByFirstName(val);
-      getAssociates(val);
+      dispatch(getAssociates(val));
     } else {
       setSortDirection('FUp');
       let val = [...associates];
       sortAssociateByFirstNameReversed(val);
-      getAssociates(val);
+      dispatch(getAssociates(val));
     }
   }
 
@@ -123,50 +122,16 @@ function AssociateTableComponent() {
       setSortDirection('LDown');
       let val = [...associates];
       sortAssociateByLastName(val);
-      getAssociates(val);
+      dispatch(getAssociates(val));
     } else {
       setSortDirection('LUp');
       let val = [...associates];
       sortAssociateByLastNameReversed(val);
-      getAssociates(val);
+      dispatch(getAssociates(val));
     }
-  }
-
-  /**
-   * Updates all of the associates with their new notes and
-   * technical statuses. Is used on the save button that
-   * is stickied to the bottom of the screen.
-   */
-  function handleAllUpdate() {
-    associates.forEach(async (assoc) => {
-      try {
-        await AssociateService.updateAssociate(assoc.qcFeedback, {
-          notecontent: assoc.qcFeedback.qcNote,
-        });
-      } catch (err: any) {
-        await AssociateService.replaceAssociate(assoc.qcFeedback, {
-          notecontent: assoc.qcFeedback.qcNote,
-          technicalstatus: assoc.qcFeedback.qcTechnicalStatus,
-        });
-      }
-      try {
-        await AssociateService.updateAssociate(assoc.qcFeedback, {
-          technicalstatus: assoc.qcFeedback.qcNote,
-        });
-      } catch (err: any) {
-        await AssociateService.replaceAssociate(assoc.qcFeedback, {
-          technicalstatus: assoc.qcFeedback.qcTechnicalStatus,
-          notecontent: assoc.qcFeedback.qcNote,
-        });
-      }
-    });
   }
   return (
     <View style={style.associatesViewComponent}>
-      <Button
-        onPress={() => {
-          alert(JSON.stringify(associates));
-        }}></Button>
       <Button
         onPress={async () => {
           let x = [...associates];
@@ -232,16 +197,6 @@ function AssociateTableComponent() {
           />
         )}
         keyExtractor={(item) => item.associate.firstName}
-      />
-      <Button
-        raised
-        titleStyle={style.title}
-        buttonStyle={style.button}
-        title='Save All'
-        type='outline'
-        icon={<Icon name='save' type='fontawesome' color='#F26925' />}
-        onPress={handleAllUpdate}
-        testID='saveNote'
       />
     </View>
   );

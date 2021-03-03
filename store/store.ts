@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import batchReducer from './batchReducer';
 import userReducer from './userReducer';
-import Batch from '../batches/batch';
 import { AppAction } from './actions';
 import { UserInfo, UserInput } from '../user/user';
 import { AssociateWithFeedback } from '../associate/AssociateService';
@@ -11,8 +10,9 @@ import QcWeek from '../batchWeek/QcWeek';
 import WeekCategoryReducer from './WeekCategoryReducer';
 import { Category } from '../categoriesFeature/Category';
 import categoryReducer from './categoriesFeature/CategoryReducer';
-import { WeekCategory } from '../weekCategories/weekCategory';
-import weekReducer from './WeekReducer'
+import { WeekCategory } from '../weekCategories/WeekCategory';
+import weekReducer from './WeekReducer';
+import Batch from '../batches/Batch';
 
 export interface BatchState {
   batch: Batch;
@@ -38,8 +38,12 @@ export interface WeekCategoryState {
 }
 
 export interface CategoryState {
-	activeCat: Category[];
-	staleCat: Category[];
+  activeCat: Category[];
+  staleCat: Category[];
+  render: boolean;
+}
+
+export interface CategoryState {
   categories: Category[];
 }
 
@@ -67,8 +71,8 @@ const rootReducer = combineReducers({
 export type ReducerState = ReturnType<typeof rootReducer>;
 
 const store: Store<ReducerState, AppAction> = createStore(
-	rootReducer,
-	composeWithDevTools(applyMiddleware(thunk))
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableHighlight } from 'react-native';
 import { style } from '../global_styles';
 import { ReducerState } from '../store/store';
 import { auth } from './config';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, loginChange } from '../store/actions';
+import { loginChange } from '../store/actions';
 
 interface LoginProp {
   navigation: any;
@@ -23,7 +23,7 @@ export default function LoginComponent({ navigation }: LoginProp) {
         let email = newUser.email;
         let password = newUser.password;
         auth.signInWithEmailAndPassword(email, password);
-        navigation.navigate('Home');
+        navigation.navigate('Home', { Screen: 'Home' });
       } catch (error) {
         console.log(error);
       }
@@ -31,32 +31,6 @@ export default function LoginComponent({ navigation }: LoginProp) {
       alert('Missing email or password');
     }
   };
-  useEffect(() => {
-    auth.onIdTokenChanged(function (user: any) {
-      if (user) {
-        //Logged in
-        setLoggedin(true);
-        user
-          .getIdTokenResult()
-          .then((token: any) => {
-            const role = {
-              ROLE_QC: token.claims.ROLE_QC,
-              ROLE_VP: token.claims.ROLE_VP,
-              ROLE_TRAINER: token.claims.ROLE_TRAINER,
-            };
-            const tokenTemp = token.token;
-            dispatch(
-              getUser({ email: user.email, token: tokenTemp, role: role })
-            );
-          })
-          .catch((err: any) => console.log(err));
-      } else {
-        //logged out
-        setLoggedin(false);
-        console.log('Logged out');
-      }
-    });
-  }, []);
 
   return (
     <View style={style.container}>

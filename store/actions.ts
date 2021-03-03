@@ -1,10 +1,11 @@
 import { UserInfo, UserInput } from '../user/user';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
 import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
-import { WeekCategory } from '../weekCategories/weekCategory';
+import { WeekCategory } from '../weekCategories/WeekCategory';
 import { Category } from '../categoriesFeature/Category';
 
+/** ~~~~~~~~~~~~~ ENUMS ~~~~~~~~~~~~~~~ */
 export enum BatchActions {
   GetBatches = 'GET_BATCHES',
   ChangeBatch = 'CHANGE_BATCH',
@@ -23,7 +24,7 @@ export enum WeekCategoryActions {
   DeleteWeekCategory = 'DELETE_WEEK_CATEGORY',
   AddWeekCategory = 'ADD_WEEK_CATETGORY',
   GetWeekCategories = 'GET_WEEK_CATEGORIES',
-  ChangeWeekCategories = 'CHANGE_WEEK_CATEGORIES',
+  CategoriesMenuOptions = 'CATEGORIES_MENU_OPTIONS',
 }
 
 export enum AssociateActions {
@@ -35,6 +36,7 @@ export enum BatchWeekActions {
   NoteChange = 'CHANGE_NOTE',
 }
 
+/** ~~~~~~~~~~~~~ INTERFACES ~~~~~~~~~~~~~~~ */
 export interface AppAction {
   type: string;
   payload: any;
@@ -55,21 +57,6 @@ export interface AssociateAction extends AppAction {
   payload: AssociateWithFeedback[];
 }
 
-/**
- * Set the associates in the state to whatever is currently displaying in the UI.
- * @param associates
- */
-export function getAssociates(
-  associates: AssociateWithFeedback[]
-): AssociateAction {
-  console.log('calling get associates');
-  console.log(associates);
-
-  return {
-    type: AssociateActions.GetAssociates,
-    payload: associates,
-  };
-}
 export interface WeekAction extends AppAction {
   type: WeekActions;
   payload: QcWeek | QcWeek[];
@@ -79,6 +66,8 @@ export interface WeekCategoryAction extends AppAction {
   type: WeekCategoryActions;
   payload: Category[] | WeekCategory;
 }
+
+/** ~~~~~~~~~~~~~ DEFINED ACTIONS ~~~~~~~~~~~~~~~ */
 
 //info of the user that is logged in
 export function getUser(user: UserInfo): UserAction<UserInfo> {
@@ -110,6 +99,20 @@ export function getBatches(batches: Batch[]): BatchAction {
     type: BatchActions.GetBatches,
     payload: batches,
   };
+}
+
+/**
+ * Set the associates in the state to whatever is currently displaying in the UI.
+ * @param associates
+ */
+export function getAssociates(
+  associates: AssociateWithFeedback[]
+): AssociateAction {
+  const action: AssociateAction = {
+    type: AssociateActions.GetAssociates,
+    payload: associates,
+  };
+  return action;
 }
 
 export function changeBatch(batch: Batch): BatchAction {
@@ -169,9 +172,11 @@ export function getWeekCategories(categories:Category[]): WeekCategoryAction {
 	};
 };
 
-export function ChangeCategories(categories: Category[]): WeekCategoryAction {
+export function categoriesMenuOptions(
+  categories: Category[]
+): WeekCategoryAction {
   return {
-    type: WeekCategoryActions.ChangeWeekCategories,
+    type: WeekCategoryActions.CategoriesMenuOptions,
     payload: categories,
   };
 }

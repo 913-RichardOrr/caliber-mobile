@@ -13,14 +13,14 @@ import * as AssociateService from '../../associate/AssociateService';
 import TechnicalStatus from '../../associate/TechnicalStatus';
 
 const testFeedback = new AssociateService.QCFeedback();
-testFeedback.associateId = 'testId';
-testFeedback.batchId = 'testBatch';
-testFeedback.weekId = 1;
-testFeedback.qcTechnicalStatus = 2;
-testFeedback.qcNote = 'testNote';
+testFeedback.associateid = 'testId';
+testFeedback.batchid = 'testBatch';
+testFeedback.weeknumber = 1;
+testFeedback.technicalstatus = 2;
+testFeedback.notecontent = 'testNote';
 
 const testAssociate = new AssociateService.Associate();
-testAssociate.associateId = testFeedback.associateId;
+testAssociate.associateId = testFeedback.associateid;
 testAssociate.firstName = 'testFN';
 testAssociate.lastName = 'testLN';
 
