@@ -83,7 +83,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
    */
   function handleBatchSelect(index: string) {
     dispatch(changeBatch(batches[Number(index)]));
-    navigation.navigate('Reports');
+    navigation.navigate('Batch Page');
   }
 
   /**

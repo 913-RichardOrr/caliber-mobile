@@ -57,14 +57,15 @@ export function ReportsTable() {
     // let nweeks = weeks.length;
     let nweeks = 2;
 
-    //make header array of
+    //make header array with the Week Numbers
     for (let i = 0; i < nweeks; i++) {
       let temp = weeksHeader;
       temp.push(`Week ${i + 1}`);
       setWeeksHeader([...temp]);
     }
 
-    results.forEach(async (associate: Associate, index: number) => {
+    // Loops through all of the associates getting their technical status for each week.
+    results.forEach(async (associate: Associate) => {
       let feedback = [];
       feedback.push(`${associate.firstName} ${associate.lastName}`);
       for (let i = 1; i <= nweeks; i++) {
@@ -74,7 +75,6 @@ export function ReportsTable() {
           String(i),
           token
         );
-
         feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
       }
       let temp = associateWeekFeedback;

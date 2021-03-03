@@ -24,11 +24,7 @@ export type StackParams = {
 export default function BatchStackNavigator({ navigation }: MenuProp) {
   return (
     <Stack.Navigator initialRouteName='Year'>
-      <Stack.Screen
-        name='Year'
-        component={YearComponent}
-        // options={generalHeaderOptions(navigation)}
-      />
+      <Stack.Screen name='Year' component={YearComponent} />
       <Stack.Screen
         name='Quarter'
         component={QuarterComponent}
