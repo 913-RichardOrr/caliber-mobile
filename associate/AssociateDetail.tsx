@@ -20,7 +20,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
    * notes at once, so we should DEFINITELY not be using the redux store
    * This should be initialized to the correct Associate's current feedback, if they have one
    */
-  const [localText, setLocalText] = useState("");
+  const [localText, setLocalText] = useState('');
   const [qcNote, setQcNote] = useState(props.qcFeedback.notecontent);
   const [qcTechnicalStatus, setQcTechnicalStatus] = useState(
     props.qcFeedback.technicalstatus
@@ -44,7 +44,11 @@ function AssociateDetail(this: any, props: AssociateProps) {
      * Every time this button is pressed the database will update with the correct feedback.
      */
     setQcTechnicalStatus(newStatus);
-    AssociateService.updateAssociate(props.qcFeedback, { technicalstatus: newStatus }, token);
+    AssociateService.updateAssociate(
+      props.qcFeedback,
+      { technicalstatus: newStatus },
+      token
+    );
   }
 
   /**
@@ -52,16 +56,22 @@ function AssociateDetail(this: any, props: AssociateProps) {
    */
   async function handleNoteUpdate(text: string) {
     try {
-      console.log("Attempting to patch new note");
-      await AssociateService.updateAssociate(props.qcFeedback, {
-        notecontent: text,
-      }, token);
+      await AssociateService.updateAssociate(
+        props.qcFeedback,
+        {
+          notecontent: text,
+        },
+        token
+      );
     } catch (err: any) {
-      console.log("putting new note");
-      await AssociateService.putAssociate(props.qcFeedback, {
-        notecontent: text,
-        technicalstatus: props.qcFeedback.technicalstatus,
-      }, token);
+      await AssociateService.putAssociate(
+        props.qcFeedback,
+        {
+          notecontent: text,
+          technicalstatus: props.qcFeedback.technicalstatus,
+        },
+        token
+      );
     }
   }
 
@@ -88,7 +98,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
         <Input
           disabled
           onBlur={() => {
-            handleNoteUpdate(localText)
+            handleNoteUpdate(localText);
             console.log(localText);
           }}
           placeholder='Insert note here'
@@ -98,18 +108,17 @@ function AssociateDetail(this: any, props: AssociateProps) {
           scrollEnabled
           spellCheck={true}
           onChangeText={(text: string) => {
-            setQcNote(text)
+            setQcNote(text);
             setLocalText(text);
-            props.qcFeedback.notecontent = text
-          }
-          }
+            props.qcFeedback.notecontent = text;
+          }}
           testID='qcNote'
         />
       )}
       {viewNote && !user.role.ROLE_TRAINER && (
         <Input
           onBlur={() => {
-            handleNoteUpdate(localText)
+            handleNoteUpdate(localText);
             console.log(localText);
           }}
           placeholder='Insert note here'
@@ -119,11 +128,10 @@ function AssociateDetail(this: any, props: AssociateProps) {
           scrollEnabled
           spellCheck={true}
           onChangeText={(text: string) => {
-            setQcNote(text)
+            setQcNote(text);
             setLocalText(text);
-            props.qcFeedback.notecontent = text
-          }
-          }
+            props.qcFeedback.notecontent = text;
+          }}
           testID='qcNote'
         />
       )}

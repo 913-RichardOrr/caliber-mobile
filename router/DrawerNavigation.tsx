@@ -10,6 +10,7 @@ import {
   ReportStack,
 } from './MainStackNavigator.component';
 import { ReducerState } from '../store/store';
+import BatchStackNavigator from './BatchStackNavigator.component';
 
 enableScreens();
 
@@ -31,8 +32,16 @@ function DrawerNavigatorComponent() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name='Home' component={HomeStack} />
-      <Drawer.Screen name='QC Audit' component={QCAuditStack} />
-      <Drawer.Screen name='Reports' component={ReportStack} />
+      <Drawer.Screen
+        name='QC Audit'
+        component={QCAuditStack}
+        initialParams={{ screenName: 'Batch Page' }}
+      />
+      <Drawer.Screen
+        name='Reports'
+        component={ReportStack}
+        initialParams={{ screenName: 'Reports' }}
+      />
       {!user.role.ROLE_QC && (
         <Drawer.Screen name='Management' component={ManagementStack} />
       )}
