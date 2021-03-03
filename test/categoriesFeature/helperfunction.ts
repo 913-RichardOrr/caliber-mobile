@@ -1,45 +1,36 @@
 
-export function mockNav() {
-    const mockedNav = jest.fn();
-    jest.mock('@react-navigation/core', () => {
-        return {
-            useNavigation: () => ({ navigate: mockedNav })
-        }
-    });
-}
 
-export function mockTabs() {
-    const mockedTabs = jest.fn();
-    jest.mock('@react-navigation/material-top-tabs', () => {
-        return {
-            useNavigation: () => ({ navigate: mockedTabs })
-        }
-    });
-}
+const mockedNav = jest.fn();
+jest.mock('@react-navigation/core', () => {
+    return {
+        useNavigation: () => ({ navigate: mockedNav })
+    }
+});
 
-export function mockSearch() {
-    const mockedSearch = jest.fn();
-    jest.mock('react-native-elements', () => {
-        return {
-            mockedSearch
-        }
-    })
-}
+const mockedTabs = jest.fn();
+jest.mock('@react-navigation/material-top-tabs', () => {
+    return {
+        useNavigation: () => ({ navigate: mockedTabs })
+    }
+});
 
-export function mockFilter() {
-    const mockedFilter = jest.fn();
-    jest.mock('react-native-search-filter', () => {
-        return {
-            createFilter: () => mockedFilter
-        }
-    })
-}
+const mockedSearch = jest.fn();
+jest.mock('react-native-elements', () => {
+    return {
+        mockedSearch
+    }
+});
 
-export function mockAlphabet() {
-    const mockedAlphabet = jest.fn();
-    jest.mock('react-native-section-alphabet-list', () => {
-        return {
-            mockedAlphabet
-        }
-    })
-}
+const mockedFilter = jest.fn();
+jest.mock('react-native-search-filter', () => {
+    return {
+        createFilter: () => mockedFilter
+    }
+});
+
+const mockedAlphabet = jest.fn();
+jest.mock('react-native-section-alphabet-list', () => {
+    return {
+        mockedAlphabet
+    }
+});

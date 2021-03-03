@@ -3,6 +3,7 @@ import { View, TextInput, Text } from 'react-native';
 import { ReducerState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
+import style from '../global_styles'
 
 function AddNoteComponent() {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ function AddNoteComponent() {
       <Text>Overall Note</Text>
       <TextInput
         multiline
+        placeholder = "Put your overall batch note here"
+        style = {style.overallText}
         onChangeText={(value) =>
           dispatch(addOverallNote({ ...week, note: value }))
         }

@@ -15,6 +15,9 @@ const categoryReducer = (state: CaliberState = initialState, action: Action.AppA
         case Actions.CategoryActions.GetStale:
             newState.staleCat = action.payload as Category[];
             return newState;
+        case Actions.CategoryActions.GetRender:
+            newState.render = action.payload;
+            return newState;
         default: 
             return state;
     }

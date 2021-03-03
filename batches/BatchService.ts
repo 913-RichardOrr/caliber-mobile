@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Batch from './Batch';
+import Batch from './batch';
 
 interface trainerBatchResp {
 	batches: Batch[];

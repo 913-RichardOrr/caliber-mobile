@@ -1,6 +1,6 @@
-import Batch from '../batches/Batch';
+import Batch from '../batches/batch';
 import { UserInfo, UserInput } from '../user/user';
-import { WeekCategory } from '../weekCategories/WeekCategory';
+import { WeekCategory } from '../weekCategories/weekCategory';
 import { CaliberState } from './store';
 import QcWeek from '../batchWeek/QcWeek';
 
@@ -17,5 +17,6 @@ export const initialState: CaliberState = {
   weekCategories: [],
   categories: [],
   activeCat: [],
-  staleCat: []
+  staleCat: [],
+  render: true
 };

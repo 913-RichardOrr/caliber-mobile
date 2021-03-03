@@ -5,6 +5,7 @@ import QcWeek from '../batchWeek/QcWeek';
 import { WeekCategory } from '../weekCategories/WeekCategory';
 import { Category } from '../categoriesFeature/Category';
 
+/** ~~~~~~~~~~~~~ ENUMS ~~~~~~~~~~~~~~~ */
 export enum BatchActions {
   GetBatches = 'GET_BATCHES',
   ChangeBatch = 'CHANGE_BATCH',
@@ -35,6 +36,7 @@ export enum BatchWeekActions {
   NoteChange = 'CHANGE_NOTE',
 }
 
+/** ~~~~~~~~~~~~~ INTERFACES ~~~~~~~~~~~~~~~ */
 export interface AppAction {
   type: string;
   payload: any;
@@ -55,22 +57,6 @@ export interface AssociateAction extends AppAction {
   payload: AssociateWithFeedback[];
 }
 
-/**
- * Set the associates in the state to whatever is currently displaying in the UI.
- * @param associates
- */
-export function getAssociates(
-  associates: AssociateWithFeedback[]
-): AssociateAction {
-  console.log('calling get associates');
-
-  const action: AssociateAction = {
-    type: AssociateActions.GetAssociates,
-    payload: associates,
-  };
-  console.log(associates);
-  return action;
-}
 export interface WeekAction extends AppAction {
   type: WeekActions;
   payload: QcWeek | QcWeek[];
@@ -80,6 +66,8 @@ export interface WeekCategoryAction extends AppAction {
   type: WeekCategoryActions;
   payload: Category[] | WeekCategory;
 }
+
+/** ~~~~~~~~~~~~~ DEFINED ACTIONS ~~~~~~~~~~~~~~~ */
 
 //info of the user that is logged in
 export function getUser(user: UserInfo): UserAction<UserInfo> {
@@ -112,6 +100,20 @@ export function getBatches(batches: Batch[]): BatchAction {
   const action: BatchAction = {
     type: BatchActions.GetBatches,
     payload: batches,
+  };
+  return action;
+}
+
+/**
+ * Set the associates in the state to whatever is currently displaying in the UI.
+ * @param associates
+ */
+export function getAssociates(
+  associates: AssociateWithFeedback[]
+): AssociateAction {
+  const action: AssociateAction = {
+    type: AssociateActions.GetAssociates,
+    payload: associates,
   };
   return action;
 }
@@ -179,7 +181,9 @@ export function getWeekCategories(categories: Category[]): WeekCategoryAction {
   return action;
 }
 
-export function CategoriesMenuOptions(categories: Category[]): WeekCategoryAction {
+export function categoriesMenuOptions(
+  categories: Category[]
+): WeekCategoryAction {
   const action: WeekCategoryAction = {
     type: WeekCategoryActions.CategoriesMenuOptions,
     payload: categories,

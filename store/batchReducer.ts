@@ -1,6 +1,6 @@
 import { CaliberState } from './store';
 import * as Actions from './actions';
-import Batch from '../batches/Batch';
+import Batch from '../batches/batch';
 import { initialState } from './initialState';
 import { AssociateWithFeedback } from '../associate/AssociateService';
 

@@ -34,7 +34,7 @@ class BatchWeekService {
 
      // POST function for  many qc_notes /batches/{batchId}/weeks/{weekid}
      addNewQcNote(qn: QcNote []): Promise<null> {
-        let pathname = `batches/${qn[0].batchId}/weeks/${qn[0].week}`;
+        let pathname = `batches/${qn[0].batchId}/weeks/${qn[0].weeknumber}`;
         return axios.post(this.URI + pathname, qn).then(result => null);
     }
 
@@ -52,7 +52,7 @@ export class QcWeek {
     public week: number =1;
 
 }
-
+/* 
 export class QcNote {
     public id: number =0;
     public batchId: string ='';
@@ -63,11 +63,19 @@ export class QcNote {
     public content: string ='';
     public type: QcNoteType = '';
 
+} */
+
+export class QcNote {
+    public qcnoteid: number =0;
+    public weeknumber: number =0;
+    public batchId: string='';
+    public associateid: string ='';
+    public technicalstatus: STATUS='Undefined';  // must be string
+    public notecontent: string ='';
+
 }
 
-interface Status {
- 
-}
+export type STATUS = 'Undefined' | 'Poor' | 'Average' | 'Good' | 'Superstar';
 
 interface QcNoteType {
 

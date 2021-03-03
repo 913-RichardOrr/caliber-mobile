@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import store from '../store/store';
+import { View, Text, ScrollView, Image } from 'react-native';
+import store, { ReducerState } from '../store/store';
 import { Category } from './Category';
 import CategoryName from './CategoryName';
 import { SearchBar } from 'react-native-elements';
@@ -8,6 +8,7 @@ import { createFilter } from 'react-native-search-filter';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import catStyle from './categoriesStyles';
 import CategoryService from './CategoryService';
+import { useSelector } from 'react-redux';
 import RevLogo from './RevLogo.svg';
 
 interface CategoryTableProp {
@@ -20,19 +21,28 @@ interface CategoryTableProp {
  *  @returns: view that has a table of either active or stale categories
  */
 export default function CategoryTable({ status }: CategoryTableProp) {
-    let [search, searchSet] = React.useState('');
+    // create or get state
+    let [search, searchSet] = useState('');
     const array: Category[] = [];
-    const [activeCat, setActive] = React.useState(array);
-    const [staleCat, setStale] = React.useState(array);
+    const [activeCat, setActive] = useState(array);
+    const [staleCat, setStale] = useState(array);
     const [rend, setRend] = React.useState(false);
     const result = new Array();
 
+    // authorizer state
+    const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
+    const token = currentUser.token;
+
     // after every render, check if there is a change in categories
     useEffect(() => store.subscribe(async () => {
-        const active = await CategoryService.getCategories(true);
-        const stale = await CategoryService.getCategories(false);
-        setActive(active);
-        setStale(stale);
+        await CategoryService.getCategories(token,true).then((activeRes) => {
+            setActive(activeRes);
+        }).catch(error => console.log(error));
+        await CategoryService.getCategories(token,false).then((staleRes) => {
+            setStale(staleRes);
+        }).catch(error => console.log(error));
+        // setActive(active);
+        // setStale(stale);
         setRend(true);
     }), [store, store.getState().categoryReducer]);
 
@@ -60,54 +70,52 @@ export default function CategoryTable({ status }: CategoryTableProp) {
         }
     }
 
-return (
-    <View>
-        <View testID='SearchBarView' style={catStyle.instructView}>
-            {/* Search Bar for categories */}
-            <SearchBar
-                placeholder="Enter Skill..."
-                onChangeText={(value: any) => {
-                    searchSet(value);
-                }}
-                value={search}
-                inputStyle={catStyle.inputBar}
-                inputContainerStyle={catStyle.inputContainer}
-                containerStyle={catStyle.searchContainer}
-                searchIcon={{ color: 'white' }}
-            />
-            {/* Toggle instructions */}
-            <Text testID='Toggle' style={catStyle.instructText}>Click to toggle Active/Stale Categories</Text>
-        </View>
-        {rend == true && (
-            <ScrollView testID={'AlphabetView'} style={{ height: '84.5%' }}>
-                {/* Alphabetized list of skills */}
-                <AlphabetList
-                    data={result}
-                    indexLetterColor={'rgba(0,0,0,0)'}
-                    renderCustomItem={(item: any) => (
-                        <CategoryName
-                            skill={item.value}
-                            categoryid={item.key}
-                            active={item.active}
-                        />
-                    )}
-                    renderCustomSectionHeader={(section: any) => (
-                        <View style={catStyle.sectionHeaderContainer}>
-                            <Text style={catStyle.sectionHeaderLabel}>{section.title}</Text>
-                        </View>
-                    )}
+    return (
+        <View>
+            <View testID='SearchBarView' style={catStyle.instructView}>
+                {/* Search Bar for categories */}
+                <SearchBar
+                    placeholder="Enter Skill..."
+                    onChangeText={(value: any) => {
+                        searchSet(value);
+                    }}
+                    value={search}
+                    inputStyle={catStyle.inputBar}
+                    inputContainerStyle={catStyle.inputContainer}
+                    containerStyle={catStyle.searchContainer}
+                    searchIcon={{ color: 'white' }}
                 />
-            </ScrollView>
-        )}
-        {rend == false && (
-            <View>
-                <View testID='logo' style={catStyle.logoView}> 
-                    <Image style={catStyle.logo} source={RevLogo} />
-                </View>
+                {/* Toggle instructions */}
+                <Text testID='Toggle' style={catStyle.instructText}>Click to toggle Active/Stale Categories</Text>
             </View>
-        )}
-    </View>
-)
+            {rend == true && (
+                <ScrollView testID={'AlphabetView'} style={{ height: '84.5%' }}>
+                    {/* Alphabetized list of skills */}
+                    <AlphabetList
+                        data={result}
+                        indexLetterColor={'rgba(0,0,0,0)'}
+                        renderCustomItem={(item: any) => (
+                            <CategoryName
+                                skill={item.value}
+                                categoryid={item.key}
+                                active={item.active}
+                            />
+                        )}
+                        renderCustomSectionHeader={(section: any) => (
+                            <View style={catStyle.sectionHeaderContainer}>
+                                <Text style={catStyle.sectionHeaderLabel}>{section.title}</Text>
+                            </View>
+                        )}
+                    />
+                </ScrollView>
+            )}
+            {rend == false && (
+                <View>
+                    <View testID='logo' style={catStyle.logoView}> 
+                        <Image style={catStyle.logo} source={RevLogo} />
+                    </View>
+                </View>
+            )}
+        </View>
+    )
 }
-
-// export default CategoryTable;    

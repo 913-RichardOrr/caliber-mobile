@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import batchReducer from './batchReducer';
 import userReducer from './userReducer';
-import Batch from '../batches/Batch';
 import { AppAction } from './actions';
 import { UserInfo, UserInput } from '../user/user';
 import { AssociateWithFeedback } from '../associate/AssociateService';
@@ -11,8 +10,9 @@ import QcWeek from '../batchWeek/QcWeek';
 import WeekCategoryReducer from './WeekCategoryReducer';
 import { Category } from '../categoriesFeature/Category';
 import categoryReducer from './categoriesFeature/CategoryReducer';
-import { WeekCategory } from '../weekCategories/WeekCategory';
-import weekReducer from './WeekReducer'
+import { WeekCategory } from '../weekCategories/weekCategory';
+import weekReducer from './WeekReducer';
+import Batch from '../batches/batch';
 
 export interface BatchState {
   batch: Batch;
@@ -31,31 +31,28 @@ export interface UserState {
 export interface AssociateState {
   associates: AssociateWithFeedback[];
 }
-export interface CaliberState extends UserState, BatchState, AssociateState {}
 
 export interface WeekCategoryState {
   weekCategories: Category[];
   weekCategory: WeekCategory;
 }
 export interface CategoryState {
-	activeCat: Category[];
-	staleCat: Category[];
+  activeCat: Category[];
+  staleCat: Category[];
+  render: boolean;
 }
-export interface CaliberState
-  extends UserState,
-    BatchState,
-    WeekCategoryState {}
 
 export interface CategoryState {
   categories: Category[];
 }
+
 export interface CaliberState
   extends UserState,
     CategoryState,
     BatchState,
-    WeekCategoryState {}
-
-export interface CaliberState extends UserState, BatchState, WeekState {}
+    WeekCategoryState,
+    AssociateState,
+    WeekState {}
 
 //add your reducer to the object
 const rootReducer = combineReducers({
@@ -73,8 +70,8 @@ const rootReducer = combineReducers({
 export type ReducerState = ReturnType<typeof rootReducer>;
 
 const store: Store<ReducerState, AppAction> = createStore(
-	rootReducer,
-	composeWithDevTools(applyMiddleware(thunk))
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;

@@ -1,5 +1,4 @@
-//import ToastNotification from 'react-native-toast-notification';
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     TouchableOpacity, 
     View, 
@@ -8,84 +7,80 @@ import {
     TextInput, 
     Image 
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CategoryTable from './CategoryTable';
 import catStyle from '../categoriesFeature/categoriesStyles';
 import AddBtn from './AddBtn.png';
 import CategoryService from './CategoryService';
-import { GetActive } from '../store/categoriesFeature/CategoryActions';
+import { GetActive, GetRender } from '../store/categoriesFeature/CategoryActions';
+import { CategoryState, ReducerState } from '../store/store';
 
 /**
  *  This component encloses the entire Manage Categories feature
  *  @returns: view that has tabs of active/stale categories
  *  and a button that adds a category
  */
-function ManageCategories() {
+export default function ManageCategories() {
+    // create or get state
     const Tab = createMaterialTopTabNavigator();
-    // set local state for currently viewed tab
-    const [clicked, setClicked] = React.useState(false);
+    const [clicked, setClicked] = useState(false);
     const [textValue, onChangeText] = React.useState('');
     const dispatch = useDispatch();
 
+    // authorizer state
+    const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
+    const token = currentUser.token;
+
+    const renderValue = useSelector((state: CategoryState) => state.render);
+    let newRender;
+    if (renderValue === true ) {
+        newRender = false;
+    } else {
+        newRender = true;
+    }
+    
+    dispatch(GetRender(newRender));
+    
     return (
         <React.Fragment>
-            {/* Conditional rendering for toast notifications for add categories */}
-            {/* <React.Fragment>
-                {toastStatus === 'success' ? <ToastNotification
-                    text='Category updated!'
-                    duration={3000}
-                    isTop={true}
-                />
-                    : <></>}
-                {toastStatus === 'failure' ? <ToastNotification
-                    text='Failed to update category'
-                    duration={3000}
-                />
-                    : <></>}
-            </React.Fragment> */}
             {/* Tabs that navigate between active and stale categories */}
-            <React.Fragment>
-                <Tab.Navigator
-                    tabBarOptions={{
-                        labelStyle: { fontSize: 14 },
-                        activeTintColor: '#F26925',
-                        inactiveTintColor: '#474C55',
-                        style: { backgroundColor: '#FFFFFF' },
-                        indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
+                <React.Fragment>
+                    <Tab.Navigator
+                        tabBarOptions={{
+                            labelStyle: { fontSize: 14 },
+                            activeTintColor: '#F26925',
+                            inactiveTintColor: '#474C55',
+                            style: { backgroundColor: '#FFFFFF' },
+                            indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
 
-                    }}
-                >
-                    {/* Active Categories Table */}
-                    <Tab.Screen
-                        name="Active"
-                        children={() => <CategoryTable status={true}/>}
-                    />
-                    {/* Stale Categories Table */}
-                    <Tab.Screen
-                        name="Inactive"
-                        children={() => <CategoryTable status={false}/>}
-                    />
-                </Tab.Navigator>
-                {/* Add button to be rendered at the bottom of the screen */}
-                <TouchableOpacity
-                    testID='addCatBtn'
-                    onPress={() => setClicked(true)}
-                    accessibilityLabel='Add Category'>
-                    <Image style={catStyle.addBtnPicture} source={AddBtn} />
-                </TouchableOpacity>
-            </React.Fragment>
+                        }}
+                    >
+                        {/* Active Categories Table */}
+                        <Tab.Screen
+                            name="Active"
+                            children={() => <CategoryTable status={true}/>}
+                        />
+                        {/* Stale Categories Table */}
+                        <Tab.Screen
+                            name="Inactive"
+                            children={() => <CategoryTable status={false}/>}
+                        />
+                    </Tab.Navigator>
+                    {/* Add button to be rendered at the bottom of the screen */}
+                    <TouchableOpacity
+                        onPress={() => setClicked(true)}
+                        accessibilityLabel='Add Category'>
+                        <Image style={catStyle.addBtnPicture} source={AddBtn} />
+                    </TouchableOpacity>
+                </React.Fragment>
             {/* If clicked is true, open the modal */}
             {clicked == true && (
                 <Modal
                     animationType='slide'
                     // this happens when a user presses the hardware back TouchableOpacity
                     onRequestClose={() => {
-                        // tiny toast
-                        // <ToastNotification
-                        //     text='Closed without saving.'
-                        //     duration={3000}
-                        // />
+                        setClicked(false);
                     }}
                     transparent
                 >
@@ -132,21 +127,17 @@ function ManageCategories() {
      *  This component opens a modal when 'Add Category' TouchableOpacity is clicked
      *  @param: value is a string that is what the user inputs for a new category
      */
-    function AddCategory(value: string) {
+    function AddCategory(newCat: string) {
         // calls categoryService.addCategory then getCategory to update the page
-        CategoryService.addCategory(value).then(() => {
-            CategoryService.getCategories(true).then((results) => {
+        CategoryService.addCategory(token, newCat).then(() => {
+            CategoryService.getCategories(token, true).then((results) => {
                 dispatch(GetActive(results));
+            }).catch(error => {
+                console.log(error);
             })
-
-            // call toast function with result
-            //setToastStatus('success');
-
         }).catch(error => {
-            // call toast function with result
-            //setToastStatus('failure');
+            console.log(error);
+            alert('Failed to Add Category');
         });
     }
 }
-
-export default ManageCategories;
