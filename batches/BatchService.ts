@@ -1,27 +1,51 @@
 import axios from 'axios';
 import Batch from './batch';
 
+interface trainerBatchResp {
+  batches: Batch[];
+  validYears: number[];
+}
+
 class BatchService {
   private URI: string;
   constructor() {
     this.URI =
-      /*process.env.CALIBER_URI*/ 'https://aosczl5fvf.execute-api.us-west-2.amazonaws.com/default';
+      /*process.env.CALIBER_URI*/ 'https://a737vxhhbh.execute-api.us-east-1.amazonaws.com/default/batches';
   }
 
-  getBatchesByTrainerEmail(trainerEmail: string): Promise<Batch[]> {
-    console.log('Batch Service: getBatchesByTrainerEmail');
+  getValidYears(token: string): Promise<[]> {
+    console.log('Batch Service: getValidYears');
     return axios
-      .get(this.URI + '/batches', { params: { trainerEmail: trainerEmail } })
+      .get(this.URI, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { query: 'validYears' },
+      })
       .then((result) => result.data)
       .catch((error) => {
         console.error(error);
       });
   }
-  getAllBatches(year: number, quarter: number): Promise<Batch[]> {
+  getBatchesByTrainerEmail(
+    token: string,
+    trainerEmail: string
+  ): Promise<trainerBatchResp> {
+    console.log('Batch Service: getBatchesByTrainerEmail');
+    return axios
+      .get(this.URI, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { trainerEmail: trainerEmail },
+      })
+      .then((result) => result.data)
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  getAllBatches(token: string, year: number): Promise<Batch[]> {
     console.log('Batch Sevice: getAllBatches');
     return axios
-      .get(this.URI + '/batchesall', {
-        params: { year: year, quarter: quarter },
+      .get(this.URI, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { year: year },
       })
       .then((result) => result.data)
       .catch((error) => {

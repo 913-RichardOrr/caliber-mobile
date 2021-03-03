@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
 import { Input } from 'react-native-elements';
 import batchWeekService from './batchWeekService';
+import style from '../global_styles'
 
 
 function AddNoteComponent(){
@@ -25,13 +26,18 @@ function AddNoteComponent(){
 
     return (
         <View>
-            <Input multiline numberOfLines={3} label='Overall QC Feedback' 
-            onChangeText={(value: any) => 
-                dispatch(addOverallNote({...week, note: value}))
-            }
-            onBlur={sendPost}
-            value = {week.note}>
-            </Input>
+            <Input
+                multiline
+                placeholder = "Put your overall batch note here"
+                numberOfLines={3}
+                label='Overall QC Feedback' 
+                onChangeText={(value: any) => 
+                    dispatch(addOverallNote({...week, note: value}))
+                }
+                onBlur={sendPost}
+                value = {week.note}
+                style = {style.overallText}
+            />
         </View>
     )
 }

@@ -1,7 +1,11 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import 'react-native';
-import 'jest-enzyme';
+import 'jest-enzyme';../../weekCategories/WeekCategory
 import '@testing-library/jest-dom';
-import Enzyme from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 import { WeekCategory } from '../../weekCategories/weekCategory';
 import { CategoryTable } from '../../categories/categoryTable';

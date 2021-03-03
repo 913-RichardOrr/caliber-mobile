@@ -31,7 +31,7 @@ class BatchWeekService {
 
      // update the overall note and technical status for a week
     updateFeedback(token: string, qw: QcWeek): Promise<any> {
-        return axios.post(this.URI + `qc/batches/TR-1004/weeks/${qw.weeknumber}`, qw, this.getConfig(token)).then().catch((err) => {
+        return axios.post(this.URI + `qc/batches/${qw.batchid}/weeks/${qw.weeknumber}`, qw, this.getConfig(token)).then().catch((err) => {
             console.error(err);
         });
     }
@@ -40,17 +40,5 @@ class BatchWeekService {
 
 export default new BatchWeekService();
 
-// the way stored in postgres below 
 
 export type STATUS = 'Undefined' | 'Poor' | 'Average' | 'Good' | 'Superstar';
-
-
-export class qcnotes {
-    public qcnoteid: number =0;
-    public weeknumber: number =0;
-    public batchid: string='';
-    public associateid: string ='';
-    public technicalstatus: STATUS='Undefined';  // must be string
-    public notecontent: string ='';
-
-}

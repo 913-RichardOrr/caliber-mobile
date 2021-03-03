@@ -9,45 +9,66 @@ class AssociateService {
   private URI: string;
   constructor() {
     // URI for the API Gateway
-    this.URI = 'https://7tu8pm3exl.execute-api.us-east-1.amazonaws.com/default';
+    this.URI =
+      'https://a737vxhhbh.execute-api.us-east-1.amazonaws.com/default/qc';
   }
 
   async getAssociate(
     a: Associate,
     batch: string,
-    week: string
+    week: string,
+    token: string
   ): Promise<QCFeedback> {
     return axios
       .get(
-        `${this.URI}/qc/batches/${batch}/weeks/${week}/associates/${a.associateId}`
+        `${this.URI}/batches/${batch}/weeks/${week}/associates/${a.associateId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
+        let qcFeedback = new QCFeedback();
+        qcFeedback.associateid = a.associateId;
+        qcFeedback.batchid = batch;
+        qcFeedback.weeknumber = Number(week);
+        this.putAssociate(
+          qcFeedback,
+          {
+            notecontent: qcFeedback.notecontent,
+            technicalstatus: qcFeedback.technicalstatus,
+          },
+          token
+        );
         console.error(err);
       });
   }
-  async replaceAssociate(
+
+  async putAssociate(
     qcfeedback: QCFeedback,
-    updateObject: Object
+    updateObject: Object,
+    token: string
   ): Promise<QCFeedback> {
     return axios
       .put(
-        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
-        updateObject
+        `${this.URI}/batches/${qcfeedback.batchid}/weeks/${qcfeedback.weeknumber}/associates/${qcfeedback.associateid}`,
+        JSON.stringify(updateObject),
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
         console.error(err);
       });
   }
+
   async updateAssociate(
     qcfeedback: QCFeedback,
-    updateObject: Object
+    updateObject: Object,
+    token: string
   ): Promise<QCFeedback> {
     return axios
       .patch(
-        `${this.URI}/qc/batches/${qcfeedback.batchId}/weeks/${qcfeedback.weekId}/associates/${qcfeedback.associateId}`,
-        updateObject
+        `${this.URI}/batches/${qcfeedback.batchid}/weeks/${qcfeedback.weeknumber}/associates/${qcfeedback.associateid}`,
+        updateObject,
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((result) => result.data)
       .catch((err) => {
@@ -58,11 +79,11 @@ class AssociateService {
 export default new AssociateService();
 
 export class QCFeedback {
-  batchId: string = '';
-  weekId: number = 0;
-  associateId: string = '';
-  qcNote: string = '';
-  qcTechnicalStatus: number = 0;
+  batchid: string = '';
+  weeknumber: number = 0;
+  associateid: string = '';
+  notecontent: string = '';
+  technicalstatus: number = 0;
 }
 
 export class Associate {
