@@ -49,7 +49,7 @@
 	"bugs": {
 		"url": "https://github.com/913-RichardOrr/caliber-mobile/issues"
 	},
-	"homepage": "https://revature-mobile.revaturelabs.com/",
+	"homepage": "https://revaturemobile.revaturelabs.com/",
 	"dependencies": {
 		"@react-native-community/masked-view": "0.1.10",
 		"@react-navigation/native": "^5.8.10",
