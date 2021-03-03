@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { ReducerState } from '../store/store';
 import { getWeeks, changeSelectedWeek } from '../store/actions';
 import batchWeekService from './batchWeekService';
+import CategoryService from '../categoriesFeature/CategoryService';
 import styles from '../global_styles';
 
 /**
@@ -14,7 +15,6 @@ export default function WeekSelectionComponent() {
     const dispatch = useDispatch();
     const selectedBatch = useSelector((state: ReducerState) => state.batchReducer.batch);
     const weeks = useSelector((state: ReducerState) => state.weekReducer.weeks);
-    //const selectedWeek = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
     const user = useSelector((state: ReducerState) => state.weekReducer.user);
 
     useEffect(() => {
