@@ -4,7 +4,11 @@ import { Category } from './Category';
 class categoryService {
   private URI: string;
   constructor() {
+<<<<<<< HEAD
     this.URI = 'https://d3e1hb8u20.execute-api.us-east-1.amazonaws.com/default';
+=======
+    this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
+>>>>>>> 8292bd3ffcb9687d4568a67e3c39fb12acc39d86
   }
 
   // GET function for /categories

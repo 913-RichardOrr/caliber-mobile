@@ -1,8 +1,8 @@
 import { UserInfo, UserInput } from '../user/user';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
 import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
-import { WeekCategory } from '../weekCategories/weekCategory';
+import { WeekCategory } from '../weekCategories/WeekCategory';
 import { Category } from '../categoriesFeature/Category';
 
 /** ~~~~~~~~~~~~~ ENUMS ~~~~~~~~~~~~~~~ */
@@ -71,11 +71,10 @@ export interface WeekCategoryAction extends AppAction {
 
 //info of the user that is logged in
 export function getUser(user: UserInfo): UserAction<UserInfo> {
-  const action: UserAction<UserInfo> = {
+  return {
     type: UserActions.GetUser,
     payload: user,
   };
-  return action;
 }
 
 //forgot password email
@@ -89,19 +88,17 @@ export function getUser(user: UserInfo): UserAction<UserInfo> {
 
 //user input
 export function loginChange(user: UserInput): UserAction<UserInput> {
-  const action: UserAction<UserInput> = {
+  return {
     type: UserActions.LoginChange,
     payload: user,
   };
-  return action;
 }
 
 export function getBatches(batches: Batch[]): BatchAction {
-  const action: BatchAction = {
+  return {
     type: BatchActions.GetBatches,
     payload: batches,
   };
-  return action;
 }
 
 /**
@@ -119,74 +116,67 @@ export function getAssociates(
 }
 
 export function changeBatch(batch: Batch): BatchAction {
-  const action: BatchAction = {
+  return {
     type: BatchActions.ChangeBatch,
     payload: batch,
   };
-  return action;
 }
+
 export function getWeeks(weeks: QcWeek[]): WeekAction {
-  const action: WeekAction = {
+  return {
     type: WeekActions.GetWeeks,
     payload: weeks,
   };
-  return action;
 }
 
 export function changeSelectedWeek(week: QcWeek): WeekAction {
-  const action: WeekAction = {
+  return {
     type: WeekActions.ChangeSelectedWeek,
     payload: week,
   };
-  return action;
 }
 
-export function addWeek(week: QcWeek): WeekAction {
-  const action: WeekAction = {
-    type: WeekActions.AddWeek,
-    payload: week,
-  };
-  return action;
+export function addWeek(weeks: QcWeek[]): WeekAction {
+	return {
+		type: WeekActions.AddWeek,
+		payload: weeks
+	};
 }
 
-export function addOverallNote(week: QcWeek): WeekAction {
-  const action: WeekAction = {
-    type: WeekActions.ChangeSelectedWeek,
-    payload: week,
-  };
-  return action;
+export function addOverallNote(notes: QcWeek): WeekAction {
+	return {
+		type: WeekActions.ChangeSelectedWeek,
+		payload: notes
+	};
 }
+
 
 export function deleteWeekCategory(category: WeekCategory): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.DeleteWeekCategory,
-    payload: category,
-  };
-  return action;
+	return {
+		type: WeekCategoryActions.DeleteWeekCategory,
+		payload: category
+	};
 }
 
 export function addWeekCategory(category: WeekCategory): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.AddWeekCategory,
-    payload: category,
-  };
-  return action;
+	return {
+		type: WeekCategoryActions.AddWeekCategory,
+		payload: category
+	};
 }
 
-export function getWeekCategories(categories: Category[]): WeekCategoryAction {
-  const action: WeekCategoryAction = {
-    type: WeekCategoryActions.GetWeekCategories,
-    payload: categories,
-  };
-  return action;
+export function getWeekCategories(categories:Category[]): WeekCategoryAction {
+	return {
+		type: WeekCategoryActions.GetWeekCategories,
+		payload: categories
+	};
 }
 
 export function categoriesMenuOptions(
   categories: Category[]
 ): WeekCategoryAction {
-  const action: WeekCategoryAction = {
+  return {
     type: WeekCategoryActions.CategoriesMenuOptions,
     payload: categories,
   };
-  return action;
 }

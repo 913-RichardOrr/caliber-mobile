@@ -12,6 +12,14 @@ const designResolution = {
 const perfectSize = create(designResolution);
 
 export const style = StyleSheet.create({
+  overallText: {
+    width: perfectSize(360),
+    height: perfectSize(150),
+    backgroundColor: 'white',
+    borderWidth: perfectSize(1),
+    borderColor: REVATURE_ORANGE,
+    marginBottom: perfectSize(15),
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -37,7 +45,22 @@ export const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  logo: { 
+    width: perfectSize(100), 
+    height: perfectSize(30), 
+    marginLeft: perfectSize(60), 
+    marginRight: perfectSize(30),
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  logoLogin: { 
+    width: perfectSize(100), 
+    height: perfectSize(30), 
+    marginLeft: perfectSize(115), 
+    marginRight: perfectSize(30),
+    alignItems: "center",
+    justifyContent: "center"
+  },
   logoutBackground: {
     backgroundColor: '#F26925',
     height: 40,
@@ -46,7 +69,6 @@ export const style = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
-
   loginInput: {
     marginBottom: 40,
     borderBottomColor: '#fff',
@@ -118,23 +140,26 @@ export const style = StyleSheet.create({
    * for sorting first name
    */
   tOSF: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
     width: perfectSize(120),
     height: perfectSize(50),
-    left: perfectSize(30),
+    left: perfectSize(50),
   },
   /**
    * touchable opacity for sorting
    * last name
    */
   tOSL: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
     width: perfectSize(120),
     height: perfectSize(50),
     top: perfectSize(-50),
-    left: perfectSize(180),
+    left: perfectSize(-80),
   },
   sortHeader: {
     fontSize: perfectSize(12),
-    textAlign: 'center',
     fontWeight: 'bold',
     color: REVATURE_ORANGE,
     position: 'relative',
@@ -160,11 +185,41 @@ export const style = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: perfectSize(10),
   },
+  weekSelect: {
+    fontSize: perfectSize(18)
+  },
+  addWeekButton: {
+    backgroundColor: REVATURE_ORANGE,
+    width: 45
+  },
+	loading: {
+		display: 'flex',
+		alignContent: 'center',
+		justifyContent: 'center',
+	},
+	subheading: {
+		fontSize: perfectSize(18),
+		fontWeight: 'bold',
+    margin: perfectSize(5)
+	},
+  searchInput: {
+    width: perfectSize(300),
+    height: perfectSize(30), 
+    margin: perfectSize(10),
+    borderWidth: 1, 
+    borderRadius: 10 
+  },
+  searchContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   underDevelopmentText: {
     color: REVATURE_ORANGE,
-    // textAlign: 'center',
+    textAlign: 'center',
     fontSize: 36,
   },
 });
+
 
 export default style;

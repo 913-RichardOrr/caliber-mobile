@@ -64,6 +64,7 @@ function AssociateTableComponent() {
     let newAssociateArray: Associate[] = [];
     let serviceResult;
     serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
+<<<<<<< HEAD
     serviceResult.forEach((asoc: any) => {
       let associate = new Associate();
       associate.firstName = asoc.firstName;
@@ -71,6 +72,17 @@ function AssociateTableComponent() {
       associate.associateId = asoc.email;
       newAssociateArray.push(associate);
     });
+=======
+    if(serviceResult) {
+      serviceResult.forEach((asoc: any) => {
+        let associate = new Associate();
+        associate.firstName = asoc.firstName;
+        associate.lastName = asoc.lastName;
+        associate.associateId = asoc.email;
+        newAssociateArray.push(associate);
+      });
+    }
+>>>>>>> 8292bd3ffcb9687d4568a67e3c39fb12acc39d86
     return newAssociateArray;
   }
 
@@ -84,7 +96,11 @@ function AssociateTableComponent() {
       qcFeedback = await AssociateService.getAssociate(
         associate,
         batch.batchId,
+<<<<<<< HEAD
         String(week.weekNumber),
+=======
+        String(week.weeknumber),
+>>>>>>> 8292bd3ffcb9687d4568a67e3c39fb12acc39d86
         token
       );
       let value = new AssociateWithFeedback();
@@ -130,6 +146,7 @@ function AssociateTableComponent() {
       dispatch(getAssociates(val));
     }
   }
+<<<<<<< HEAD
 
   /**
    * Updates all of the associates with their new notes and
@@ -183,6 +200,11 @@ function AssociateTableComponent() {
           alert(JSON.stringify(associates));
         }}></Button>
       <Button
+=======
+  return (
+    <View style={style.associatesViewComponent}>
+      <Button
+>>>>>>> 8292bd3ffcb9687d4568a67e3c39fb12acc39d86
         onPress={async () => {
           let x = [...associates];
           shuffle(x);
@@ -248,6 +270,7 @@ function AssociateTableComponent() {
         )}
         keyExtractor={(item) => item.associate.firstName}
       />
+<<<<<<< HEAD
       <Button
         raised
         titleStyle={style.title}
@@ -258,6 +281,8 @@ function AssociateTableComponent() {
         onPress={handleAllUpdate}
         testID='saveNote'
       />
+=======
+>>>>>>> 8292bd3ffcb9687d4568a67e3c39fb12acc39d86
     </View>
   );
 }

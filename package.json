@@ -18,8 +18,8 @@
   "jest": {
     "preset": "react-native",
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler)/)",
-      "node_modules/(?!(react-native|@react-native-[a-z]*|react-native-[a-z]*|react-native-[a-z]*-[a-z]*|@expo)/)"
+      "node_modules/(?!(react-native|caliber-mobile|@react-native-picker/picker|react-native-gesture-handler|react-native-elements|react-native-size-matters|react-native-ratings)/)",
+			"node_modules/(?!(jest-)?react-native|react-(native|universal|navigation)-(.*)|@react-native-community/(.*)|@react-navigation/(.*)|(@[a-zA-Z]+/)?(reason|rescript)-(.*)+)"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/913-RichardOrr/caliber-mobile/issues"
   },
-  "homepage": "https://github.com/913-RichardOrr/caliber-mobile#readme",
+  "homepage": "calibermobile.revaturelabs.com",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@react-native-community/masked-view": "0.1.10",
@@ -76,6 +76,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-alphabet-sectionlist": "0.0.4",
     "react-native-alphabetlistview": "^0.3.1",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-dynamic-search-bar": "^2.0.0",
     "react-native-elements": "^3.2.0",
     "react-native-gesture-handler": "^1.9.0",
@@ -87,7 +88,9 @@
     "react-native-screens": "~2.15.0",
     "react-native-search-filter": "^0.1.5",
     "react-native-section-alphabet-list": "^2.0.3",
+    "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.2",
+    "react-native-table-component": "^1.2.1",
     "react-native-toast-notification": "^1.1.2",
     "react-native-web": "^0.15.0",
     "react-redux": "^7.2.2",
@@ -109,6 +112,7 @@
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
     "@types/react-native-i18n": "^2.0.0",
+    "@types/react-native-table-component": "^1.2.0",
     "@types/react-redux": "^7.1.15",
     "@types/redux": "^3.6.0",
     "@types/redux-mock-store": "^1.0.2",
@@ -116,6 +120,7 @@
     "babel-jest": "^26.6.3",
     "enzyme": "^3.11.0",
     "jest-enzyme": "^7.1.2",
+    "react-native-chart-kit": "^6.11.0",
     "jsdom": "^16.4.0",
     "redux-mock-store": "^1.5.4",
     "typescript": "~4.0.0"

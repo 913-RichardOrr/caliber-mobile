@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { 
-    TouchableOpacity, 
-    View, 
-    Text, 
-    Modal, 
-    TextInput, 
-    Image 
+import {
+    TouchableOpacity,
+    View,
+    Text,
+    Modal,
+    TextInput,
+    Image
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CategoryTable from './CategoryTable';
 import catStyle from '../categoriesFeature/categoriesStyles';
 import AddBtn from './AddBtn.png';
+import DisabledAddBtn from './DisabledAddBtn.png'
 import CategoryService from './CategoryService';
 import { GetActive, GetRender } from '../store/categoriesFeature/CategoryActions';
 import { CategoryState, ReducerState } from '../store/store';
@@ -34,46 +35,51 @@ export default function ManageCategories() {
 
     const renderValue = useSelector((state: CategoryState) => state.render);
     let newRender;
-    if (renderValue === true ) {
+    if (renderValue === true) {
         newRender = false;
     } else {
         newRender = true;
     }
-    
+
     dispatch(GetRender(newRender));
-    
+
     return (
         <React.Fragment>
             {/* Tabs that navigate between active and stale categories */}
-                <React.Fragment>
-                    <Tab.Navigator
-                        tabBarOptions={{
-                            labelStyle: { fontSize: 14 },
-                            activeTintColor: '#F26925',
-                            inactiveTintColor: '#474C55',
-                            style: { backgroundColor: '#FFFFFF' },
-                            indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
+            <React.Fragment>
+                <Tab.Navigator
+                    tabBarOptions={{
+                        labelStyle: { fontSize: 14 },
+                        activeTintColor: '#F26925',
+                        inactiveTintColor: '#474C55',
+                        style: { backgroundColor: '#FFFFFF' },
+                        indicatorStyle: { backgroundColor: '#72A4C2', height: 5, borderRadius: 5 },
 
-                        }}
-                    >
-                        {/* Active Categories Table */}
-                        <Tab.Screen
-                            name="Active"
-                            children={() => <CategoryTable status={true}/>}
-                        />
-                        {/* Stale Categories Table */}
-                        <Tab.Screen
-                            name="Inactive"
-                            children={() => <CategoryTable status={false}/>}
-                        />
-                    </Tab.Navigator>
-                    {/* Add button to be rendered at the bottom of the screen */}
+                    }}
+                >
+                    {/* Active Categories Table */}
+                    <Tab.Screen
+                        name="Active"
+                        children={() => <CategoryTable status={true} />}
+                    />
+                    {/* Stale Categories Table */}
+                    <Tab.Screen
+                        name="Inactive"
+                        children={() => <CategoryTable status={false} />}
+                    />
+                </Tab.Navigator>
+                {/* Add button to be rendered at the bottom of the screen */}
+                {currentUser.role.ROLE_VP && (
                     <TouchableOpacity
                         onPress={() => setClicked(true)}
                         accessibilityLabel='Add Category'>
                         <Image style={catStyle.addBtnPicture} source={AddBtn} />
                     </TouchableOpacity>
-                </React.Fragment>
+                )}
+                {currentUser.role.ROLE_TRAINER && (
+                    <Image style={catStyle.addBtnPicture} source={DisabledAddBtn}></Image>
+                )}
+            </React.Fragment>
             {/* If clicked is true, open the modal */}
             {clicked == true && (
                 <Modal
