@@ -4,10 +4,10 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../store/store';
+import { ReducerState } from '../store/store';
 
 export default function BatchDetailComponent() {
-    const batch = useSelector((state: RootState) => state.batchReducer.batch);
+  const batch = useSelector((state: ReducerState) => state.batchReducer.batch);
 
     return (
         <View>

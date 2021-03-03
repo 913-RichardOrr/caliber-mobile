@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 
 import { style } from '../global_styles';
-import { RootState } from '../store/store';
 import { changeBatch } from '../store/actions';
+import { ReducerState } from '../store/store';
 
 /**
  * @typedef {Object} Props
@@ -24,8 +24,8 @@ interface Props {
  * @property {string} info
  */
 interface VisibleBatch {
-	index: number;
-	info: string;
+  index: number;
+  info: string;
 }
 
 /**
@@ -35,8 +35,8 @@ interface VisibleBatch {
  */
 export default function BatchListComponent({ navigation, route }: Props) {
 	const dispatch = useDispatch();
-	const user = useSelector((state: RootState) => state.userReducer.user);
-	const batches = useSelector((state: RootState) => state.batchReducer.batches);
+	const user = useSelector((state: ReducerState) => state.userReducer.user);
+	const batches = useSelector((state: ReducerState) => state.batchReducer.batches);
 	const [visibleBatches, setVisible] = useState<VisibleBatch[]>([]);
 	const [reset, setReset] = useState(false);
 	const [query, setQuery] = useState('');
@@ -167,12 +167,18 @@ export default function BatchListComponent({ navigation, route }: Props) {
 	// Displays a list of batches based on filters
 	return (
 		<View>
-			<Text style={style.subheading}>
-				{year + ' > ' + route.params.quarter}
-			</Text>
-			<View style={style.container}>
+			<View style={{height: 40, flexDirection: 'row', margin: 5}}>
+				<Button
+					color="#F26925" 
+					title='Back' 
+					onPress={()=>navigation.goBack()}/>
+				<Text style={style.subheading}>
+					{year + ' > ' + route.params.quarter}
+				</Text>
+			</View>
+			<View style={style.searchContainer}>
 				<TextInput
-					style={{ width: 300, borderWidth: 1, borderRadius: 10 }}
+					style={style.searchInput}
 					value={query}
 					onChangeText={(text) => {
 						handleSearch(text);
@@ -188,13 +194,13 @@ export default function BatchListComponent({ navigation, route }: Props) {
 				/>
 			</View>
 			<Text style={{ margin: 10 }}>Select Batch:</Text>
-			{year !== null && (
+			{visibleBatches.length > 0 ? (
 				<FlatList
 					data={visibleBatches}
 					renderItem={batchCard}
 					keyExtractor={keyExtractor}
 				/>
-			)}
+			) : <Text>No batches for the selected quarter</Text>}
 		</View>
 	);
 }

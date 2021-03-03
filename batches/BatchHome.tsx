@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { style } from '../global_styles';
+import style from '../global_styles';
 
 /**
  * @typedef {Object} Nav
@@ -18,6 +19,14 @@ interface Nav {
  */
 function BatchHome({ navigation }: Nav) {
 	function toYearComponent() {
+		navigation.dispatch(
+			CommonActions.reset({
+			  index: 1,
+			  routes: [
+				{ name: 'Year' }
+			  ],
+			})
+		  );
 		navigation.navigate('Year');
 	}
 
