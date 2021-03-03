@@ -7,32 +7,35 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginComponent from '../user/Login';
 import Home from '../user/Home';
 import ForgotPassword from '../user/ForgotPassword';
-import UnderDevelopmentComponent from '../UnderDevelopmentComponent';
 import ManageCategories from '../categoriesFeature/ManageCategories';
 import LogoutComponent from '../user/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryService from '../categoriesFeature/CategoryService';
 import {
-	GetActive,
-	GetStale,
+  GetActive,
+  GetStale,
 } from '../store/categoriesFeature/CategoryActions';
 import style from '../global_styles';
 import { ReducerState } from '../store/store';
+import BatchStackNavigator from './BatchStackNavigator.component';
+import { ReportsTable } from '../reports/ReportTable';
+import BatchPageComponent from '../batchPage/BatchPageComponent';
 
 enableScreens();
 
 const Stack = createStackNavigator();
 
 export interface MenuProp {
-	navigation: any;
+  navigation: any;
+  route: any;
 }
 /**
  * Shows only the Revature logo for the header
  */
 export const loginHeaderOptions = {
-	headerTitle: () => (
-		<Image style={style.logoLogin} source={require('./rev-logo.png')} />
-	),
+  headerTitle: () => (
+    <Image style={style.logoLogin} source={require('./rev-logo.png')} />
+  ),
 };
 
 /**
@@ -41,20 +44,19 @@ export const loginHeaderOptions = {
  * @param navigation - navigation prop to open the drawer
  */
 export function generalHeaderOptions(navigation: any) {
-	return {
-		headerTitle: () => (
-			<Image style={style.logo} source={require('./rev-logo.png')} />
-		),
-		headerLeft: () => (
-			<Icon.Button
-				name="ios-menu"
-				size={25}
-				color="#72A4C2"
-				backgroundColor="#fff"
-				onPress={() => navigation.openDrawer()}
-			></Icon.Button>
-		),
-	};
+  return {
+    headerTitle: () => (
+      <Image style={style.logo} source={require('./rev-logo.png')} />
+    ),
+    headerLeft: () => (
+      <Icon.Button
+        name='ios-menu'
+        size={25}
+        color='#72A4C2'
+        backgroundColor='#fff'
+        onPress={() => navigation.openDrawer()}></Icon.Button>
+    ),
+  };
 }
 
 /**
@@ -65,21 +67,21 @@ export function generalHeaderOptions(navigation: any) {
  * Forgot Password - allows the user to reset their password.
  */
 function LoginStackNavigator() {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Login"
-				component={LoginComponent}
-				options={loginHeaderOptions}
-			/>
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Login'
+        component={LoginComponent}
+        options={loginHeaderOptions}
+      />
 
-			<Stack.Screen
-				name="ForgotPassword"
-				component={ForgotPassword}
-				options={loginHeaderOptions}
-			/>
-		</Stack.Navigator>
-	);
+      <Stack.Screen
+        name='ForgotPassword'
+        component={ForgotPassword}
+        options={loginHeaderOptions}
+      />
+    </Stack.Navigator>
+  );
 }
 
 /**
@@ -87,15 +89,33 @@ function LoginStackNavigator() {
  * @param navigation - navigation prop to open the drawer
  */
 function HomeStack({ navigation }: MenuProp) {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Home"
-				component={Home}
-				options={generalHeaderOptions(navigation)}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Home'
+        component={Home}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function QCAuditStack({ navigation }: MenuProp) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='QC Batches'
+        component={BatchStackNavigator}
+        options={generalHeaderOptions(navigation)}
+        initialParams={{ screenName: 'Batch Page' }}
+      />
+      <Stack.Screen
+        name='Batch Page'
+        component={BatchPageComponent}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
 }
 
 /**
@@ -103,15 +123,21 @@ function HomeStack({ navigation }: MenuProp) {
  * @param navigation - navigation prop to open the drawer
  */
 function ReportStack({ navigation }: MenuProp) {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Reports"
-				component={UnderDevelopmentComponent}
-				options={generalHeaderOptions(navigation)}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Report Batches'
+        component={BatchStackNavigator}
+        options={generalHeaderOptions(navigation)}
+        initialParams={{ screenName: 'Reports' }}
+      />
+      <Stack.Screen
+        name='Reports'
+        component={ReportsTable}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
 }
 
 /**
@@ -121,34 +147,34 @@ function ReportStack({ navigation }: MenuProp) {
  * @param navigation - navigation prop to open the drawer
  */
 function ManagementStack({ navigation }: MenuProp) {
-	const dispatch = useDispatch();
-	// authorizer state
-	const currentUser = useSelector(
-		(state: ReducerState) => state.userReducer.user
-	);
-	const token = currentUser.token;
-	const [rend, setRend] = useState(false);
-	// get manage category table data
-	useEffect(() => {
-		async function getCategoryFunc() {
-			const active = await CategoryService.getCategories(token, true);
-			const stale = await CategoryService.getCategories(token, false);
-			dispatch(GetActive(active));
-			dispatch(GetStale(stale));
-		}
-		setRend(true);
-		getCategoryFunc();
-	}, []);
+  const dispatch = useDispatch();
+  // authorizer state
+  const currentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
+  const token = currentUser.token;
+  const [rend, setRend] = useState(false);
+  // get manage category table data
+  useEffect(() => {
+    async function getCategoryFunc() {
+      const active = await CategoryService.getCategories(token, true);
+      const stale = await CategoryService.getCategories(token, false);
+      dispatch(GetActive(active));
+      dispatch(GetStale(stale));
+    }
+    setRend(true);
+    getCategoryFunc();
+  }, []);
 
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Management"
-				component={ManageCategories}
-				options={generalHeaderOptions(navigation)}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Management'
+        component={ManageCategories}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
 }
 
 /**
@@ -157,21 +183,22 @@ function ManagementStack({ navigation }: MenuProp) {
  * @param navigation - navigation prop to open the drawer
  */
 function LogoutStack({ navigation }: MenuProp) {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Logout"
-				component={LogoutComponent}
-				options={generalHeaderOptions(navigation)}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Logout'
+        component={LogoutComponent}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
 }
 
 export {
-	LoginStackNavigator,
-	HomeStack,
-	ReportStack,
-	ManagementStack,
-	LogoutStack,
+  LoginStackNavigator,
+  HomeStack,
+  QCAuditStack,
+  ReportStack,
+  ManagementStack,
+  LogoutStack,
 };

@@ -6,8 +6,8 @@ const { create, PREDEF_RES } = require('react-native-pixel-perfect');
 const REVATURE_ORANGE = '#F26925';
 
 const designResolution = {
-  width: 360,
-  height: 640,
+	width: 360,
+	height: 640,
 }; // what we're designing for
 const perfectSize = create(designResolution);
 
@@ -180,8 +180,9 @@ export const style = StyleSheet.create({
     top: perfectSize(-35),
   },
   associatesViewComponent: {
-    width: 'auto',
-    height: 'auto',
+		flex: 1,
+		padding: 16,
+		paddingTop: 30,
     backgroundColor: 'white',
     marginBottom: perfectSize(10),
   },
@@ -200,25 +201,25 @@ export const style = StyleSheet.create({
 	subheading: {
 		fontSize: perfectSize(18),
 		fontWeight: 'bold',
-    margin: perfectSize(5)
+		margin: perfectSize(5),
 	},
-  searchInput: {
-    width: perfectSize(300),
-    height: perfectSize(30), 
-    margin: perfectSize(10),
-    borderWidth: 1, 
-    borderRadius: 10 
-  },
-  searchContainer: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  underDevelopmentText: {
-    color: REVATURE_ORANGE,
-    textAlign: 'center',
-    fontSize: 36,
-  },
+	searchInput: {
+		width: perfectSize(300),
+		height: perfectSize(30),
+		margin: perfectSize(10),
+		borderWidth: 1,
+		borderRadius: 10,
+	},
+	searchContainer: {
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	underDevelopmentText: {
+		color: REVATURE_ORANGE,
+		textAlign: 'center',
+		fontSize: 36,
+	},
 });
 
 
