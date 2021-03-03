@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, Text, Platform, Button } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
+import { View, ScrollView, Text, Button } from 'react-native';
+import { Table, Row, Rows } from '@deb-95/react-native-table-component';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../store/store';
 import AssociateService, { Associate } from '../associate/AssociateService';
 import BatchPageService from '../batchPage/BatchPageService';
-import batchWeekService from '../batchWeek/batchWeekService';
 import TechnicalStatus from '../associate/TechnicalStatus';
 import style from '../global_styles';
 
@@ -91,38 +90,37 @@ export function ReportsTable({ navigation }: Props) {
 
 	return (
 		<>
-			{Platform.OS === 'web' ? (
-				<View></View>
-			) : (
-				<ScrollView>
-					<View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
-						<Button
-							color="#F26925"
-							title="Back"
-							onPress={() => navigation.goBack()}
+			<View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
+				<Button
+					color="#F26925"
+					title="Back"
+					onPress={() => navigation.goBack()}
+				/>
+				<Text style={style.subheading}>{`${batch.name} - ${batch.skill}`}</Text>
+			</View>
+			<ScrollView horizontal={true}>
+				<View style={style.associatesViewComponent}>
+					<Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+						<Row
+							data={weeksHeader}
+							style={{
+								height: 40,
+								width: '100%',
+								backgroundColor: '#f1f8ff',
+							}}
+							textStyle={{ margin: 6 }}
 						/>
-						<Text
-							style={style.subheading}
-						>{`${batch.name} - ${batch.skill}`}</Text>
-					</View>
-					<View style={style.associatesViewComponent}>
-						<View>
-							<Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-								<Row
-									data={weeksHeader}
-									style={{
-										height: 40,
-										width: '100%',
-										backgroundColor: '#f1f8ff',
-									}}
-									textStyle={{ margin: 6 }}
-								/>
-								<Rows data={associateWeekFeedback} textStyle={{ margin: 6 }} />
-							</Table>
-						</View>
-					</View>
-				</ScrollView>
-			)}
+						<Rows
+							data={associateWeekFeedback}
+							widthArr={[]}
+							flexArr={[]}
+							heightArr={[]}
+							style={{}}
+							textStyle={{ margin: 6 }}
+						/>
+					</Table>
+				</View>
+			</ScrollView>
 		</>
 	);
 }
