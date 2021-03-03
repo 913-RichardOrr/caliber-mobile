@@ -13,7 +13,7 @@ function AddWeek(){
     const dispatch = useDispatch();
     const weeks = useSelector((state: ReducerState) => state.weekReducer.weeks);
     const batch = useSelector((state: ReducerState) => state.batchReducer.batch);
-    const user = useSelector((state: ReducerState) => state.weekReducer.user);
+    const user = useSelector((state: ReducerState) => state.userReducer.user);
 
     function addWeekHandler(){
         let newWeek = new QcWeek();
@@ -21,13 +21,15 @@ function AddWeek(){
         newWeek.overallstatus = 'Undefined';
         newWeek.weeknumber = weeks.length + 1;
 
-        BatchWeekService.addWeek(user.token, newWeek).then(()=> {
-            BatchWeekService.getWeeksByBatchId(user.token, newWeek.batchid).then((retrievedWeeks)=> {
-                dispatch(addWeek(retrievedWeeks));
-                let week = retrievedWeeks.find(week => week.weeknumber === newWeek.weeknumber);
-                week ? dispatch(changeSelectedWeek(week)) : '';
-            })
-        });
+        if(user.token) {
+            BatchWeekService.addWeek(user.token, newWeek).then(()=> {
+                BatchWeekService.getWeeksByBatchId(user.token, newWeek.batchid).then((retrievedWeeks)=> {
+                    dispatch(addWeek(retrievedWeeks));
+                    let week = retrievedWeeks.find(week => week.weeknumber === newWeek.weeknumber);
+                    week ? dispatch(changeSelectedWeek(week)) : '';
+                })
+            });
+        }
     }
 
     return (

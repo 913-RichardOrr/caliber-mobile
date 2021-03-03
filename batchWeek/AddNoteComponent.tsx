@@ -12,12 +12,14 @@ function AddNoteComponent(){
     const dispatch = useDispatch();
     const week = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
     console.log(week);
-    const user = useSelector((state: ReducerState) => state.weekReducer.user);
+    const user = useSelector((state: ReducerState) => state.userReducer.user);
 
     function sendPost(){
         try{
             console.log(week);
-            batchWeekService.updateFeedback(user.token, week);
+            if(user.token) {
+                batchWeekService.updateFeedback(user.token, week);
+            }
             console.log('update success');
         } catch {
             console.log('update failed');

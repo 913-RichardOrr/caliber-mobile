@@ -19,13 +19,15 @@ export default function WeekSelectionComponent() {
 
     useEffect(() => {
         // Check the databse for the week objects 
-        batchWeekService.getWeeksByBatchId(user.token, selectedBatch.batchId).then((retrievedWeeks) => {
-            if(retrievedWeeks) {
-                // Sort by week number
-                retrievedWeeks.sort((a, b) => (a.weeknumber - b.weeknumber));
-                dispatch(getWeeks(retrievedWeeks));
-            }
-        });
+        if(user.token) {
+            batchWeekService.getWeeksByBatchId(user.token, selectedBatch.batchId).then((retrievedWeeks) => {
+                if(retrievedWeeks) {
+                    // Sort by week number
+                    retrievedWeeks.sort((a, b) => (a.weeknumber - b.weeknumber));
+                    dispatch(getWeeks(retrievedWeeks));
+                }
+            });
+        }
     }, []);
 
     function onWeekSelect(weekValue: number) {

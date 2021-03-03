@@ -62,7 +62,7 @@ function BatchPageComponent() {
         <AddWeek></AddWeek>
         {/* <WeekCategoryListContainer/> */}
         <AddNoteComponent></AddNoteComponent>
-        <AssociateTableComponent></AssociateTableComponent>
+        {/* <AssociateTableComponent></AssociateTableComponent>
         <Button
           raised
           titleStyle={style.title}
@@ -72,7 +72,7 @@ function BatchPageComponent() {
           icon={<Icon name='save' type='fontawesome' color='#F26925' />}
           onPress={handleAllUpdate}
           testID='saveNote'
-        />
+        /> */}
       </ScrollView>
     </View>
   );
