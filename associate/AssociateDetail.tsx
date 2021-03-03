@@ -84,7 +84,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
         onPress={() => setViewNote(viewNote ? false : true)}
         testID='displayNote'
       />
-      {viewNote && user.role.ROLE_TRAINER && (
+      {viewNote && user.role.ROLE_TRAINER && !user.role.ROLE_QC && !user.role.ROLE_VP &&(
         <Input
           disabled
           onBlur={() => {
@@ -106,7 +106,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
           testID='qcNote'
         />
       )}
-      {viewNote && !user.role.ROLE_TRAINER && (
+      {viewNote && (user.role.ROLE_QC || user.role.ROLE_VP) && (
         <Input
           onBlur={() => {
             handleNoteUpdate(localText)

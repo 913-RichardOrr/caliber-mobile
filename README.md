@@ -37,7 +37,6 @@
 * Faster performance for a better user experience by making server requests less frequently
 * Relying more on application state changes rather than database changes
 
-
 ## Usage
 * Login for Trainer role:
   * Username: trainer@revature.com

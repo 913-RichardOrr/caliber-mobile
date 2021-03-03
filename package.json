@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/913-RichardOrr/caliber-mobile/issues"
   },
-  "homepage": "https://github.com/913-RichardOrr/caliber-mobile#readme",
+  "homepage": "calibermobile.revaturelabs.com",
   "dependencies": {
     "@react-navigation/drawer": "^5.12.4",
     "@material-ui/core": "^4.11.3",
