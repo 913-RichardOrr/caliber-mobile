@@ -1,30 +1,47 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View } from 'react-native';
 import { ReducerState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
+import { Input } from 'react-native-elements';
+import batchWeekService from './batchWeekService';
 import style from '../global_styles'
 
-function AddNoteComponent() {
-  const dispatch = useDispatch();
-  const week = useSelector(
-    (state: ReducerState) => state.weekReducer.selectedWeek
-  );
 
-  return (
-    <View>
-      <Text>Overall Note</Text>
-      <TextInput
-        multiline
-        placeholder = "Put your overall batch note here"
-        style = {style.overallText}
-        onChangeText={(value) =>
-          dispatch(addOverallNote({ ...week, note: value }))
+function AddNoteComponent(){
+    const dispatch = useDispatch();
+    const week = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
+    console.log(week);
+    const user = useSelector((state: ReducerState) => state.userReducer.user);
+
+    function sendPost(){
+        try{
+            console.log(week);
+            if(user.token) {
+                batchWeekService.updateFeedback(user.token, week);
+            }
+            console.log('update success');
+        } catch {
+            console.log('update failed');
         }
-        value={week.note}></TextInput>
-      {/* TODO: add overall technical status */}
-    </View>
-  );
+    }
+
+    return (
+        <View>
+            <Input
+                multiline
+                placeholder = "Put your overall batch note here"
+                numberOfLines={3}
+                label='Overall QC Feedback' 
+                onChangeText={(value: any) => 
+                    dispatch(addOverallNote({...week, note: value}))
+                }
+                onBlur={sendPost}
+                value = {week.note}
+                style = {style.overallText}
+            />
+        </View>
+    )
 }
 
 export default AddNoteComponent;

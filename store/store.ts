@@ -10,9 +10,9 @@ import QcWeek from '../batchWeek/QcWeek';
 import WeekCategoryReducer from './WeekCategoryReducer';
 import { Category } from '../categoriesFeature/Category';
 import categoryReducer from './categoriesFeature/CategoryReducer';
-import { WeekCategory } from '../weekCategories/weekCategory';
+import { WeekCategory } from '../weekCategories/WeekCategory';
 import weekReducer from './WeekReducer';
-import Batch from '../batches/batch';
+import Batch from '../batches/Batch';
 
 export interface BatchState {
   batch: Batch;
@@ -36,6 +36,7 @@ export interface WeekCategoryState {
   weekCategories: Category[];
   weekCategory: WeekCategory;
 }
+
 export interface CategoryState {
   activeCat: Category[];
   staleCat: Category[];
@@ -49,10 +50,10 @@ export interface CategoryState {
 export interface CaliberState
   extends UserState,
     CategoryState,
-    BatchState,
-    WeekCategoryState,
     AssociateState,
-    WeekState {}
+    BatchState,
+    WeekState,
+    WeekCategoryState {}
 
 //add your reducer to the object
 const rootReducer = combineReducers({

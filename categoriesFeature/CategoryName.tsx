@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { 
-    View, 
-    Text, 
-    Pressable, 
-    TouchableOpacity, 
-    Modal, 
-    TextInput 
+import {
+    View,
+    Text,
+    Pressable,
+    TouchableOpacity,
+    Modal,
+    TextInput
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import catStyle from './categoriesStyles';
@@ -32,24 +32,19 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     // create or get state
     const [clicked, setClicked] = useState(false);
     const [value, onChangeText] = useState('');
-    const [rend, setRend] = useState(false);
     const dispatch = useDispatch();
     const nav = useNavigation();
-    
+
 
 
     // authorizer state
     const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
     const token = currentUser.token;
-    
+
     let category = new Category();
     category.skill = skill;
     category.active = active;
     category.categoryid = categoryid;
-
-    useEffect(() => {
-        setRend(true);
-    }, [])
 
     return (
         <React.Fragment>
@@ -67,13 +62,15 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
                 </Pressable>
                 <View>
                     {/* Edit button to open modal for editing */}
-                    <TouchableOpacity testID='modalBtn' style={catStyle.editBtn} onPress={() => setClicked(true)} accessibilityLabel='Edit Category'>
-                        <Text style={catStyle.btnText}>Edit</Text>
-                    </TouchableOpacity>
+                    {currentUser.role.ROLE_VP == true && (
+                        <TouchableOpacity testID='modalBtn' style={catStyle.editBtn} onPress={() => setClicked(true)} accessibilityLabel='Edit Category'>
+                            <Text style={catStyle.btnText}>Edit</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
             {clicked == true && (
-                <View testID= 'modal'>
+                <View testID='modal'>
                     <Modal
                         animationType='slide'
                         // this happens when a user presses the hardware back button
@@ -139,7 +136,7 @@ function CategoryName({ skill, categoryid, active }: CategoryNameProp) {
     function EditCategory(newSkill: string, target: Category) {
         // update skill name
         target.skill = newSkill;
-        
+
         changeData(target);
     }
 
