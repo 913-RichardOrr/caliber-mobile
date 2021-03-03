@@ -90,7 +90,6 @@ describe('addCategory function', () => {
     });
 
     test('that modal is showing', () => {
-        //const mockState = jest.fn()
         const addCatModal = wrapper.findWhere((node: any) => node.prop('testID') === 'addCatModal').first();
         expect(addCatModal).toExist();
     })
