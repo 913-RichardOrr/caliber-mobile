@@ -41,41 +41,23 @@ export function convertToStatus(num: number): STATUS {
     }
   }
 
-  // display coorect icon for each status
-  // export function displayIconForStatus(status: STATUS){
-  //   // return the correct icon
-  //     switch(status){
-  //       case 'Undefined':
-  //         return 'Undefined'; // icon for Undefined 
-  //       case 'Poor':
-  //         return 'Poor'; // icon for Poor
-  //       case 'Average':
-  //         return 'Average';  // icon for Average
-  //       case 'Good':
-  //         return 'Good';  // icon for Good
-  //       case 'Superstar':
-  //         return 'Superstar';  // icon for Superstar
-  //       default:
-  //         return 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
-  //     }
+  // credit to associates group for choosing icons and colors
+  export function IconForStatus(status: STATUS): {iconName: string; iconColor: string}{
+    // return the correct icon
+      switch(status){
+        case 'Undefined':
+          return {iconName:  'question-circle', iconColor: '#F26925'}; // icon for Undefined 
+        case 'Poor':
+          return  {iconName:  'frown-o', iconColor: 'red'};  // icon for Poor
+        case 'Average':
+          return  {iconName:  'meh-o', iconColor: '#F26925'};   // icon for Average
+        case 'Good':
+          return  {iconName:  'smile-o', iconColor: 'green'};   // icon for Good
+        case 'Superstar':
+          return {iconName:  'star', iconColor: 'blue'};  // icon for Superstar
+        default:
+          return  {iconName:  'question-circle', iconColor: '#F26925'}; 'Undefined'  // icon for Undefined something is not right when it reaches the default case  
+      }
     
-  // }
+  }
 
-
-
-
-    /**
- * Shows the technical status of an associate/group
- * Editable if provided with a setStatus function as a prop
-*/
-
-
-// interface TechnicalStatusProps {
-//     status: number;
-// }
-
-// /**
-//  * Component to display the correct icon for the technical status, passed in via props
-//  * Ie displays a question mark, sad face, neutral, smile, or star
-//  * @param props 
-//  */
