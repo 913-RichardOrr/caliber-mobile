@@ -12,6 +12,7 @@ import AssociateService, {
   AssociateWithFeedback,
 } from '../associate/AssociateService';
 import WeekCategoryListContainer from '../weekCategories/WeekCategoryListContainer';
+import { ScrollView } from 'react-native-gesture-handler';
 
 function BatchPageComponent() {
   let associates = useSelector(
@@ -56,21 +57,23 @@ function BatchPageComponent() {
 
   return (
     <View>
-      <WeekSelectionComponent></WeekSelectionComponent>
-      <AddWeek></AddWeek>
-      {/* <WeekCategoryListContainer/> */}
-      <AddNoteComponent></AddNoteComponent>
-      <AssociateTableComponent></AssociateTableComponent>
-      <Button
-        raised
-        titleStyle={style.title}
-        buttonStyle={style.button}
-        title='Save All'
-        type='outline'
-        icon={<Icon name='save' type='fontawesome' color='#F26925' />}
-        onPress={handleAllUpdate}
-        testID='saveNote'
-      />
+      <ScrollView>
+        <WeekSelectionComponent></WeekSelectionComponent>
+        <AddWeek></AddWeek>
+        {/* <WeekCategoryListContainer/> */}
+        <AddNoteComponent></AddNoteComponent>
+        <AssociateTableComponent></AssociateTableComponent>
+        <Button
+          raised
+          titleStyle={style.title}
+          buttonStyle={style.button}
+          title='Save All'
+          type='outline'
+          icon={<Icon name='save' type='fontawesome' color='#F26925' />}
+          onPress={handleAllUpdate}
+          testID='saveNote'
+        />
+      </ScrollView>
     </View>
   );
 }

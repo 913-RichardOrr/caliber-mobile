@@ -83,7 +83,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
    */
   function handleBatchSelect(index: string) {
     dispatch(changeBatch(batches[Number(index)]));
-    navigation.navigate('Batch Page');
+    navigation.navigate('Reports');
   }
 
   /**
@@ -181,6 +181,7 @@ export default function BatchListComponent({ navigation, route }: Props) {
       </View>
       <View style={style.searchContainer}>
         <TextInput
+          placeholder=' Search batches'
           style={style.searchInput}
           value={query}
           onChangeText={(text) => {
