@@ -1,16 +1,9 @@
-import React, {useState, useEffect}  from 'react';
+import React from 'react';
 const screenWidth = Dimensions.get("window").width;
 import {View, Text, Dimensions} from 'react-native';
 import {STATUS} from  '../batchWeekService';
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+import { PieChart } from "react-native-chart-kit";
 
 import {pieData } from './pieData';
 

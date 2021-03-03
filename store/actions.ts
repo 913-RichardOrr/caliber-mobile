@@ -156,21 +156,21 @@ export function deleteWeekCategory(category: WeekCategory): WeekCategoryAction {
 		type: WeekCategoryActions.DeleteWeekCategory,
 		payload: category
 	};
-};
+}
 
 export function addWeekCategory(category: WeekCategory): WeekCategoryAction {
 	return {
 		type: WeekCategoryActions.AddWeekCategory,
 		payload: category
 	};
-};
+}
 
 export function getWeekCategories(categories:Category[]): WeekCategoryAction {
 	return {
 		type: WeekCategoryActions.GetWeekCategories,
 		payload: categories
 	};
-};
+}
 
 export function categoriesMenuOptions(
   categories: Category[]
