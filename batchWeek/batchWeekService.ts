@@ -4,7 +4,7 @@ import QcWeek from './QcWeek';
 class BatchWeekService {
     private URI: string;
     constructor() {
-        this.URI ="https://rtnkp17gz4.execute-api.us-east-1.amazonaws.com/default/";
+        this.URI ="https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/";
     }
 
     private getConfig(token: string): AxiosRequestConfig {

@@ -32,6 +32,7 @@ export default function WeekSelectionComponent() {
 
     function onWeekSelect(weekValue: number) {
         // Update the redux store with the selected week
+        console.log('weeks '+weeks);
         let selected = weeks.find(week => week.weeknumber === weekValue);
         if(selected) {
             dispatch(changeSelectedWeek(selected));

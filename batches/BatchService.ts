@@ -10,7 +10,7 @@ class BatchService {
   private URI: string;
   constructor() {
     this.URI =
-      /*process.env.CALIBER_URI*/ 'https://rtnkp17gz4.execute-api.us-east-1.amazonaws.com/default/batches';
+      /*process.env.CALIBER_URI*/ 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/batches';
   }
 
   getValidYears(token: string): Promise<[]> {
