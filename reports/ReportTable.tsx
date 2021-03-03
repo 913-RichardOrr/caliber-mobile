@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text, Platform, Button } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../store/store';
 import AssociateService, { Associate } from '../associate/AssociateService';
-import style from '../global_styles';
 import BatchPageService from '../batchPage/BatchPageService';
 import batchWeekService from '../batchWeek/batchWeekService';
 import TechnicalStatus from '../associate/TechnicalStatus';
+import style from '../global_styles';
 
-export function ReportsTable() {
+interface Props {
+  navigation: any;
+}
+
+export function ReportsTable({ navigation }: Props) {
   let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
   const curentUser = useSelector(
     (state: ReducerState) => state.userReducer.user
@@ -57,15 +61,14 @@ export function ReportsTable() {
     // let nweeks = weeks.length;
     let nweeks = 2;
 
-    //make header array with the Week Numbers
+    //make header array of
     for (let i = 0; i < nweeks; i++) {
       let temp = weeksHeader;
       temp.push(`Week ${i + 1}`);
       setWeeksHeader([...temp]);
     }
 
-    // Loops through all of the associates getting their technical status for each week.
-    results.forEach(async (associate: Associate) => {
+    results.forEach(async (associate: Associate, index: number) => {
       let feedback = [];
       feedback.push(`${associate.firstName} ${associate.lastName}`);
       for (let i = 1; i <= nweeks; i++) {
@@ -75,6 +78,7 @@ export function ReportsTable() {
           String(i),
           token
         );
+
         feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
       }
       let temp = associateWeekFeedback;
@@ -83,19 +87,41 @@ export function ReportsTable() {
       setAssociateWeekFeedback([...temp]);
     });
   }
+  console.log('batch', batch);
 
   return (
-    <View style={style.associatesViewComponent}>
-      <ScrollView horizontal={true}>
-        <View>
-          <Table>
-            <Row data={weeksHeader} />
-            <ScrollView>
-              <Rows data={associateWeekFeedback} />
-            </ScrollView>
-          </Table>
-        </View>
-      </ScrollView>
-    </View>
+    <>
+      {Platform.OS === 'web' ? (
+        <View></View>
+      ) : (
+        <ScrollView>
+          <View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
+            <Button
+              color='#F26925'
+              title='Back'
+              onPress={() => navigation.goBack()}
+            />
+            <Text
+              style={style.subheading}>{`${batch.name} - ${batch.skill}`}</Text>
+          </View>
+          <View style={style.associatesViewComponent}>
+            <View>
+              <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+                <Row
+                  data={weeksHeader}
+                  style={{
+                    height: 40,
+                    width: '100%',
+                    backgroundColor: '#f1f8ff',
+                  }}
+                  textStyle={{ margin: 6 }}
+                />
+                <Rows data={associateWeekFeedback} textStyle={{ margin: 6 }} />
+              </Table>
+            </View>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
