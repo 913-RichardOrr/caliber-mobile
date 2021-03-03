@@ -65,8 +65,13 @@ function AssociateDetail(this: any, props: AssociateProps) {
     }
   }
 
+  function viewrole() {
+    console.log(user.role.ROLE_QC + " " + user.role.ROLE_TRAINER + " " +user.role.ROLE_VP);
+  }
+
   return (
     <View style={style.notesCard}>
+      <Button onress = {viewrole}></Button>
       <Text testID='firstName' style={style.noteName}>
         {props.associate.firstName} {props.associate.lastName}
       </Text>
@@ -84,7 +89,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
         onPress={() => setViewNote(viewNote ? false : true)}
         testID='displayNote'
       />
-      {viewNote && user.role.ROLE_TRAINER && (
+      {viewNote && user.role.ROLE_TRAINER && !user.role.ROLE_QC && !user.role.ROLE_VP &&(
         <Input
           disabled
           onBlur={() => {
@@ -106,7 +111,7 @@ function AssociateDetail(this: any, props: AssociateProps) {
           testID='qcNote'
         />
       )}
-      {viewNote && !user.role.ROLE_TRAINER && (
+      {viewNote && (user.role.ROLE_QC || user.role.ROLE_VP) && (
         <Input
           onBlur={() => {
             handleNoteUpdate(localText)
