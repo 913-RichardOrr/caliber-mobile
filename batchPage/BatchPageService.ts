@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Associate } from '../associate/AssociateService';
 
 class BatchPageService {
   private URI: string;
