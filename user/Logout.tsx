@@ -1,27 +1,31 @@
 import React from 'react';
-import { View, Text, TextInput, Button, TouchableHighlight, Image } from 'react-native';
-import {logout} from '../test/auth/functions';
+import { Text, TouchableHighlight, View } from 'react-native';
+import { logout } from '../test/auth/functions';
+import { style } from '../global_styles';
 import { useNavigation } from '@react-navigation/native';
-import {style} from '../global_styles';
+import { loginChange } from '../store/actions';
+import { useDispatch } from 'react-redux';
+import { UserInput } from './user';
 
-/**Trial LogoutButton */
+/**LogoutButton */
 
-interface LogoutProp {
-    navigation?: any;
-}
+function LogoutComponent() {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-function LogoutComponent({ navigation }: LogoutProp){
-    return (
-        <TouchableHighlight
-            onPress={ () => {
-            logout();
-            //navigation.navigate('Login');
+  return (
+    <View style={style.container}>
+      <TouchableHighlight
+        onPress={() => {
+          logout();
+          dispatch(loginChange(new UserInput()));
+          navigation.navigate('Login');
         }}
-        style={{backgroundColor: '#F26925', height:40, width:133, borderRadius:40, alignItems:'center', marginBottom: 40}}>
-        <Text style={{alignItems:'center', padding:8, color:'#fff', fontSize:18, fontWeight:'bold'}}>LOG OUT</Text>
-        </TouchableHighlight>
-
-        );
+        style={style.logoutBackground}>
+        <Text style={style.logoutText}>LOG OUT</Text>
+      </TouchableHighlight>
+    </View>
+  );
 }
 
 export default LogoutComponent;

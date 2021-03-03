@@ -1,18 +1,18 @@
-import {login} from './functions';
-import {logout} from './functions';
-import firebase from 'firebase/app';
+import {login, sendPasswordResetEmail, logout} from './functions';
+import {auth} from '../../user/config';
 
 /**
  * mock firebase login and logout functions
  */
-jest.mock('firebase/app', () => ({
+jest.mock('../../user/config', () => ({
     auth: {
         signInWithEmailAndPassword: jest
             .fn()
             .mockImplementation((email, password) =>
                 Promise.resolve({
                     email: email,
-                    userId: 1
+                    userId: 1,
+                    password: password
                 })
             ),
     
@@ -20,6 +20,14 @@ jest.mock('firebase/app', () => ({
         .fn()
         .mockImplementation(() =>
         Promise.resolve(true)  
+        ), 
+        
+        sendPasswordResetEmail: jest
+        .fn()
+        .mockImplementation((email) =>  
+            Promise.resolve({
+                email: email
+            })
         )
     }
 }));
@@ -27,15 +35,23 @@ jest.mock('firebase/app', () => ({
 /**
  * test login 
  */
-test('something', async () => {
-    await login('example@gmail.com', 'smth');
-    expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith('example@gmail.com', 'smth');
+test('Logging in user', async () => {
+    login('example@gmail.com', 'smth');
+    expect(auth.signInWithEmailAndPassword).toBeCalledWith('example@gmail.com', 'smth');
 }); 
 
 /**
  * test logout
  */
 test('Logout user', async () => {
-    await logout();
-    expect(firebase.auth().signOut).toBeCalled();
+    logout();
+    expect(auth.signOut).toBeCalled();
+})
+
+/**
+ * test reset password link
+ */
+test('Sending password reset link to email', async () => {
+    sendPasswordResetEmail('example@gmail.com');
+    expect(auth.sendPasswordResetEmail).toBeCalledWith('example@gmail.com');
 })

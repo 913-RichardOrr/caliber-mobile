@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator, Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { RootState } from '../store/store';
+import { ReducerState } from '../store/store';
 import { getBatches } from '../store/actions';
 import batchService from './BatchService';
 import { style } from '../global_styles';
@@ -18,8 +18,8 @@ import { style } from '../global_styles';
 export default function QuarterComponent({ route }: any) {
 	const nav = useNavigation();
 	const dispatch = useDispatch();
-	const user = useSelector((state: RootState) => state.userReducer.user);
-	const batches = useSelector((state: RootState) => state.batchReducer.batches);
+	const user = useSelector((state: ReducerState) => state.userReducer.user);
+	const batches = useSelector((state: ReducerState) => state.batchReducer.batches);
 	const keyExtractor = (item: object, index: number) => {
 		return index.toString();
 	};
@@ -30,7 +30,7 @@ export default function QuarterComponent({ route }: any) {
 
 	useEffect(() => {
 		if (user.role.ROLE_QC == true || user.role.ROLE_VP == true) {
-			batchService.getAllBatches(year).then((batchesResp) => {
+			batchService.getAllBatches(user.token, year).then((batchesResp) => {
 				dispatch(getBatches(batchesResp));
 			});
 		}
@@ -63,7 +63,15 @@ export default function QuarterComponent({ route }: any) {
 	// Displays a list of quarters to filter by
 	return (
 		<View>
-			<Text style={style.subheading}>{year}</Text>
+			<View style={{height: 40, flexDirection: 'row', margin: 5}}>
+				<Button
+					color="#F26925" 
+					title='Back' 
+					onPress={()=>nav.goBack()}/>
+				<Text style={style.subheading}>
+					{year}
+				</Text>
+			</View>
 			<Text style={{ margin: 10 }}>Select Quarter:</Text>
 			{batches.length > 0 ? (
 				<FlatList

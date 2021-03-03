@@ -10,31 +10,36 @@ class BatchService {
 	private URI: string;
 	constructor() {
 		this.URI =
-			/*process.env.CALIBER_URI*/ 'https://2j5p3o05c6.execute-api.us-west-2.amazonaws.com/default/batches';
+			/*process.env.CALIBER_URI*/ 'https://d3e1hb8u20.execute-api.us-east-1.amazonaws.com/default/batches';
 	}
 
-	getValidYears(): Promise<[]> {
+	getValidYears(token: string): Promise<[]> {
 		console.log('Batch Service: getValidYears');
 		return axios
-			.get(this.URI, { params: { query: 'validYears'}})
+			.get(this.URI, { 
+				headers: {'Authorization': `Bearer ${token}`},
+				params: { query: 'validYears'}})
 			.then((result) => result.data)
 			.catch((error) => {
 				console.error(error);
 			});
 	}
-	getBatchesByTrainerEmail(trainerEmail: string): Promise<trainerBatchResp> {
+	getBatchesByTrainerEmail(token: string, trainerEmail: string): Promise<trainerBatchResp> {
 		console.log('Batch Service: getBatchesByTrainerEmail');
 		return axios
-			.get(this.URI, { params: { trainerEmail: trainerEmail } })
+			.get(this.URI, { 
+				headers: {'Authorization': `Bearer ${token}`}, 
+				params: { trainerEmail: trainerEmail } })
 			.then((result) => result.data)
 			.catch((error) => {
 				console.error(error);
 			});
 	}
-	getAllBatches(year: number): Promise<Batch[]> {
+	getAllBatches(token: string, year: number): Promise<Batch[]> {
 		console.log('Batch Sevice: getAllBatches');
 		return axios
-			.get(this.URI, {
+			.get(this.URI, { 
+				headers: {'Authorization': `Bearer ${token}`},
 				params: { year: year },
 			})
 			.then((result) => result.data)

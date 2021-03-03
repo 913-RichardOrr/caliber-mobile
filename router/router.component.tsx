@@ -1,81 +1,52 @@
-import React from 'react';
-import { Image } from 'react-native-elements';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StackHeaderOptions } from '@react-navigation/stack/lib/typescript/src/types';
+import React, { useEffect, useState } from 'react';
+import DrawerNavigatorComponent from './DrawerNavigation';
+import { enableScreens } from 'react-native-screens';
+import { ReducerState } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { auth } from '../user/config';
+import { getUser } from '../store/actions';
+import { LoginStackNavigator } from './MainStackNavigator.component';
 
-import YearComponent from '../batches/YearComponent';
-import QuarterComponent from '../batches/QuarterComponent';
-import BatchListComponent from '../batches/BatchListComponent';
-import BatchDetailComponent from '../batches/BatchDetailComponent';
-import LoginComponent from '../user/Login';
-import Test from '../user/Test';
-import LogoutComponent from '../user/Logout';
-import BatchHome from '../batches/BatchHome';
+enableScreens();
 
-export type StackParams = {
-	Login: undefined;
-	Test: undefined;
-	Home: undefined;
-	Batches: undefined;
-	Quarter: [];
-	BatchDetail: undefined;
-};
+function RouterComponent(props: any) {
+  const [loggedIn, setLoggedin] = useState(false);
+  const inputUser = (state: ReducerState) => state.userReducer.userLogin;
 
-const headerOptions: StackHeaderOptions = {
-	headerTitle: () => (
-		<Image
-			style={{ width: 165, height: 50, margin: 30 }}
-			source={require('./rev-logo.png')}
-		/>
-	),
-	headerRight: () => <LogoutComponent />,
-};
+  const newUser = useSelector(inputUser);
+  const dispatch = useDispatch();
 
-const Stack = createStackNavigator();
+  useEffect(() => {
+    auth.onIdTokenChanged(function (user: any) {
+      if (user) {
+        //Logged in
+        console.log(user);
+        setLoggedin(true);
+        user
+          .getIdTokenResult()
+          .then((token: any) => {
+            const role = {
+              ROLE_QC: token.claims.ROLE_QC,
+              ROLE_VP: token.claims.ROLE_VP,
+              ROLE_TRAINER: token.claims.ROLE_TRAINER,
+            };
+            const tokenTemp = token.token;
+            dispatch(
+              getUser({ email: user.email, token: tokenTemp, role: role })
+            );
+          })
+          .catch((err: any) => console.log(err));
+      } else {
+        //logged out
+        setLoggedin(false);
+        console.log('Logged out');
+      }
+    });
+  }, []);
 
-export default function RouterComponent(props: any) {
-	return (
-		<Stack.Navigator initialRouteName="Login">
-			<Stack.Screen
-				name="Login"
-				component={LoginComponent}
-				options={headerOptions}
-			/>
-			<Stack.Screen 
-                name="Test" 
-                component={Test} 
-                options={headerOptions} 
-            />
-			<Stack.Screen 
-                name="Home" 
-                component={BatchHome}
-                options={headerOptions} 
-            />
-			<Stack.Screen
-				name="Year"
-				component={YearComponent}
-				options={headerOptions}
-			/>
-			<Stack.Screen
-				name="Quarter"
-				component={QuarterComponent}
-				options={headerOptions}
-			/>
-			<Stack.Screen
-				name="Batches"
-				component={BatchListComponent}
-				options={headerOptions}
-			/>
-			<Stack.Screen
-				name="BatchDetail"
-				component={BatchDetailComponent}
-				options={headerOptions}
-			/>
-			<Stack.Screen
-				name="Logout"
-				component={LogoutComponent}
-				options={headerOptions}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <>{loggedIn ? <DrawerNavigatorComponent /> : <LoginStackNavigator />}</>
+  );
 }
+
+export default RouterComponent;
