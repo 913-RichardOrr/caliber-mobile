@@ -113,7 +113,6 @@ export default function CategoryTable({ status }: CategoryTableProp) {
                 <View>
                     <View testID='logo' style={catStyle.logoView}>
                         <Text style={catStyle.loading}>LOADING...</Text>
-                        {/* <Image style={catStyle.logo} source={RevLogo} /> */}
                     </View>
                 </View>
             )}
