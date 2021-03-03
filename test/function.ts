@@ -10,8 +10,8 @@ export default function login (email: string, password: string) {
     })
 }
 
-export function sendPasswordResetEmail(email: string, successMsg: string) {
-    firebase.auth().sendPasswordResetEmail(email).then((res)=>{
+export async function sendPasswordResetEmail(email: string) {
+    await firebase.auth().sendPasswordResetEmail(email).then((res)=>{
         console.log("Email Sent!")
     }).catch((err)=>{
         console.error(err);
