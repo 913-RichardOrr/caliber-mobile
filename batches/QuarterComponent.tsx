@@ -26,7 +26,7 @@ export default function QuarterComponent({ route }: any) {
     return index.toString();
   };
 
-  const year: number = route.params.year;
+  const { year, screenName } = route.params;
 
   const quarters: any = ['All Quarters', 'Q1', 'Q2', 'Q3', 'Q4'];
 
@@ -44,8 +44,13 @@ export default function QuarterComponent({ route }: any) {
    */
   function handleQuarterSelect(index: number) {
     const quarter = quarters[index];
+    console.log(JSON.stringify(route));
 
-    nav.navigate('Batches', { year: year, quarter: quarter });
+    nav.navigate('Batches', {
+      year: year,
+      quarter: quarter,
+      screenName: screenName,
+    });
   }
 
   /**

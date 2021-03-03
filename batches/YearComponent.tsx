@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator, Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ReducerState } from '../store/store';
@@ -13,14 +16,14 @@ import { style } from '../global_styles';
 /**
  * Renders Year list
  */
-export default function YearComponent() {
+export default function YearComponent({ route }: any) {
   const nav = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state: ReducerState) => state.userReducer.user);
   const keyExtractor = (item: object, index: number) => {
     return index.toString();
   };
-
+  const { screenName } = route.params;
   const [validYears, setValidYears] = useState<[]>([]);
 
   useEffect(() => {
@@ -30,10 +33,7 @@ export default function YearComponent() {
       });
     } else {
       batchService
-        .getBatchesByTrainerEmail(
-          user.token,
-          /*user.email*/ 'mock1005.employee7c90a542-e70e-4db5-be8b-629e62f851c5@mock.com'
-        )
+        .getBatchesByTrainerEmail(user.token, user.email)
         .then((batchesResp) => {
           dispatch(getBatches(batchesResp.batches));
           setValidYears(batchesResp.validYears);
@@ -46,7 +46,10 @@ export default function YearComponent() {
    * @param {number} year
    */
   function handleYearSelect(year: number) {
-    nav.navigate('Quarter', { year: year });
+    nav.navigate('Quarter', {
+      year: year,
+      screenName: screenName,
+    });
   }
 
   /**
