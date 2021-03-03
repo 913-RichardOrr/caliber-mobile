@@ -41,8 +41,6 @@ export default function CategoryTable({ status }: CategoryTableProp) {
         await CategoryService.getCategories(token, false).then((staleRes) => {
             setStale(staleRes);
         }).catch(error => console.log(error));
-        // setActive(active);
-        // setStale(stale);
         setRend(true);
     }), [store, store.getState().categoryReducer]);
 

@@ -4,7 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import AssociateTableComponent from '../associate/AssociateTableComponent';
 import AddNoteComponent from '../batchWeek/AddNoteComponent';
-import AddWeek from '../batchWeek/AddWeek/addWeek.component';
+import AddWeek from '../batchWeek/AddWeek/AddWeekComponent';
 import WeekSelectionComponent from '../batchWeek/WeekSelectionComponent';
 import { ReducerState } from '../store/store';
 import style from '../global_styles';
