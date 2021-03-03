@@ -11,17 +11,13 @@ const weekReducer = (
 
     switch (action.type) {
         case Actions.WeekActions.GetWeeks:
+        case Actions.WeekActions.AddWeek:
+        case Actions.WeekActions.AddNote:
             newState.weeks = action.payload as QcWeek[];
             return newState;
         case Actions.WeekActions.ChangeSelectedWeek:
             newState.selectedWeek = action.payload as QcWeek;
             return newState;
-        case Actions.WeekActions.AddWeek:
-            newState.weeks.push(action.payload);
-            return newState;
-        /* case Actions.WeekActions.AddNote:
-            newState.selectedWeek = action.payload as QcWeek;
-            return newState; */
         default:
             return state;
     }

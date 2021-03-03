@@ -4,7 +4,7 @@ import { WeekCategory } from './weekCategory';
 class WeekCategoryService {
     private URI: string;
     constructor() {
-        this.URI = 'https://localhost:3000/';
+        this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
     }
 
     /**

@@ -4,7 +4,7 @@ class BatchPageService {
   private URI: string;
   constructor() {
     // URL of the API server that stores our Lambdas.
-    this.URI = 'https://rtnkp17gz4.execute-api.us-east-1.amazonaws.com/default';
+    this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
   }
 
   async getAssociates(batchID: string, token: string): Promise<[]> {

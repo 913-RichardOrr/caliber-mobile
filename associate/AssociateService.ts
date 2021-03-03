@@ -9,7 +9,7 @@ class AssociateService {
   private URI: string;
   constructor() {
     // URI for the API Gateway
-    this.URI = 'https://rtnkp17gz4.execute-api.us-east-1.amazonaws.com/default/qc';
+    this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default/qc';
   }
 
   async getAssociate(

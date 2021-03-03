@@ -64,13 +64,15 @@ function AssociateTableComponent() {
     let newAssociateArray: Associate[] = [];
     let serviceResult;
     serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
-    serviceResult.forEach((asoc: any) => {
-      let associate = new Associate();
-      associate.firstName = asoc.firstName;
-      associate.lastName = asoc.lastName;
-      associate.associateId = asoc.email;
-      newAssociateArray.push(associate);
-    });
+    if(serviceResult) {
+      serviceResult.forEach((asoc: any) => {
+        let associate = new Associate();
+        associate.firstName = asoc.firstName;
+        associate.lastName = asoc.lastName;
+        associate.associateId = asoc.email;
+        newAssociateArray.push(associate);
+      });
+    }
     return newAssociateArray;
   }
 
@@ -84,7 +86,7 @@ function AssociateTableComponent() {
       qcFeedback = await AssociateService.getAssociate(
         associate,
         batch.batchId,
-        String(week.weekNumber),
+        String(week.weeknumber),
         token
       );
       let value = new AssociateWithFeedback();
