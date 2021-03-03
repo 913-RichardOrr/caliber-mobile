@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 import { Image } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
+import LoginComponent from '../user/Login';
 import Home from '../user/Home';
 import ForgotPassword from '../user/ForgotPassword';
 import ManageCategories from '../categoriesFeature/ManageCategories';
@@ -14,11 +15,11 @@ import {
   GetActive,
   GetStale,
 } from '../store/categoriesFeature/CategoryActions';
+import style from '../global_styles';
 import { ReducerState } from '../store/store';
-import LoginComponent from '../user/Login';
 import BatchStackNavigator from './BatchStackNavigator.component';
-import BatchPageComponent from '../batchPage/BatchPageComponent';
 import { ReportsTable } from '../reports/ReportTable';
+import BatchPageComponent from '../batchPage/BatchPageComponent';
 
 enableScreens();
 
@@ -32,10 +33,7 @@ export interface MenuProp {
  */
 export const loginHeaderOptions = {
   headerTitle: () => (
-    <Image
-      style={{ width: 165, height: 50, margin: 30 }}
-      source={require('./rev-logo.png')}
-    />
+    <Image style={style.logoLogin} source={require('./rev-logo.png')} />
   ),
 };
 
@@ -47,10 +45,7 @@ export const loginHeaderOptions = {
 export function generalHeaderOptions(navigation: any) {
   return {
     headerTitle: () => (
-      <Image
-        style={{ width: 165, height: 50, margin: 30 }}
-        source={require('./rev-logo.png')}
-      />
+      <Image style={style.logo} source={require('./rev-logo.png')} />
     ),
     headerLeft: () => (
       <Icon.Button

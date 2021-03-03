@@ -45,7 +45,22 @@ export const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  logo: { 
+    width: perfectSize(100), 
+    height: perfectSize(30), 
+    marginLeft: perfectSize(60), 
+    marginRight: perfectSize(30),
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  logoLogin: { 
+    width: perfectSize(100), 
+    height: perfectSize(30), 
+    marginLeft: perfectSize(115), 
+    marginRight: perfectSize(30),
+    alignItems: "center",
+    justifyContent: "center"
+  },
   logoutBackground: {
     backgroundColor: '#F26925',
     height: 40,
@@ -170,6 +185,28 @@ export const style = StyleSheet.create({
     height: 'auto',
     backgroundColor: 'white',
     marginBottom: perfectSize(10),
+  },
+	loading: {
+		display: 'flex',
+		alignContent: 'center',
+		justifyContent: 'center',
+	},
+	subheading: {
+		fontSize: perfectSize(18),
+		fontWeight: 'bold',
+    margin: perfectSize(5)
+	},
+  searchInput: {
+    width: perfectSize(300),
+    height: perfectSize(30), 
+    margin: perfectSize(10),
+    borderWidth: 1, 
+    borderRadius: 10 
+  },
+  searchContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   underDevelopmentText: {
     color: REVATURE_ORANGE,
