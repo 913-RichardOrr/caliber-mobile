@@ -29,22 +29,17 @@ export default function BatchStackNavigator({ navigation }: MenuProp) {
       <Stack.Screen
         name='Year'
         component={YearComponent}
-        options={generalHeaderOptions(navigation)}
+        // options={generalHeaderOptions(navigation)}
       />
       <Stack.Screen
         name='Quarter'
         component={QuarterComponent}
-        options={generalHeaderOptions(navigation)}
+        // options={generalHeaderOptions(navigation)}
       />
       <Stack.Screen
         name='Batches'
         component={BatchListComponent}
-        options={generalHeaderOptions(navigation)}
-      />
-      <Stack.Screen
-        name='BatchDetail'
-        component={ReportsTable}
-        options={generalHeaderOptions(navigation)}
+        // options={generalHeaderOptions(navigation)}
       />
     </Stack.Navigator>
   );

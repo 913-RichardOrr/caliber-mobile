@@ -89,7 +89,7 @@ export default function BatchListComponent({ route }: any) {
   // The navigator's destination is to be replaced in code after determining the next component in line
   function handleBatchSelect(index: string) {
     dispatch(changeBatch(batches[Number(index)]));
-    nav.navigate('BatchDetail');
+    nav.navigate('Batch Page');
   }
 
   // Display a selectable batch

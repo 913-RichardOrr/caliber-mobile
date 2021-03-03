@@ -4,10 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 import { Image } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import Home from '../user/Home';
 import ForgotPassword from '../user/ForgotPassword';
-import UnderDevelopmentComponent from '../UnderDevelopmentComponent';
 import ManageCategories from '../categoriesFeature/ManageCategories';
 import LogoutComponent from '../user/Logout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +16,9 @@ import {
 } from '../store/categoriesFeature/CategoryActions';
 import { ReducerState } from '../store/store';
 import LoginComponent from '../user/Login';
+import BatchStackNavigator from './BatchStackNavigator.component';
+import BatchPageComponent from '../batchPage/BatchPageComponent';
+import { ReportsTable } from '../reports/ReportTable';
 
 enableScreens();
 
@@ -103,6 +104,23 @@ function HomeStack({ navigation }: MenuProp) {
   );
 }
 
+function QCAuditStack({ navigation }: MenuProp) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Batches'
+        component={BatchStackNavigator}
+        options={generalHeaderOptions(navigation)}
+      />
+      <Stack.Screen
+        name='Batch Page'
+        component={BatchPageComponent}
+        options={generalHeaderOptions(navigation)}
+      />
+    </Stack.Navigator>
+  );
+}
+
 /**
  * TODO: get the report stack added
  * @param navigation - navigation prop to open the drawer
@@ -111,8 +129,13 @@ function ReportStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name='Batches'
+        component={BatchStackNavigator}
+        options={generalHeaderOptions(navigation)}
+      />
+      <Stack.Screen
         name='Reports'
-        component={UnderDevelopmentComponent}
+        component={ReportsTable}
         options={generalHeaderOptions(navigation)}
       />
     </Stack.Navigator>
@@ -176,6 +199,7 @@ function LogoutStack({ navigation }: MenuProp) {
 export {
   LoginStackNavigator,
   HomeStack,
+  QCAuditStack,
   ReportStack,
   ManagementStack,
   LogoutStack,
