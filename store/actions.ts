@@ -2,6 +2,7 @@ import { UserInfo, UserInput } from '../user/user';
 import Batch from '../batches/batch';
 import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
+import QcNote from '../batchWeek/QcNote';
 import { WeekCategory } from '../weekCategories/weekCategory';
 import { Category } from '../categoriesFeature/Category';
 
@@ -9,6 +10,11 @@ export enum BatchActions {
   GetBatches = 'GET_BATCHES',
   ChangeBatch = 'CHANGE_BATCH',
 }
+export enum QcNoteActions {
+  GetNotes = 'GET_NOTES',
+  ChangeSelectedNote = 'CHANGE_SELECTED_NOTE',
+}
+
 export enum WeekActions {
   GetWeeks = 'GET_WEEKS',
   ChangeSelectedWeek = 'CHANGE_SELECTED_WEEK',
@@ -75,6 +81,10 @@ export interface WeekAction extends AppAction {
   payload: QcWeek | QcWeek[];
 }
 
+export interface QcNoteAction extends AppAction {
+  type: QcNoteActions;
+  payload: QcNote | QcNote[];
+}
 export interface WeekCategoryAction extends AppAction {
   type: WeekCategoryActions;
   payload: Category[] | WeekCategory;
@@ -126,10 +136,24 @@ export function getWeeks(weeks: QcWeek[]): WeekAction {
   };
 }
 
+export function getNotes(notes: QcNote[]): QcNoteAction {
+  return {
+    type: QcNoteActions.GetNotes,
+    payload: notes,
+  };
+}
+
 export function changeSelectedWeek(week: QcWeek): WeekAction {
   return {
     type: WeekActions.ChangeSelectedWeek,
     payload: week,
+  };
+}
+
+export function changeSelectedNote(note: QcNote): QcNoteAction {
+  return {
+    type: QcNoteActions.ChangeSelectedNote,
+    payload: note,
   };
 }
 

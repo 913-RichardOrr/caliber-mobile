@@ -8,11 +8,13 @@ import { AppAction } from './actions';
 import { UserInfo, UserInput } from '../user/user';
 import { AssociateWithFeedback } from '../associate/AssociateService';
 import QcWeek from '../batchWeek/QcWeek';
+import QcNote from '../batchWeek/QcNote';
 import WeekCategoryReducer from './WeekCategoryReducer';
 import { Category } from '../categoriesFeature/Category';
 import categoryReducer from './categoriesFeature/CategoryReducer';
 import { WeekCategory } from '../weekCategories/weekCategory';
-import weekReducer from './WeekReducer'
+import weekReducer from './WeekReducer';
+import qcNoteReducer from './QcNoteReducer';
 
 export interface BatchState {
   batch: Batch;
@@ -22,6 +24,11 @@ export interface BatchState {
 export interface WeekState {
   weeks: QcWeek[];
   selectedWeek: QcWeek;
+}
+
+export interface QcNoteState {
+	notes: QcNote[];
+	selectedNote: QcNote;
 }
 
 export interface UserState {
@@ -49,6 +56,7 @@ export interface CaliberState
     AssociateState,
     BatchState,
     WeekState,
+	QcNoteState,
     WeekCategoryState {}
 
 //add your reducer to the object
@@ -56,6 +64,7 @@ const rootReducer = combineReducers({
   userReducer,
   batchReducer,
   weekReducer,
+  qcNoteReducer,
   WeekCategoryReducer,
   categoryReducer,
 });

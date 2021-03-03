@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import QcNote from './QcNote';
 import QcWeek from './QcWeek';
 
 class BatchWeekService {
@@ -18,6 +19,11 @@ class BatchWeekService {
         return axios.get(this.URI + `qc/batches/${batchid}/weeks`, this.getConfig(token)).then(result => result.data);
     }
 
+    // get all qcnotes objects for a specific batch and for specific week
+    getQcNotesByBatchByWeek(token: string, batchid: string, weekNumber: number): Promise<QcNote[]> {
+    return axios.get(this.URI + `qc/batches/${batchid}/weeks/${weekNumber}`, this.getConfig(token)).then(result => result.data);
+    }
+    
     // add new qc_week to the qc_week table for /batches/{batchId}/weeks
     addWeek(token: string, qw: QcWeek): Promise<null> {
         return axios.post(this.URI + `qc/batches/${qw.batchid}/weeks`, qw, this.getConfig(token)).then(result => null);
@@ -37,12 +43,3 @@ export default new BatchWeekService();
 export type STATUS = 'Undefined' | 'Poor' | 'Average' | 'Good' | 'Superstar';
 
 
-export class qcnotes {
-    public qcnoteid: number =0;
-    public weeknumber: number =0;
-    public batchid: string='';
-    public associateid: string ='';
-    public technicalstatus: STATUS='Undefined';  // must be string
-    public notecontent: string ='';
-
-}

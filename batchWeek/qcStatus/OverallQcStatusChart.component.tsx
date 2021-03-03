@@ -32,6 +32,9 @@ import { useSelector } from 'react-redux';
 
  
 // mocked data from table qcnotes;
+// let actualItems = 
+
+
 let testItems: { weeknumber: number; batchid: string; associateid: number; technicalstatus: STATUS; 
     notecontent: string}[] = [
   {"weeknumber": 1, "batchid": "batch a", "associateid": 1, "technicalstatus": "Undefined", "notecontent": "not a"},
