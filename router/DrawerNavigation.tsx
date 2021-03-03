@@ -1,15 +1,14 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { enableScreens } from 'react-native-screens';
 import {
   HomeStack,
   LogoutStack,
   ManagementStack,
+  QCAuditStack,
   ReportStack,
 } from './MainStackNavigator.component';
-import Home from '../user/Home';
-import BatchStackNavigator from './BatchStackNavigator.component';
 import { ReducerState } from '../store/store';
 
 enableScreens();
@@ -32,7 +31,7 @@ function DrawerNavigatorComponent() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name='Home' component={HomeStack} />
-      <Drawer.Screen name='QC Audit' component={BatchStackNavigator} />
+      <Drawer.Screen name='QC Audit' component={QCAuditStack} />
       <Drawer.Screen name='Reports' component={ReportStack} />
       {!user.role.ROLE_QC && (
         <Drawer.Screen name='Management' component={ManagementStack} />

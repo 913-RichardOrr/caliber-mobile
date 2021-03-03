@@ -26,11 +26,12 @@ class AssociateService {
       )
       .then((result) => result.data)
       .catch((err) => {
+        console.error(err);
         let qcFeedback = new QCFeedback();
         qcFeedback.associateid = a.associateId;
         qcFeedback.batchid = batch;
         qcFeedback.weeknumber = Number(week);
-        this.putAssociate(
+        return this.putAssociate(
           qcFeedback,
           {
             notecontent: qcFeedback.notecontent,
@@ -38,7 +39,6 @@ class AssociateService {
           },
           token
         );
-        console.error(err);
       });
   }
 
