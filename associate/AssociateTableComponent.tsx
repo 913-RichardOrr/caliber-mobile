@@ -38,7 +38,7 @@ function AssociateTableComponent() {
   let week = useSelector(
     (state: ReducerState) => state.weekReducer.selectedWeek
   );
-
+    console.log(batch.batchId);
   const curentUser = useSelector(
     (state: ReducerState) => state.userReducer.user
   );

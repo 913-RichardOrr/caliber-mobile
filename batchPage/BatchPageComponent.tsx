@@ -13,7 +13,11 @@ import AssociateService, {
 } from '../associate/AssociateService';
 import WeekCategoryListContainer from '../weekCategories/WeekCategoryListContainer';
 
-function BatchPageComponent() {
+interface Props {
+	navigation: any;
+}
+
+function BatchPageComponent({ navigation }: Props) {
   let associates = useSelector(
     (state: ReducerState) => state.batchReducer.associates
   );
@@ -56,6 +60,10 @@ function BatchPageComponent() {
 
   return (
     <View>
+      <Button
+      color="#F26925" 
+      title='Back' 
+      onPress={()=>navigation.goBack()}/>
       <WeekSelectionComponent></WeekSelectionComponent>
       <AddWeek></AddWeek>
       {/* <WeekCategoryListContainer/> */}
