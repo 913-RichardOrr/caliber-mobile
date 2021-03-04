@@ -6,7 +6,6 @@ class categoryService {
 	constructor() {
 		this.URI = 'https://kx49u9u25h.execute-api.us-east-1.amazonaws.com/default';
 	}
-
 	// GET function for /categories
 	getCategories(token: string, queryString?: boolean): Promise<any> {
 		return axios
