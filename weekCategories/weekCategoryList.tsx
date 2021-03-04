@@ -33,10 +33,6 @@ export function WeekCategoryList(props: WeekProp) {
       <Text style = {styles.heading}>Categories: </Text>
 
       <View style={styles.container}>
-        {props.weekCategoriesAsCategory.length == 0 && (
-          <Text  testID='noCats'>No Categories For This Week</Text>
-
-        )}
         <FlatList
           testID='listOfWeekCats'
           data={props.weekCategoriesAsCategory}

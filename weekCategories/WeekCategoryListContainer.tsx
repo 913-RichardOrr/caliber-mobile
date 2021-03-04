@@ -31,6 +31,7 @@ export default function WeekCategoryListContainer() {
   const weekCategories = useSelector(weekCatSelector);
   const weekIDSelector = (state: ReducerState) => state.weekReducer.selectedWeek;
   const week = useSelector(weekIDSelector);
+  console.log(week)
   // authorizer state
   const currentUser = useSelector((state: ReducerState) => state.userReducer.user);
   const token = currentUser.token;
@@ -41,7 +42,9 @@ export default function WeekCategoryListContainer() {
   useEffect(() => {
 
     async function createLists() {
-      await createCatList(week).then(async (weekCategoriesAsCategory) => {
+      console.log('cdl')
+      console.log(week)
+      await createCatList().then(async (weekCategoriesAsCategory) => {
         console.log('in use effec in stuff: ' + weekCategoriesAsCategory.length)
         activeCategoriesList = await createActiveList(weekCategoriesAsCategory);
         console.log('in use effect weekCatasCat: ' + weekCategoriesAsCategory.length)
@@ -62,7 +65,9 @@ export default function WeekCategoryListContainer() {
    *
    * @return an array of type Category[]
    */
-  async function createCatList(week: QcWeek) {
+  async function createCatList() {
+    console.log('ccl')
+    console.log(week);
     let thisWeekCats: Category[] = [];
     await weekCategoryService.getCategory(week.weeknumber, week.batchid, token).then((results) => {
       console.log('beginning createCatList ' + results.length)
