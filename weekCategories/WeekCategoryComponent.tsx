@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { deleteWeekCategory } from '../store/actions';
+
 import { WeekCategory } from './weekCategory';
-import WeekCategoryService from './WeekCategoryService';
+
 
 interface CatProp {
   weekID: number,
   skill: string,
   catID: number, 
   batchId: string,
-  token:string
+  token:string,
+  deleteCategory:Function
 }
 
 /**
@@ -25,9 +26,7 @@ export default function CategoryButton(props: CatProp) {
     <View style={[styles.screenContainer]}>
       <Text style={styles.myFontColor}>{props.skill + "  "}
         <TouchableOpacity testID='button' onPress={() => {
-          WeekCategoryService.deleteCategory(props.weekID, props.batchId, props.catID, props.token).then(() => {
-            dispatch(deleteWeekCategory(weekCat));
-          })
+          props.deleteCategory(props.weekID, props.batchId, props.catID, props.token)
         }}>
           <Text style={styles.innerContainer}> x </Text></TouchableOpacity></Text>
     </View>

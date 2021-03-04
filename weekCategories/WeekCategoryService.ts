@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CategoryName } from './CategoryName';
 import { WeekCategory } from './WeekCategory';
 
 class WeekCategoryService {
@@ -26,7 +27,7 @@ class WeekCategoryService {
     * @param number the id of the week
     * @return an array of all categories for a given week
     */
-    getCategory(weekId: number, batchId:string, token:string): Promise<WeekCategory[]> {
+    getCategory(weekId: number, batchId:string, token:string): Promise<CategoryName[]> {
         return axios
             .get(this.URI + 'qc/batches/' + batchId + '/weeks/' + weekId + '/categories',{headers: { Authorization: `Bearer ${token}`}})
             .then((result) => result.data)
@@ -40,7 +41,6 @@ class WeekCategoryService {
     * @return nothing
     */
     deleteCategory(weekId: number, batchId: string, catId: number, token:string): Promise<null> {
-
         return axios
             .delete(this.URI + 'qc/batches/' + batchId + '/weeks/' + weekId + '/categories/' + catId,{headers: { Authorization: `Bearer ${token}`}})
             .then((result) => null)

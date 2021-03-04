@@ -18,7 +18,8 @@ interface WeekProp {
   weekCategoriesAsCategory: Category[],
   addCategory:Function,
   activeCategories:Category[],
-  token:string
+  token:string,
+  deleteCategory:Function,
 
 }
 /**
@@ -27,7 +28,6 @@ interface WeekProp {
  * @param {weekProp} qcWeek - The weekId of the current week
  */
 export function WeekCategoryList(props: WeekProp) {
-  console.log('in component '+ props)
   return (
     <View style={styles.allContainer}>
       <Text style = {styles.heading}>Categories: </Text>
@@ -42,7 +42,7 @@ export function WeekCategoryList(props: WeekProp) {
           data={props.weekCategoriesAsCategory}
           horizontal={true}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (<WeekCategoryComponent weekID={props.week.qcweekid} skill={item.skill} catID = {item.categoryid} batchId={props.week.batchid} token ={props.token}></WeekCategoryComponent>)} />
+          renderItem={({ item }) => (<WeekCategoryComponent  deleteCategory= {props.deleteCategory} weekID={props.week.weeknumber} skill={item.skill} catID = {item.categoryid} batchId={props.week.batchid} token ={props.token}></WeekCategoryComponent>)} />
       </View>
 
       <View style={styles.menuContainer}>
@@ -54,16 +54,16 @@ export function WeekCategoryList(props: WeekProp) {
             <MenuTrigger text='+' customStyles={triggerStyles}/>
 
             <MenuOptions>
-              {props.activeCategories.length != 0 ? (
+              
                 <FlatList
                 testID= 'listOfActiveCats'
                 data={props.activeCategories}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <MenuOption  value={Number(item.categoryid)} text={String(item.skill)} />
+                  <MenuOption  value={item} text={String(item.skill)} />
                 )}
                 style={{ height: 100 }} />
-              ):  <MenuOption style={{flexWrap:'wrap', flex:1}} value = {-1} text={'No Categories Available'} />}
+              
               
               
             </MenuOptions>
