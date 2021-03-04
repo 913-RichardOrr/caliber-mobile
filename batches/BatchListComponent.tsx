@@ -67,8 +67,9 @@ export default function BatchListComponent({ navigation, route }: Props) {
 				index: batch.index,
 				info:
 					user.role.ROLE_QC === true || user.role.ROLE_VP === true
-						? `${batch.trainerFirstName + ' ' + batch.trainerLastName}\n${batch.skill
-						}\n${batch.startDate}`
+						? `${batch.trainerFirstName + ' ' + batch.trainerLastName}\n${
+								batch.skill
+						  }\n${batch.startDate}`
 						: `${batch.skill}\n${batch.startDate}`,
 			};
 		});
@@ -173,8 +174,9 @@ export default function BatchListComponent({ navigation, route }: Props) {
 					index,
 					info:
 						user.role.ROLE_QC === true || user.role.ROLE_VP === true
-							? `${batch.name} ${batch.skill} ${batch.startDate} - ${batch.trainerFirstName + ' ' + batch.trainerLastName
-							}`
+							? `${batch.name} ${batch.skill} ${batch.startDate} - ${
+									batch.trainerFirstName + ' ' + batch.trainerLastName
+							  }`
 							: `${batch.name} ${batch.skill} ${batch.startDate}`,
 				};
 			});
@@ -230,8 +232,8 @@ export default function BatchListComponent({ navigation, route }: Props) {
 					keyExtractor={keyExtractor}
 				/>
 			) : (
-					<Text>No batches for the selected quarter</Text>
-				)}
+				<Text>No batches for the selected quarter</Text>
+			)}
 		</View>
 	);
 }
