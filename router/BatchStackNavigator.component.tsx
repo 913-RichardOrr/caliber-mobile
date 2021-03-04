@@ -8,10 +8,10 @@ import { generalHeaderOptions, MenuProp } from './MainStackNavigator.component';
 const Stack = createStackNavigator();
 
 export type StackParams = {
-  Home: undefined;
-  Batches: undefined;
-  Quarter: [];
-  BatchDetail: undefined;
+	Home: undefined;
+	Batches: undefined;
+	Quarter: [];
+	BatchDetail: undefined;
 };
 
 /**
@@ -22,24 +22,24 @@ export type StackParams = {
  * to open the DrawerNavigator
  */
 export default function BatchStackNavigator({ navigation, route }: MenuProp) {
-  return (
-    <Stack.Navigator initialRouteName='Year'>
-      <Stack.Screen
-        name='Year'
-        component={YearComponent}
-        initialParams={route.params}
-        // options={generalHeaderOptions(navigation)}
-      />
-      <Stack.Screen
-        name='Quarter'
-        component={QuarterComponent}
-        // options={generalHeaderOptions(navigation)}
-      />
-      <Stack.Screen
-        name='Batches'
-        component={BatchListComponent}
-        // options={generalHeaderOptions(navigation)}
-      />
-    </Stack.Navigator>
-  );
+	return (
+		<Stack.Navigator initialRouteName="Year">
+			<Stack.Screen
+				name="Year"
+				component={YearComponent}
+				initialParams={route.params}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Quarter"
+				component={QuarterComponent}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Batches"
+				component={BatchListComponent}
+				options={{ headerShown: false }}
+			/>
+		</Stack.Navigator>
+	);
 }
