@@ -51,6 +51,9 @@
   * Username: `trainerqc@revature.com`
   * Password: `password`
 
+## Getting Started
+See SETUP.md for setting up project.
+
 ## Contributors
 * [Medbh Campbell](https://github.com/medbhcampbell)
 * [Kathryn Clark](https://github.com/kathrync23)
