@@ -58,8 +58,10 @@ function BatchPageComponent() {
   return (
     <View>
       <ScrollView>
-        <WeekSelectionComponent></WeekSelectionComponent>
-        <AddWeek></AddWeek>
+        <View style={{flexDirection:'row'}}>
+          <WeekSelectionComponent></WeekSelectionComponent>
+          <AddWeek></AddWeek>
+        </View>
         {/* <WeekCategoryListContainer/> */}
         <AddNoteComponent></AddNoteComponent>
         <AssociateTableComponent></AssociateTableComponent>
