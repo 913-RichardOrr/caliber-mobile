@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator, Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ReducerState } from '../store/store';

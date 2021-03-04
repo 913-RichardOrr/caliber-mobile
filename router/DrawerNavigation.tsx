@@ -1,6 +1,6 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { enableScreens } from 'react-native-screens';
 import {
   HomeStack,
@@ -10,6 +10,7 @@ import {
   ReportStack,
 } from './MainStackNavigator.component';
 import { ReducerState } from '../store/store';
+import BatchStackNavigator from './BatchStackNavigator.component';
 
 enableScreens();
 
