@@ -104,7 +104,7 @@ function QCAuditStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Batches'
+        name='QC Batches'
         component={BatchStackNavigator}
         options={generalHeaderOptions(navigation)}
         initialParams={{ screenName: 'Batch Page' }}
@@ -126,7 +126,7 @@ function ReportStack({ navigation }: MenuProp) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Batches'
+        name='Report Batches'
         component={BatchStackNavigator}
         options={generalHeaderOptions(navigation)}
         initialParams={{ screenName: 'Reports' }}

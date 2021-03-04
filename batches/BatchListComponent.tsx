@@ -50,18 +50,32 @@ export default function BatchListComponent({ navigation, route }: Props) {
 
   // Filters based on the year and quarter, then displays different data based on the user's role(s)
   useEffect(() => {
+<<<<<<< HEAD
     const batchesInQuarter = batches.filter((batch) => {
+=======
+    const batchesInQuarter = batches.filter((batch, index) => {
+>>>>>>> 7cc0affa5e677d5dff01c2d95481e04419aaee11
       if (
         year == checkYear(batch.startDate) &&
         (quarter == 'All Quarters' || quarter == checkQuarter(batch.startDate))
       ) {
+<<<<<<< HEAD
+=======
+        batch.index = index;
+>>>>>>> 7cc0affa5e677d5dff01c2d95481e04419aaee11
         return batch;
       }
     });
 
+<<<<<<< HEAD
     const visible = batchesInQuarter.map((batch, index) => {
       return {
         index,
+=======
+    const visible = batchesInQuarter.map((batch) => {
+      return {
+        index: batch.index,
+>>>>>>> 7cc0affa5e677d5dff01c2d95481e04419aaee11
         info:
           user.role.ROLE_QC === true || user.role.ROLE_VP === true
             ? `${batch.trainerFirstName + ' ' + batch.trainerLastName}\n${

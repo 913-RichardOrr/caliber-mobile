@@ -9,4 +9,5 @@ export default class Batch {
 	trainerEmail: string = '';
 	trainerFirstName: string = '';
 	trainerLastName: string = '';
+	index: number = 0;
 }

@@ -1,96 +1,93 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, Text, Button } from 'react-native';
-import { Table, Row, Rows } from '@deb-95/react-native-table-component';
+import { View, ScrollView, Text, Platform, Button } from 'react-native';
+import { Table, Row, Rows } from 'react-native-table-component';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../store/store';
 import AssociateService, { Associate } from '../associate/AssociateService';
-import batchWeekService from '../batchWeek/batchWeekService';
 import BatchPageService from '../batchPage/BatchPageService';
+import batchWeekService from '../batchWeek/batchWeekService';
 import TechnicalStatus from '../associate/TechnicalStatus';
 import style from '../global_styles';
 
 interface Props {
-	navigation: any;
+  navigation: any;
 }
 
 export function ReportsTable({ navigation }: Props) {
-	let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
-	const curentUser = useSelector(
-		(state: ReducerState) => state.userReducer.user
-	);
-	const token = curentUser.token;
+  let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
+  const curentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
+  const token = curentUser.token;
 
-	const [associateWeekFeedback, setAssociateWeekFeedback]: any = useState([]);
-	const [weeksHeader, setWeeksHeader] = useState(['Associate']);
+  const [associateWeekFeedback, setAssociateWeekFeedback]: any = useState([]);
+  const [weeksHeader, setWeeksHeader] = useState(['Associate']);
 
-	useEffect(() => {
-		if (associateWeekFeedback.length === 0) {
-			asyncThis();
-		}
-		async function asyncThis() {
-			let mockResult;
-			mockResult = await getAssociateFromMock();
-			getQCNotes(mockResult);
-		}
-	}, []);
+  useEffect(() => {
+    if (associateWeekFeedback.length === 0) {
+      asyncThis();
+    }
+    async function asyncThis() {
+      let mockResult;
+      mockResult = await getAssociateFromMock();
+      getQCNotes(mockResult);
+    }
+  }, []);
 
-	/**
-	 * Queries the mock API to retrieve all the associates for a given batch.
-	 */
-	async function getAssociateFromMock() {
-		let newAssociateArray: Associate[] = [];
-		let serviceResult;
-		serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
-		serviceResult.forEach((asoc: any) => {
-			let associate = new Associate();
-			associate.firstName = asoc.firstName;
-			associate.lastName = asoc.lastName;
-			associate.associateId = asoc.email;
-			newAssociateArray.push(associate);
-		});
+  /**
+   * Queries the mock API to retrieve all the associates for a given batch.
+   */
+  async function getAssociateFromMock() {
+    let newAssociateArray: Associate[] = [];
+    let serviceResult;
+    serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
+    serviceResult.forEach((asoc: any) => {
+      let associate = new Associate();
+      associate.firstName = asoc.firstName;
+      associate.lastName = asoc.lastName;
+      associate.associateId = asoc.email;
+      newAssociateArray.push(associate);
+    });
 
-		return newAssociateArray;
-	}
+    return newAssociateArray;
+  }
 
-	/**
-	 * Retrieves QC Notes from back end.
-	 * Return an array of technical statuses for each [associate][week]
-	 */
-	async function getQCNotes(results: Associate[]) {
-		let weeks = await batchWeekService.getBatchWeekNotes(token, batch.batchId);
-		let nweeks = weeks.length;
-		// let nweeks = 2;
+  /**
+   * Retrieves QC Notes from back end.
+   * Return an array of technical statuses for each [associate][week]
+   */
+  async function getQCNotes(results: Associate[]) {
+    let weeks = await batchWeekService.getWeeksByBatchId(token, batch.batchId);
+    let nweeks = weeks.length;
 
-		//make header array of
-		for (let i = 0; i < nweeks; i++) {
-			let temp = weeksHeader;
-			temp.push(`Week ${i + 1}`);
-			setWeeksHeader([...temp]);
-		}
+    //make header array for table headers of the Week Numbers
+    for (let i = 0; i < nweeks; i++) {
+      let temp = weeksHeader;
+      temp.push(`Week ${i + 1}`);
+      setWeeksHeader([...temp]);
+    }
 
-		results.forEach(async (associate: Associate, index: number) => {
-			let feedback = [];
-			feedback.push(`${associate.firstName} ${associate.lastName}`);
-			for (let i = 1; i <= nweeks; i++) {
-				let qcFeedback = await AssociateService.getAssociate(
-					associate,
-					batch.batchId,
-					String(i),
-					token
-				);
+    results.forEach(async (associate: Associate, index: number) => {
+      let feedback = [];
+      feedback.push(`${associate.firstName} ${associate.lastName}`);
+      for (let i = 1; i <= nweeks; i++) {
+        let qcFeedback = await AssociateService.getAssociate(
+          associate,
+          batch.batchId,
+          String(i),
+          token
+        );
+        feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
+      }
+      let temp = associateWeekFeedback;
+      temp.push(feedback);
 
-				feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
-			}
-			let temp = associateWeekFeedback;
-			temp.push(feedback);
+      setAssociateWeekFeedback([...temp]);
+    });
+  }
 
-			setAssociateWeekFeedback([...temp]);
-		});
-	}
-	console.log('batch', batch);
-
-	return (
-		<>
+  return (
+    <>
 			<View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
 				<Button
 					color="#F26925"
@@ -125,5 +122,5 @@ export function ReportsTable({ navigation }: Props) {
 				</View>
 			</ScrollView>
 		</>
-	);
+  );
 }

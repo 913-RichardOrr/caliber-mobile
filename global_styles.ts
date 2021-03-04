@@ -69,7 +69,6 @@ export const style = StyleSheet.create({
 		alignItems: 'center',
 		marginBottom: 40,
 	},
-
 	loginInput: {
 		marginBottom: 40,
 		borderBottomColor: '#fff',
@@ -186,6 +185,13 @@ export const style = StyleSheet.create({
 		paddingTop: 30,
 		backgroundColor: 'white',
 		marginBottom: perfectSize(10),
+	},
+	weekSelect: {
+		fontSize: perfectSize(18),
+	},
+	addWeekButton: {
+		backgroundColor: REVATURE_ORANGE,
+		width: 45,
 	},
 	loading: {
 		display: 'flex',

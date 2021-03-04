@@ -16,75 +16,74 @@ import { style } from '../global_styles';
  * @returns {JSX}
  */
 export default function QuarterComponent({ route }: any) {
-  const nav = useNavigation();
-  const dispatch = useDispatch();
-  const user = useSelector((state: ReducerState) => state.userReducer.user);
-  const batches = useSelector(
-    (state: ReducerState) => state.batchReducer.batches
-  );
-  const keyExtractor = (item: object, index: number) => {
-    return index.toString();
-  };
+	const nav = useNavigation();
+	const dispatch = useDispatch();
+	const user = useSelector((state: ReducerState) => state.userReducer.user);
+	const batches = useSelector(
+		(state: ReducerState) => state.batchReducer.batches
+	);
+	const keyExtractor = (item: object, index: number) => {
+		return index.toString();
+	};
 
-  const { year, screenName } = route.params;
+	const { year, screenName } = route.params;
 
-  const quarters: any = ['All Quarters', 'Q1', 'Q2', 'Q3', 'Q4'];
+	const quarters: any = ['All Quarters', 'Q1', 'Q2', 'Q3', 'Q4'];
 
-  useEffect(() => {
-    if (user.role.ROLE_QC == true || user.role.ROLE_VP == true) {
-      batchService.getAllBatches(user.token, year).then((batchesResp) => {
-        dispatch(getBatches(batchesResp));
-      });
-    }
-  }, [year]);
+	useEffect(() => {
+		if (user.role.ROLE_QC == true || user.role.ROLE_VP == true) {
+			batchService.getAllBatches(user.token, year).then((batchesResp) => {
+				dispatch(getBatches(batchesResp));
+			});
+		}
+	}, [year]);
 
-  /**
-   * Sets the quarter and navigates to the batch list
-   * @param {number} index
-   */
-  function handleQuarterSelect(index: number) {
-    const quarter = quarters[index];
-    console.log(JSON.stringify(route));
+	/**
+	 * Sets the quarter and navigates to the batch list
+	 * @param {number} index
+	 */
+	function handleQuarterSelect(index: number) {
+		const quarter = quarters[index];
 
-    nav.navigate('Batches', {
-      year: year,
-      quarter: quarter,
-      screenName: screenName,
-    });
-  }
+		nav.navigate('Batches', {
+			year: year,
+			quarter: quarter,
+			screenName: screenName,
+		});
+	}
 
-  /**
-   * Displays a selectable quarter
-   * @param {*} params
-   * @returns {JSX}
-   */
-  const quarterCard = (params: any) => {
-    return (
-      <Pressable onPress={() => handleQuarterSelect(params.index)}>
-        <Card>
-          <Text>{params.item}</Text>
-        </Card>
-      </Pressable>
-    );
-  };
+	/**
+	 * Displays a selectable quarter
+	 * @param {*} params
+	 * @returns {JSX}
+	 */
+	const quarterCard = (params: any) => {
+		return (
+			<Pressable onPress={() => handleQuarterSelect(params.index)}>
+				<Card>
+					<Text>{params.item}</Text>
+				</Card>
+			</Pressable>
+		);
+	};
 
-  // Displays a list of quarters to filter by
-  return (
-    <View>
-      <View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
-        <Button color='#F26925' title='Back' onPress={() => nav.goBack()} />
-        <Text style={style.subheading}>{year}</Text>
-      </View>
-      <Text style={{ margin: 10 }}>Select Quarter:</Text>
-      {batches.length > 0 ? (
-        <FlatList
-          data={quarters}
-          renderItem={quarterCard}
-          keyExtractor={keyExtractor}
-        />
-      ) : (
-        <ActivityIndicator style={style.loading} />
-      )}
-    </View>
-  );
+	// Displays a list of quarters to filter by
+	return (
+		<View>
+			<View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
+				<Button color="#F26925" title="Back" onPress={() => nav.goBack()} />
+				<Text style={style.subheading}>{year}</Text>
+			</View>
+			<Text style={{ margin: 10 }}>Select Quarter:</Text>
+			{batches.length > 0 ? (
+				<FlatList
+					data={quarters}
+					renderItem={quarterCard}
+					keyExtractor={keyExtractor}
+				/>
+			) : (
+				<ActivityIndicator style={style.loading} />
+			)}
+		</View>
+	);
 }

@@ -8,41 +8,98 @@ import 'jest-enzyme';
 import '@testing-library/jest-dom';
 import ManageCategories from '../../categoriesFeature/ManageCategories';
 
+const mockedNav = jest.fn();
 
-describe('ManageCategories component', () => {
-    const mockedNav = jest.fn();
-    jest.mock('@react-navigation/core', () => {
-        return {
-            useNavigation: () => ({ navigate: mockedNav })
+
+jest.mock('@react-navigation/core', () => {
+    return {
+        useNavigation: () => ({ navigate: mockedNav })
+    }
+});
+
+const mockedTabs = jest.fn();
+
+jest.mock('@react-navigation/material-top-tabs', () => {
+    return {
+        useNavigation: () => ({ navigate: mockedTabs }),
+        createMaterialTopTabNavigator: ()=> {
+            return {
+                Screen: () => () => Component => props => <Component {...props}></Component>,
+                Navigator: () => () => Component => props => <Component {...props}></Component>
+            }
         }
-    });
+    }
+});
+
+const mockedSearch = jest.fn();
+
+jest.mock('react-native-elements', () => {
+    return {
+        mockedSearch
+    }
+})
+
+const mockedFilter = jest.fn();
+
+jest.mock('react-native-search-filter', () => {
+    return {
+        mockedFilter
+    }
+})
+
+const mockedAlphabet = jest.fn();
+
+jest.mock('react-native-section-alphabet-list', () => {
+    return {
+        mockedAlphabet
+    }
+})
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn(),
+    useDispatch: () => mockDispatch
+}));
+
+describe('ManageCategories component when clicked is false', () => {
     let wrapper: any;
     beforeAll(() => {
-        wrapper = Enzyme.mount(
+        wrapper = Enzyme.shallow(
             <ManageCategories></ManageCategories>
         )
     });
 
-    test('that it has an Add Assessment Category button that calls openModal()', () => {
-        const openModal = jest.fn();
-        const button = wrapper.findWhere((node: any) => node.prop('testID') === 'openModalButton');
+    test('that it has an Add Category button', () => {
+        const addCatBtn = wrapper.findWhere((node: any) => node.prop('testID') === 'addCatBtn').first();
+        expect(addCatBtn).toExist();
+    });
+});
+
+describe('addCategory function', () => {
+    let wrapper: any;
+    const value = '';
+    beforeAll(() => {
+        React.useState = jest.fn().mockImplementationOnce(() => {
+            return [true, jest.fn()]
+        }).mockImplementationOnce(() => {
+            return ['', jest.fn()]
+        });
+        wrapper = Enzyme.shallow(
+            <ManageCategories></ManageCategories>
+        )
+    });
+
+    test('that modal is showing', () => {
+        const addCatModal = wrapper.findWhere((node: any) => node.prop('testID') === 'addCatModal').first();
+        expect(addCatModal).toExist();
+    })
+
+    test('that clicking Add Category button calls AddCategory function', () => {
+        const prop = 'value';
+        const AddCategory = jest.fn();
+        const button = wrapper.findWhere((node: any) => node.prop('testID') === 'addBtn').first();
         button.simulate('click');
-        expect(openModal).toBeCalled();;
-    });
-
-    test('that it tabs for active table and it takes in active status prop', () => {
-        const activeTab = wrapper.findWhere((node: any) => node.prop('testID') === 'activeTab');
-        const isActive = 'active';
-        activeTab.simulate('click');
-        expect(mockedNav).toHaveBeenCalledTimes(1);
-        expect(mockedNav).toHaveBeenCalledWith('CategoryTable', isActive);
-    });
-
-    test('that it tabs for inactive table and it takes in inactive status prop', () => {
-        const inactiveTab = wrapper.findWhere((node: any) => node.prop('testID') === 'inactiveTab');
-        const isActive = 'inactive';
-        inactiveTab.simulate('click');
-        expect(mockedNav).toHaveBeenCalledTimes(1);
-        expect(mockedNav).toHaveBeenCalledWith('CategoryTable', isActive);
-    });
+        expect(AddCategory).toBeCalledTimes(1);
+        expect(AddCategory).toBeCalledWith(prop);
+    })
 });
