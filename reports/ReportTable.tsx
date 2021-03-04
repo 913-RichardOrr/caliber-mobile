@@ -4,6 +4,7 @@ import { Table, Row, Rows } from '@deb-95/react-native-table-component';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../store/store';
 import AssociateService, { Associate } from '../associate/AssociateService';
+import batchWeekService from '../batchWeek/batchWeekService';
 import BatchPageService from '../batchPage/BatchPageService';
 import TechnicalStatus from '../associate/TechnicalStatus';
 import style from '../global_styles';
@@ -56,9 +57,9 @@ export function ReportsTable({ navigation }: Props) {
 	 * Return an array of technical statuses for each [associate][week]
 	 */
 	async function getQCNotes(results: Associate[]) {
-		// let weeks = await batchWeekService.getBatchWeekNotes(batch.batchId, 0);
-		// let nweeks = weeks.length;
-		let nweeks = 2;
+		let weeks = await batchWeekService.getBatchWeekNotes(token, batch.batchId);
+		let nweeks = weeks.length;
+		// let nweeks = 2;
 
 		//make header array of
 		for (let i = 0; i < nweeks; i++) {
@@ -103,6 +104,8 @@ export function ReportsTable({ navigation }: Props) {
 					<Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
 						<Row
 							data={weeksHeader}
+							widthArr={[140, 60, 60]}
+							flexArr={[1, 1, 1]}
 							style={{
 								height: 40,
 								width: '100%',
@@ -112,8 +115,8 @@ export function ReportsTable({ navigation }: Props) {
 						/>
 						<Rows
 							data={associateWeekFeedback}
-							widthArr={[]}
-							flexArr={[]}
+							widthArr={[140, 60, 60]}
+							flexArr={[1, 1, 1]}
 							heightArr={[]}
 							style={{}}
 							textStyle={{ margin: 6 }}
