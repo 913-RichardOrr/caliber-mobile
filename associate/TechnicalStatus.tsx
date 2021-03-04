@@ -20,13 +20,13 @@ export default function TechnicalStatus(props: TechnicalStatusProps) {
   let iconColor: string = '#F26925';
 
   // Using if-else instead of switch, so this component can be reused for displaying the average
-  if (props.status >= 1 && props.status < 2) {
+  if (props.status > 0 && props.status < 2) {
     iconName = 'frown-o';
     iconColor = 'red';
-  } else if (props.status >= 2 && props.status < 3) {
+  } else if (props.status >= 2 && props.status <= 2.5) {
     iconName = 'meh-o';
     iconColor = '#F26925';
-  } else if (props.status >= 3 && props.status < 4) {
+  } else if (props.status > 2.5 && props.status < 4) {
     iconName = 'smile-o';
     iconColor = 'green';
   } else if (props.status === 4) {

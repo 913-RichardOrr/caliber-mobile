@@ -31,7 +31,6 @@ function BatchPageComponent() {
    */
   function handleAllUpdate() {
     associates.forEach(async (assoc: AssociateWithFeedback) => {
-      console.log("associates");
       if (assoc.qcFeedback.notecontent || assoc.qcFeedback.technicalstatus) {
         try {
           await AssociateService.updateAssociate(

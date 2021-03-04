@@ -35,6 +35,7 @@ function AssociateTableComponent() {
     (state: ReducerState) => state.batchReducer.associates
   );
   let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
+
   let week = useSelector(
     (state: ReducerState) => state.weekReducer.selectedWeek
   );
@@ -64,7 +65,7 @@ function AssociateTableComponent() {
     let newAssociateArray: Associate[] = [];
     let serviceResult;
     serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
-    if(serviceResult) {
+    if (serviceResult) {
       serviceResult.forEach((asoc: any) => {
         let associate = new Associate();
         associate.firstName = asoc.firstName;
@@ -103,34 +104,30 @@ function AssociateTableComponent() {
    * Switches sorting direction for first name (Button Handler)
    */
   function switchSortingF() {
+    let val = [...associates];
     if (sortDirection == 'FUp') {
       setSortDirection('FDown');
-      let val = [...associates];
       sortAssociateByFirstName(val);
-      dispatch(getAssociates(val));
     } else {
       setSortDirection('FUp');
-      let val = [...associates];
       sortAssociateByFirstNameReversed(val);
-      dispatch(getAssociates(val));
     }
+    dispatch(getAssociates(val));
   }
 
   /**
    * Switches sorting direction for last name (Button Handler)
    */
   function switchSortingL() {
+    let val = [...associates];
     if (sortDirection == 'LUp') {
       setSortDirection('LDown');
-      let val = [...associates];
       sortAssociateByLastName(val);
-      dispatch(getAssociates(val));
     } else {
       setSortDirection('LUp');
-      let val = [...associates];
       sortAssociateByLastNameReversed(val);
-      dispatch(getAssociates(val));
     }
+    dispatch(getAssociates(val));
   }
   return (
     <View style={style.associatesViewComponent}>

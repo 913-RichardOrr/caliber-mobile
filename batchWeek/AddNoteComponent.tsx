@@ -5,43 +5,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOverallNote } from '../store/actions';
 import { Input } from 'react-native-elements';
 import batchWeekService from './batchWeekService';
-import style from '../global_styles'
+import style from '../global_styles';
 
+function AddNoteComponent() {
+  const dispatch = useDispatch();
+  const week = useSelector(
+    (state: ReducerState) => state.weekReducer.selectedWeek
+  );
+  const user = useSelector((state: ReducerState) => state.userReducer.user);
 
-function AddNoteComponent(){
-    const dispatch = useDispatch();
-    const week = useSelector((state: ReducerState) => state.weekReducer.selectedWeek);
-    console.log(week);
-    const user = useSelector((state: ReducerState) => state.userReducer.user);
-
-    function sendPost(){
-        try{
-            console.log(week);
-            if(user.token) {
-                batchWeekService.updateFeedback(user.token, week);
-            }
-            console.log('update success');
-        } catch {
-            console.log('update failed');
-        }
+  function sendPost() {
+    try {
+      if (user.token) {
+        batchWeekService.updateFeedback(user.token, week);
+      }
+      console.log('update success');
+    } catch {
+      console.log('update failed');
     }
+  }
 
-    return (
-        <View>
-            <Input
-                multiline
-                placeholder = "Put your overall batch note here"
-                numberOfLines={3}
-                label='Overall QC Feedback' 
-                onChangeText={(value: any) => 
-                    dispatch(addOverallNote({...week, note: value}))
-                }
-                onBlur={sendPost}
-                value = {week.note}
-                style = {style.overallText}
-            />
-        </View>
-    )
+  return (
+    <View>
+      <Input
+        multiline
+        placeholder='Put your overall batch note here'
+        numberOfLines={3}
+        label='Overall QC Feedback'
+        onChangeText={(value: any) =>
+          dispatch(addOverallNote({ ...week, note: value }))
+        }
+        onBlur={sendPost}
+        value={week.note}
+        style={style.overallText}
+      />
+    </View>
+  );
 }
 
 export default AddNoteComponent;

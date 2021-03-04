@@ -18,5 +18,4 @@ class BatchPageService {
       });
   }
 }
-
 export default new BatchPageService();

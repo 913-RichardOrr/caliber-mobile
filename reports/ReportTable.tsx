@@ -1,71 +1,129 @@
-import React from 'react';
-import { View, ScrollView} from 'react-native';
-import { Table, Row} from 'react-native-table-component';
-import { useDispatch, useSelector } from 'react-redux';
-import {getAssociates} from '../store/actions';
-import { AssociateState, BatchState, UserState, WeekState } from '../store/store';
-import AssociateService, { Associate, AssociateWithFeedback, QCFeedback} from '../associate/AssociateService';
-import {sortAssociateByLastName} from '../associate/sort';
+import React, { useEffect, useState } from 'react';
+import { View, ScrollView, Text, Platform, Button } from 'react-native';
+import { Table, Row, Rows } from 'react-native-table-component';
+import { useSelector } from 'react-redux';
+import { ReducerState } from '../store/store';
+import AssociateService, { Associate } from '../associate/AssociateService';
+import BatchPageService from '../batchPage/BatchPageService';
+import batchWeekService from '../batchWeek/batchWeekService';
+import TechnicalStatus from '../associate/TechnicalStatus';
 import style from '../global_styles';
 
-interface ReportProps {
-    assoc: Associate[];
+interface Props {
+  navigation: any;
 }
 
-export function ReportsTable(props: ReportProps) {
-    let dispatch = useDispatch();
-    let associates = useSelector((state: AssociateState) => state.associates);
-    let batch = useSelector((state: BatchState) => state.batch);
-    let week = useSelector((state: WeekState) => state.selectedWeek);
-    let user = useSelector((state: UserState) => state.user);
+export function ReportsTable({ navigation }: Props) {
+  let batch = useSelector((state: ReducerState) => state.batchReducer.batch);
+  const curentUser = useSelector(
+    (state: ReducerState) => state.userReducer.user
+  );
+  const token = curentUser.token;
 
+  const [associateWeekFeedback, setAssociateWeekFeedback]: any = useState([]);
+  const [weeksHeader, setWeeksHeader] = useState(['Associate']);
 
+  useEffect(() => {
+    if (associateWeekFeedback.length === 0) {
+      asyncThis();
+    }
+    async function asyncThis() {
+      let mockResult;
+      mockResult = await getAssociateFromMock();
+      getQCNotes(mockResult);
+    }
+  }, []);
 
-    let report = [];
+  /**
+   * Queries the mock API to retrieve all the associates for a given batch.
+   */
+  async function getAssociateFromMock() {
+    let newAssociateArray: Associate[] = [];
+    let serviceResult;
+    serviceResult = await BatchPageService.getAssociates(batch.batchId, token);
+    serviceResult.forEach((asoc: any) => {
+      let associate = new Associate();
+      associate.firstName = asoc.firstName;
+      associate.lastName = asoc.lastName;
+      associate.associateId = asoc.email;
+      newAssociateArray.push(associate);
+    });
 
+    return newAssociateArray;
+  }
 
-    function getQCNotes() {
-        let listofassociates: AssociateWithFeedback[] = [];
-        props.assoc.forEach(async (asoc) => {
-            let qcnotes: QCFeedback = await AssociateService.getAssociate(asoc, batch.batchId, week.qcWeekId.toString(),user.token);
-            if (qcnotes) {
-                let val = new AssociateWithFeedback();
-                val.associate = asoc;
-                val.qcFeedback = qcnotes;
-                listofassociates.push(val);
-            } else {
-                let val = new AssociateWithFeedback();
-                val.associate = asoc;
-                listofassociates.push(val);
-            }
-        })
-        dispatch(getAssociates(listofassociates));
+  /**
+   * Retrieves QC Notes from back end.
+   * Return an array of technical statuses for each [associate][week]
+   */
+  async function getQCNotes(results: Associate[]) {
+    let weeks = await batchWeekService.getWeeksByBatchId(token, batch.batchId);
+    let nweeks = weeks.length;
+
+    //make header array for table headers of the Week Numbers
+    for (let i = 0; i < nweeks; i++) {
+      let temp = weeksHeader;
+      temp.push(`Week ${i + 1}`);
+      setWeeksHeader([...temp]);
     }
 
-    function createTable() {
-            let val = [...associates];
-            sortAssociateByLastName(val);
-            dispatch(getAssociates(val));
+    results.forEach(async (associate: Associate, index: number) => {
+      let feedback = [];
+      feedback.push(`${associate.firstName} ${associate.lastName}`);
+      for (let i = 1; i <= nweeks; i++) {
+        let qcFeedback = await AssociateService.getAssociate(
+          associate,
+          batch.batchId,
+          String(i),
+          token
+        );
+        feedback[i] = <TechnicalStatus status={qcFeedback.technicalstatus} />;
+      }
+      let temp = associateWeekFeedback;
+      temp.push(feedback);
 
-        for (let i = 1; i <= 8; i++) {
-            let assocRow = [];
+      setAssociateWeekFeedback([...temp]);
+    });
+  }
 
-        }
-    }
-    return (
-        <View style={style.associatesViewComponent}>
-            <ScrollView horizontal={true}>
-                <View>
-                    <Table>
-                        <Row data={[]}/>
-                    </Table>
-                    <ScrollView>
-                        {
-                            //map data from table
-                        }
-                    </ScrollView>
-                </View>
-            </ScrollView>
-        </View>
-    )
+  return (
+    <>
+      {Platform.OS === 'web' ? (
+        <View></View>
+      ) : (
+        <>
+          <View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
+            <Button
+              color='#F26925'
+              title='Back'
+              onPress={() => navigation.goBack()}
+            />
+            <Text
+              style={style.subheading}>{`${batch.name} - ${batch.skill}`}</Text>
+          </View>
+          <ScrollView horizontal={true}>
+            <View style={style.associatesViewComponent}>
+              <View>
+                <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+                  <Row
+                    data={weeksHeader}
+                    style={{
+                      height: 40,
+                      width: '100%',
+                      backgroundColor: '#f1f8ff',
+                    }}
+                    textStyle={{ margin: 6 }}
+                  />
+                  <Rows
+                    data={associateWeekFeedback}
+                    textStyle={{ margin: 6 }}
+                  />
+                </Table>
+              </View>
+            </View>
+          </ScrollView>
+        </>
+      )}
+    </>
+  );
 }
