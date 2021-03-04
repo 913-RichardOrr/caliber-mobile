@@ -88,6 +88,7 @@ export function ReportsTable({ navigation }: Props) {
 		});
 	}
 
+	//comment this useEffect out to kill styles on table
 	useEffect(() => {
 		let toBeWidth: number[] = [];
 		for (let i = 0; i < associateWeekFeedback.length; i++) {
