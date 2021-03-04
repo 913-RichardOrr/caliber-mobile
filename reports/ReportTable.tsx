@@ -22,6 +22,8 @@ export function ReportsTable({ navigation }: Props) {
 
 	const [associateWeekFeedback, setAssociateWeekFeedback]: any = useState([]);
 	const [weeksHeader, setWeeksHeader] = useState(['Associate']);
+	const [flex, setFlex] = useState<number[]>([]);
+	const [width, setWidth] = useState<number[]>([]);
 
 	useEffect(() => {
 		if (associateWeekFeedback.length === 0) {
@@ -86,6 +88,24 @@ export function ReportsTable({ navigation }: Props) {
 		});
 	}
 
+	useEffect(() => {
+		let toBeWidth: number[] = [];
+		for (let i = 0; i < associateWeekFeedback.length; i++) {
+			if (i === 0) {
+				toBeWidth.push(140);
+			} else {
+				toBeWidth.push(60);
+			}
+		}
+		setWidth(toBeWidth);
+
+		let toBeFlex: number[] = [];
+		for (let i = 0; i < associateWeekFeedback.length; i++) {
+			toBeFlex.push(1);
+		}
+		setFlex(toBeFlex);
+	}, [associateWeekFeedback]);
+
 	return (
 		<>
 			<View style={{ height: 40, flexDirection: 'row', margin: 5 }}>
@@ -101,8 +121,8 @@ export function ReportsTable({ navigation }: Props) {
 					<Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
 						<Row
 							data={weeksHeader}
-							widthArr={[140, 60, 60]}
-							flexArr={[1, 1, 1]}
+							widthArr={width}
+							flexArr={flex}
 							style={{
 								height: 40,
 								width: '100%',
@@ -112,8 +132,8 @@ export function ReportsTable({ navigation }: Props) {
 						/>
 						<Rows
 							data={associateWeekFeedback}
-							widthArr={[140, 60, 60]}
-							flexArr={[1, 1, 1]}
+							widthArr={width}
+							flexArr={flex}
 							heightArr={[]}
 							style={{}}
 							textStyle={{ margin: 6 }}
