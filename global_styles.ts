@@ -188,6 +188,7 @@ export const style = StyleSheet.create({
 	},
 	weekSelect: {
 		fontSize: perfectSize(18),
+    flexGrow: 4
 	},
 	addWeekButton: {
 		backgroundColor: REVATURE_ORANGE,
