@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, batch } from 'react-redux';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 
 import { style } from '../global_styles';
-import { changeBatch } from '../store/actions';
+import { changeBatch, changeSelectedWeek } from '../store/actions';
 import { ReducerState } from '../store/store';
+import QcWeek from '../batchWeek/QcWeek';
+import batchWeekService from '../batchWeek/batchWeekService';
 
 /**
  * @typedef {Object} Props
@@ -82,8 +84,33 @@ export default function BatchListComponent({ navigation, route }: Props) {
 	 * @param {string} index
 	 */
 	function handleBatchSelect(index: string) {
+		console.log(screenName);
 		dispatch(changeBatch(batches[Number(index)]));
-		navigation.navigate(screenName);
+		if (screenName == 'Batch Page') {
+			let week = new QcWeek;
+			week.batchid = batches[Number(index)].batchId
+			batchWeekService.getWeeksByBatchId(user.token, week.batchid).then((allWeeks) => {
+				if (allWeeks.length == 0) {
+					batchWeekService.addWeek(user.token, week).then(() => {
+						batchWeekService.getWeeksByBatchId(user.token, week.batchid).then((allWeeks) => {
+							console.log(allWeeks[0])
+							console.log('in bactch list')
+					console.log(allWeeks[0])
+							dispatch(changeSelectedWeek(allWeeks[0]));
+						})
+					})
+				} else {
+					console.log('in bactch list')
+					console.log(allWeeks[0])
+					dispatch(changeSelectedWeek(allWeeks[0]));
+				}
+				
+				navigation.navigate(screenName);
+			})
+		}else{
+			navigation.navigate(screenName);
+		}
+		
 	}
 
 	/**

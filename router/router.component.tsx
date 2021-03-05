@@ -24,6 +24,7 @@ function RouterComponent(props: any) {
         user
           .getIdTokenResult()
           .then((token: any) => {
+            console.log(token.token)
             const role = {
               ROLE_QC: token.claims.ROLE_QC,
               ROLE_VP: token.claims.ROLE_VP,

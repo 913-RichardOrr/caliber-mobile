@@ -62,7 +62,7 @@ function BatchPageComponent() {
           <WeekSelectionComponent></WeekSelectionComponent>
           <AddWeek></AddWeek>
         </View>
-        {/* <WeekCategoryListContainer/> */}
+         <WeekCategoryListContainer/>
         <AddNoteComponent></AddNoteComponent>
         <AssociateTableComponent></AssociateTableComponent>
         <Button

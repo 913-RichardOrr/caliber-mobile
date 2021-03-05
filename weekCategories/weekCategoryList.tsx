@@ -9,13 +9,17 @@ import {
 } from 'react-native-popup-menu';
 import WeekCategoryComponent from './WeekCategoryComponent';
 import { Category } from '../categoriesFeature/Category';
+import QcWeek from '../batchWeek/QcWeek';
+import style from '../global_styles';
 
 
 interface WeekProp {
-  weekId: number,
+  week: QcWeek,
   weekCategoriesAsCategory: Category[],
   addCategory:Function,
   activeCategories:Category[],
+  token:string,
+  deleteCategory:Function,
 
 }
 /**
@@ -26,40 +30,36 @@ interface WeekProp {
 export function WeekCategoryList(props: WeekProp) {
   return (
     <View style={styles.allContainer}>
-      <Text>Categories: </Text>
+      <Text style = {styles.heading}>Categories: </Text>
 
       <View style={styles.container}>
-        {props.weekCategoriesAsCategory.length == 0 && (
-          <Text testID='noCats'>No Categories For This Week</Text>
-
-        )}
         <FlatList
           testID='listOfWeekCats'
           data={props.weekCategoriesAsCategory}
           horizontal={true}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (<WeekCategoryComponent weekID={props.weekId} skill={item.skill} catID = {item.categoryid}></WeekCategoryComponent>)} />
+          renderItem={({ item }) => (<WeekCategoryComponent  deleteCategory= {props.deleteCategory} weekID={props.week.weeknumber} skill={item.skill} catID = {item.categoryid} batchId={props.week.batchid} token ={props.token}></WeekCategoryComponent>)} />
       </View>
 
       <View style={styles.menuContainer}>
 
         <MenuProvider  style={styles.menu}>
 
-          <Menu onSelect={value => { props.addCategory(value, props.weekId); } }>
+          <Menu onSelect={value => { props.addCategory(value, props.week); } }>
 
             <MenuTrigger text='+' customStyles={triggerStyles}/>
 
             <MenuOptions>
-              {props.activeCategories.length != 0 ? (
+              
                 <FlatList
                 testID= 'listOfActiveCats'
                 data={props.activeCategories}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <MenuOption  value={Number(item.categoryid)} text={String(item.skill)} />
+                  <MenuOption  value={item} text={String(item.skill)} />
                 )}
                 style={{ height: 100 }} />
-              ):  <MenuOption style={{flexWrap:'wrap', flex:1}} value = {-1} text={'No Categories Available'} />}
+              
               
               
             </MenuOptions>
@@ -76,12 +76,17 @@ export function WeekCategoryList(props: WeekProp) {
 
 const styles = StyleSheet.create({
   allContainer:{
+    width:'100%',
     flexDirection: 'row',
+    margin:10
+
   },
   container: {
     flexDirection: 'row',
     maxWidth:'50%',
-    height:'50%'
+    height:'30%',
+    textAlignVertical:'center',
+    
   },
   menu: {
     flexDirection: 'row',
@@ -95,6 +100,12 @@ const styles = StyleSheet.create({
     
     
   },
+  heading:{
+    color: '#474C55',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+ 
 
 })
 const triggerStyles = {
